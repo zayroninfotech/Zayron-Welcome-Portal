@@ -58,6 +58,10 @@ a { color: var(--primary-light); text-decoration: none; }
 .form-control { width: 100%; padding: 11px 14px; border: 1.5px solid var(--gray-300); border-radius: 8px; font-size: 14px; color: var(--gray-800); background: white; transition: border-color 0.2s, box-shadow 0.2s; }
 .form-control:focus { outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(59,130,246,0.18); }
 .form-control::placeholder { color: var(--gray-400); }
+/* Suppress browser spellcheck UI */
+.form-control::-webkit-calendar-picker-indicator { display: none; }
+.form-control::-webkit-outer-spin-button,
+.form-control::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .form-control:disabled { background: var(--gray-50); color: var(--gray-500); }
 select.form-control { cursor: pointer; }
 textarea.form-control { resize: vertical; min-height: 90px; }
