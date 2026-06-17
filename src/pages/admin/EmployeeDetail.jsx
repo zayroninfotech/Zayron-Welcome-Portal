@@ -56,7 +56,17 @@ export default function EmployeeDetail() {
     } catch { toast.error('Failed to regenerate PDF.') }
   }
 
-  const downloadNda = () => { window.open(`/api/ndas/employee/${id}/download/`, '_blank') }
+  const downloadNda = async () => {
+    try {
+      const res = await api.get(`/ndas/employee/${id}/download/`, { responseType: 'blob' })
+      const url = URL.createObjectURL(res.data)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `NDA_${employee?.name || id}.pdf`
+      a.click()
+      URL.revokeObjectURL(url)
+    } catch { toast.error('Failed to download NDA PDF.') }
+  }
 
   const downloadDoc = (url, name) => {
     const a = document.createElement('a')
