@@ -20,6 +20,16 @@ function FileField({ label, name, value, onChange, accept, required }) {
   )
 }
 
+function FormGroup({ label, name, required: req, errors, children }) {
+  return (
+    <div className="form-group">
+      <label className="form-label">{label}{req && <span className="required">*</span>}</label>
+      {children}
+      {errors[name] && <div className="form-error">{errors[name]}</div>}
+    </div>
+  )
+}
+
 function Steps({ current }) {
   const steps = [
     { label: 'NDA Agreement', num: 1 },
@@ -95,14 +105,6 @@ export default function DetailsForm() {
     } finally { setSubmitting(false) }
   }
 
-  const E = (k) => errors[k] ? <div className="form-error">{errors[k]}</div> : null
-  const FG = ({ label, name, required: req, children }) => (
-    <div className="form-group">
-      <label className="form-label">{label}{req && <span className="required">*</span>}</label>
-      {children}
-      {E(name)}
-    </div>
-  )
 
   return (
     <div className="onboarding-page">
@@ -135,33 +137,33 @@ export default function DetailsForm() {
               {/* Personal */}
               <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--gray-700)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Personal Information</h3>
               <div className="form-grid">
-                <FG label="Father's Name" name="father_name" required>
+                <FormGroup errors={errors}label="Father's Name" name="father_name" required>
                   <input className="form-control" value={form.father_name} onChange={e => set('father_name', e.target.value)} />
-                </FG>
-                <FG label="Date of Birth" name="date_of_birth" required>
+                </FormGroup>
+                <FormGroup errors={errors}label="Date of Birth" name="date_of_birth" required>
                   <input type="date" className="form-control" value={form.date_of_birth} onChange={e => set('date_of_birth', e.target.value)} />
-                </FG>
-                <FG label="Gender" name="gender" required>
+                </FormGroup>
+                <FormGroup errors={errors}label="Gender" name="gender" required>
                   <select className="form-control" value={form.gender} onChange={e => set('gender', e.target.value)}>
                     <option value="">Select Gender</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other / Prefer not to say</option>
                   </select>
-                </FG>
-                <FG label="Blood Group" name="blood_group" required>
+                </FormGroup>
+                <FormGroup errors={errors}label="Blood Group" name="blood_group" required>
                   <select className="form-control" value={form.blood_group} onChange={e => set('blood_group', e.target.value)}>
                     <option value="">Select Blood Group</option>
                     {['A+','A-','B+','B-','AB+','AB-','O+','O-'].map(g => <option key={g} value={g}>{g}</option>)}
                   </select>
-                </FG>
-                <FG label="Highest Qualification" name="qualification" required>
+                </FormGroup>
+                <FormGroup errors={errors}label="Highest Qualification" name="qualification" required>
                   <input className="form-control" placeholder="e.g. B.Tech Computer Science" value={form.qualification} onChange={e => set('qualification', e.target.value)} />
-                </FG>
+                </FormGroup>
               </div>
-              <FG label="Residential Address" name="address" required>
+              <FormGroup errors={errors}label="Residential Address" name="address" required>
                 <textarea className="form-control" rows={3} placeholder="Full residential address including city, state, PIN" value={form.address} onChange={e => set('address', e.target.value)} />
-              </FG>
+              </FormGroup>
               <div className="form-group">
                 <label className="form-label">Previous Work Experience</label>
                 <textarea className="form-control" rows={3} placeholder="Brief description of previous work experience (if any)" value={form.previous_experience} onChange={e => set('previous_experience', e.target.value)} />
@@ -172,12 +174,12 @@ export default function DetailsForm() {
               {/* Identity */}
               <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--gray-700)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Identity Documents</h3>
               <div className="form-grid">
-                <FG label="PAN Number" name="pan_number" required>
+                <FormGroup errors={errors}label="PAN Number" name="pan_number" required>
                   <input className="form-control" placeholder="ABCDE1234F" maxLength={10} value={form.pan_number} onChange={e => set('pan_number', e.target.value.toUpperCase())} style={{ fontFamily: 'monospace' }} />
-                </FG>
-                <FG label="Aadhaar Number" name="aadhaar_number" required>
+                </FormGroup>
+                <FormGroup errors={errors}label="Aadhaar Number" name="aadhaar_number" required>
                   <input className="form-control" placeholder="12-digit Aadhaar number" maxLength={12} value={form.aadhaar_number} onChange={e => set('aadhaar_number', e.target.value.replace(/\D/g, ''))} style={{ fontFamily: 'monospace' }} />
-                </FG>
+                </FormGroup>
               </div>
 
               <hr style={{ margin: '20px 0', borderColor: 'var(--gray-100)' }} />
@@ -185,15 +187,15 @@ export default function DetailsForm() {
               {/* Bank */}
               <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--gray-700)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Bank Details</h3>
               <div className="form-grid">
-                <FG label="Bank Name" name="bank_name" required>
+                <FormGroup errors={errors}label="Bank Name" name="bank_name" required>
                   <input className="form-control" placeholder="e.g. State Bank of India" value={form.bank_name} onChange={e => set('bank_name', e.target.value)} />
-                </FG>
-                <FG label="Account Number" name="account_number" required>
+                </FormGroup>
+                <FormGroup errors={errors}label="Account Number" name="account_number" required>
                   <input className="form-control" placeholder="Bank account number" value={form.account_number} onChange={e => set('account_number', e.target.value.replace(/\D/g, ''))} style={{ fontFamily: 'monospace' }} />
-                </FG>
-                <FG label="IFSC Code" name="ifsc_code" required>
+                </FormGroup>
+                <FormGroup errors={errors}label="IFSC Code" name="ifsc_code" required>
                   <input className="form-control" placeholder="e.g. SBIN0001234" maxLength={11} value={form.ifsc_code} onChange={e => set('ifsc_code', e.target.value.toUpperCase())} style={{ fontFamily: 'monospace' }} />
-                </FG>
+                </FormGroup>
               </div>
 
               <hr style={{ margin: '20px 0', borderColor: 'var(--gray-100)' }} />
@@ -201,12 +203,12 @@ export default function DetailsForm() {
               {/* Emergency */}
               <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--gray-700)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Emergency Contact</h3>
               <div className="form-grid">
-                <FG label="Emergency Contact Name" name="emergency_contact_name" required>
+                <FormGroup errors={errors}label="Emergency Contact Name" name="emergency_contact_name" required>
                   <input className="form-control" placeholder="Full name of emergency contact" value={form.emergency_contact_name} onChange={e => set('emergency_contact_name', e.target.value)} />
-                </FG>
-                <FG label="Emergency Contact Number" name="emergency_contact" required>
+                </FormGroup>
+                <FormGroup errors={errors}label="Emergency Contact Number" name="emergency_contact" required>
                   <input className="form-control" placeholder="Mobile number" value={form.emergency_contact} onChange={e => set('emergency_contact', e.target.value)} />
-                </FG>
+                </FormGroup>
               </div>
 
               <hr style={{ margin: '20px 0', borderColor: 'var(--gray-100)' }} />

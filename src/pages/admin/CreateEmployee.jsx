@@ -6,6 +6,17 @@ import api from '../../api/axios'
 
 const DEPARTMENTS = ['Engineering', 'Design', 'Product', 'Marketing', 'Sales', 'HR', 'Finance', 'Operations', 'Legal', 'Support']
 
+// Defined outside component so React doesn't recreate it on every render
+function FormGroup({ label, error, required, children }) {
+  return (
+    <div className="form-group">
+      <label className="form-label">{label}{required && <span className="required">*</span>}</label>
+      {children}
+      {error && <div className="form-error">{error}</div>}
+    </div>
+  )
+}
+
 export default function CreateEmployee() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
@@ -15,7 +26,10 @@ export default function CreateEmployee() {
   })
   const [errors, setErrors] = useState({})
 
-  const set = (k, v) => { setForm(f => ({ ...f, [k]: v })); setErrors(e => ({ ...e, [k]: '' })) }
+  const set = (k, v) => {
+    setForm(f => ({ ...f, [k]: v }))
+    setErrors(e => ({ ...e, [k]: '' }))
+  }
 
   const validate = () => {
     const errs = {}
@@ -51,14 +65,6 @@ export default function CreateEmployee() {
     }
   }
 
-  const F = ({ label, name, required, children }) => (
-    <div className="form-group">
-      <label className="form-label">{label}{required && <span className="required">*</span>}</label>
-      {children}
-      {errors[name] && <div className="form-error">{errors[name]}</div>}
-    </div>
-  )
-
   return (
     <Layout title="Add New Employee" actions={
       <button onClick={() => navigate('/admin/employees')} className="btn btn-secondary">← Back</button>
@@ -75,31 +81,75 @@ export default function CreateEmployee() {
 
             <form onSubmit={handleSubmit}>
               <div className="form-grid">
-                <F label="Employee Name" name="name" required>
-                  <input className={`form-control ${errors.name ? 'border-red' : ''}`} placeholder="Full name" value={form.name} onChange={e => set('name', e.target.value)} />
-                </F>
-                <F label="Email Address" name="email" required>
-                  <input type="email" className="form-control" placeholder="employee@example.com" value={form.email} onChange={e => set('email', e.target.value)} />
-                </F>
-                <F label="Mobile Number" name="mobile" required>
-                  <input className="form-control" placeholder="+91 9XXXXXXXXX" value={form.mobile} onChange={e => set('mobile', e.target.value)} />
-                </F>
-                <F label="Employee Type" name="employee_type" required>
-                  <select className="form-control" value={form.employee_type} onChange={e => set('employee_type', e.target.value)}>
+                <FormGroup label="Employee Name" error={errors.name} required>
+                  <input
+                    className="form-control"
+                    placeholder="Full name"
+                    value={form.name}
+                    onChange={e => set('name', e.target.value)}
+                  />
+                </FormGroup>
+
+                <FormGroup label="Email Address" error={errors.email} required>
+                  <input
+                    type="email"
+                    className="form-control"
+                    placeholder="employee@example.com"
+                    value={form.email}
+                    onChange={e => set('email', e.target.value)}
+                  />
+                </FormGroup>
+
+                <FormGroup label="Mobile Number" error={errors.mobile} required>
+                  <input
+                    className="form-control"
+                    placeholder="+91 9XXXXXXXXX"
+                    value={form.mobile}
+                    onChange={e => set('mobile', e.target.value)}
+                  />
+                </FormGroup>
+
+                <FormGroup label="Employee Type" error={errors.employee_type} required>
+                  <select
+                    className="form-control"
+                    value={form.employee_type}
+                    onChange={e => set('employee_type', e.target.value)}
+                  >
                     <option value="permanent">Permanent Employee</option>
                     <option value="contract">Contract Employee</option>
                   </select>
-                </F>
-                <F label="Department" name="department" required>
-                  <input list="depts" className="form-control" placeholder="Select or type department" value={form.department} onChange={e => set('department', e.target.value)} />
-                  <datalist id="depts">{DEPARTMENTS.map(d => <option key={d} value={d} />)}</datalist>
-                </F>
-                <F label="Designation" name="designation" required>
-                  <input className="form-control" placeholder="e.g. Software Engineer" value={form.designation} onChange={e => set('designation', e.target.value)} />
-                </F>
-                <F label="Joining Date" name="joining_date" required>
-                  <input type="date" className="form-control" value={form.joining_date} onChange={e => set('joining_date', e.target.value)} />
-                </F>
+                </FormGroup>
+
+                <FormGroup label="Department" error={errors.department} required>
+                  <input
+                    list="depts"
+                    className="form-control"
+                    placeholder="Select or type department"
+                    value={form.department}
+                    onChange={e => set('department', e.target.value)}
+                  />
+                  <datalist id="depts">
+                    {DEPARTMENTS.map(d => <option key={d} value={d} />)}
+                  </datalist>
+                </FormGroup>
+
+                <FormGroup label="Designation" error={errors.designation} required>
+                  <input
+                    className="form-control"
+                    placeholder="e.g. Software Engineer"
+                    value={form.designation}
+                    onChange={e => set('designation', e.target.value)}
+                  />
+                </FormGroup>
+
+                <FormGroup label="Joining Date" error={errors.joining_date} required>
+                  <input
+                    type="date"
+                    className="form-control"
+                    value={form.joining_date}
+                    onChange={e => set('joining_date', e.target.value)}
+                  />
+                </FormGroup>
               </div>
 
               <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
