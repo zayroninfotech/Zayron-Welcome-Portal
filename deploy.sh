@@ -64,17 +64,17 @@ EOF
     echo "  .env created — edit /var/www/Zayron-Welcome-Portal/.env to add email credentials"
 fi
 
-# ── 6. Django setup ───────────────────────────────────────────
-echo "[6/8] Running Django migrations & collectstatic..."
+# ── 6. Django setup (migrations only) ────────────────────────
+echo "[6/8] Running Django migrations..."
 python manage.py makemigrations --noinput
 python manage.py migrate --noinput
-python manage.py collectstatic --noinput
 python create_admin.py
 
 # ── 7. Build React frontend ───────────────────────────────────
 echo "[7/8] Building React frontend..."
 npm install --silent
 npm run build
+python manage.py collectstatic --noinput --clear
 
 # ── 8. Gunicorn systemd service ───────────────────────────────
 echo "[8/8] Setting up Gunicorn service & Nginx..."
