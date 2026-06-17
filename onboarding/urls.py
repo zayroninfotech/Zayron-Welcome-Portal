@@ -18,6 +18,6 @@ urlpatterns = [
     # Serve media files
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 
-    # Catch-all: serve React SPA for every other URL
-    re_path(r'^.*$', TemplateView.as_view(template_name='index.html'), name='react-app'),
+    # Catch-all: serve React SPA for every URL except /admin/ and /api/
+    re_path(r'^(?!admin/|api/)', TemplateView.as_view(template_name='index.html'), name='react-app'),
 ]
