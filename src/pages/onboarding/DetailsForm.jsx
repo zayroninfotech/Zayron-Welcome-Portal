@@ -1,0 +1,238 @@
+import { useState } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import api from '../../api/axios'
+
+function FileField({ label, name, value, onChange, accept, required }) {
+  return (
+    <div className="form-group">
+      <label className="form-label">{label}{required && <span className="required">*</span>}</label>
+      <div className="file-upload">
+        <label className={`file-upload-label ${value ? 'has-file' : ''}`}>
+          <span style={{ fontSize: 18 }}>{value ? '✓' : '📎'}</span>
+          <span className={`file-upload-text ${value ? 'has-file' : ''}`}>
+            {value ? value.name : `Click to upload ${label}`}
+          </span>
+          <input type="file" name={name} accept={accept} onChange={onChange} />
+        </label>
+      </div>
+    </div>
+  )
+}
+
+function Steps({ current }) {
+  const steps = [
+    { label: 'NDA Agreement', num: 1 },
+    { label: 'Personal Details', num: 2 },
+    { label: 'Complete', num: 3 },
+  ]
+  return (
+    <div className="steps">
+      {steps.map((s, i) => (
+        <>
+          <div className="step" key={s.num}>
+            <div className={`step-num ${s.num < current ? 'done' : s.num === current ? 'active' : 'pending'}`}>
+              {s.num < current ? '✓' : s.num}
+            </div>
+            <span className={`step-label ${s.num > current ? 'pending' : ''}`}>{s.label}</span>
+          </div>
+          {i < steps.length - 1 && <div className={`step-divider ${s.num < current ? 'done' : ''}`} key={`d${i}`} />}
+        </>
+      ))}
+    </div>
+  )
+}
+
+export default function DetailsForm() {
+  const { token } = useParams()
+  const navigate = useNavigate()
+  const [submitting, setSubmitting] = useState(false)
+  const [errors, setErrors] = useState({})
+
+  const [form, setForm] = useState({
+    father_name: '', date_of_birth: '', gender: '', blood_group: '',
+    address: '', qualification: '', previous_experience: '',
+    pan_number: '', aadhaar_number: '',
+    bank_name: '', account_number: '', ifsc_code: '',
+    emergency_contact_name: '', emergency_contact: '',
+  })
+
+  const [files, setFiles] = useState({
+    photograph: null, resume: null, aadhaar_copy: null, pan_copy: null, educational_certificates: null
+  })
+
+  const set = (k, v) => { setForm(f => ({ ...f, [k]: v })); setErrors(e => ({ ...e, [k]: '' })) }
+  const setFile = (k, file) => { setFiles(f => ({ ...f, [k]: file })); setErrors(e => ({ ...e, [k]: '' })) }
+
+  const validate = () => {
+    const errs = {}
+    const required = ['father_name', 'date_of_birth', 'gender', 'blood_group', 'address', 'qualification', 'pan_number', 'aadhaar_number', 'bank_name', 'account_number', 'ifsc_code', 'emergency_contact_name', 'emergency_contact']
+    required.forEach(k => { if (!form[k].trim()) errs[k] = 'This field is required' })
+    if (form.pan_number && !/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(form.pan_number.toUpperCase())) errs.pan_number = 'Invalid PAN format (e.g. ABCDE1234F)'
+    if (form.aadhaar_number && !/^\d{12}$/.test(form.aadhaar_number)) errs.aadhaar_number = 'Must be 12 digits'
+    if (form.ifsc_code && !/^[A-Z]{4}0[A-Z0-9]{6}$/.test(form.ifsc_code.toUpperCase())) errs.ifsc_code = 'Invalid IFSC format'
+    setErrors(errs)
+    return Object.keys(errs).length === 0
+  }
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+    if (!validate()) { toast.error('Please fill all required fields correctly.'); return }
+    setSubmitting(true)
+    try {
+      const fd = new FormData()
+      Object.entries({ ...form, pan_number: form.pan_number.toUpperCase(), aadhaar_number: form.aadhaar_number, ifsc_code: form.ifsc_code.toUpperCase() }).forEach(([k, v]) => fd.append(k, v))
+      Object.entries(files).forEach(([k, v]) => { if (v) fd.append(k, v) })
+      await api.post(`/documents/submit/${token}/`, fd, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      })
+      toast.success('Details submitted successfully!')
+      navigate(`/onboarding/${token}/complete`)
+    } catch (err) {
+      const d = err.response?.data
+      if (d && typeof d === 'object') { setErrors(d); toast.error('Please fix the errors and try again.') }
+      else toast.error(err.response?.data?.error || 'Submission failed. Please try again.')
+    } finally { setSubmitting(false) }
+  }
+
+  const E = (k) => errors[k] ? <div className="form-error">{errors[k]}</div> : null
+  const FG = ({ label, name, required: req, children }) => (
+    <div className="form-group">
+      <label className="form-label">{label}{req && <span className="required">*</span>}</label>
+      {children}
+      {E(name)}
+    </div>
+  )
+
+  return (
+    <div className="onboarding-page">
+      <div className="onboarding-container">
+        <div className="onboarding-header">
+          <div className="logo">
+            <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
+              <rect width="48" height="48" rx="12" fill="#1e40af"/>
+              <path d="M24 10L36 17V31L24 38L12 31V17L24 10Z" stroke="white" strokeWidth="2" fill="none"/>
+              <path d="M24 18L30 21.5V28.5L24 32L18 28.5V21.5L24 18Z" fill="white"/>
+            </svg>
+            <span style={{ marginLeft: 10, fontWeight: 700, color: '#1e40af', fontSize: 16 }}>Zayron Infotech Pvt. Ltd.</span>
+          </div>
+          <h1>Personal Details</h1>
+          <p>Please provide your personal information and upload required documents.</p>
+        </div>
+
+        <Steps current={2} />
+
+        <div className="onboarding-card">
+          <div className="onboarding-card-header">
+            <h2>Personal Information Form</h2>
+            <p>All fields marked with * are required.</p>
+          </div>
+
+          <form onSubmit={handleSubmit}>
+            <div className="onboarding-card-body">
+              <div className="success-block">✓ NDA has been signed and submitted. Please complete your personal details below.</div>
+
+              {/* Personal */}
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--gray-700)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Personal Information</h3>
+              <div className="form-grid">
+                <FG label="Father's Name" name="father_name" required>
+                  <input className="form-control" value={form.father_name} onChange={e => set('father_name', e.target.value)} />
+                </FG>
+                <FG label="Date of Birth" name="date_of_birth" required>
+                  <input type="date" className="form-control" value={form.date_of_birth} onChange={e => set('date_of_birth', e.target.value)} />
+                </FG>
+                <FG label="Gender" name="gender" required>
+                  <select className="form-control" value={form.gender} onChange={e => set('gender', e.target.value)}>
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other / Prefer not to say</option>
+                  </select>
+                </FG>
+                <FG label="Blood Group" name="blood_group" required>
+                  <select className="form-control" value={form.blood_group} onChange={e => set('blood_group', e.target.value)}>
+                    <option value="">Select Blood Group</option>
+                    {['A+','A-','B+','B-','AB+','AB-','O+','O-'].map(g => <option key={g} value={g}>{g}</option>)}
+                  </select>
+                </FG>
+                <FG label="Highest Qualification" name="qualification" required>
+                  <input className="form-control" placeholder="e.g. B.Tech Computer Science" value={form.qualification} onChange={e => set('qualification', e.target.value)} />
+                </FG>
+              </div>
+              <FG label="Residential Address" name="address" required>
+                <textarea className="form-control" rows={3} placeholder="Full residential address including city, state, PIN" value={form.address} onChange={e => set('address', e.target.value)} />
+              </FG>
+              <div className="form-group">
+                <label className="form-label">Previous Work Experience</label>
+                <textarea className="form-control" rows={3} placeholder="Brief description of previous work experience (if any)" value={form.previous_experience} onChange={e => set('previous_experience', e.target.value)} />
+              </div>
+
+              <hr style={{ margin: '20px 0', borderColor: 'var(--gray-100)' }} />
+
+              {/* Identity */}
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--gray-700)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Identity Documents</h3>
+              <div className="form-grid">
+                <FG label="PAN Number" name="pan_number" required>
+                  <input className="form-control" placeholder="ABCDE1234F" maxLength={10} value={form.pan_number} onChange={e => set('pan_number', e.target.value.toUpperCase())} style={{ fontFamily: 'monospace' }} />
+                </FG>
+                <FG label="Aadhaar Number" name="aadhaar_number" required>
+                  <input className="form-control" placeholder="12-digit Aadhaar number" maxLength={12} value={form.aadhaar_number} onChange={e => set('aadhaar_number', e.target.value.replace(/\D/g, ''))} style={{ fontFamily: 'monospace' }} />
+                </FG>
+              </div>
+
+              <hr style={{ margin: '20px 0', borderColor: 'var(--gray-100)' }} />
+
+              {/* Bank */}
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--gray-700)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Bank Details</h3>
+              <div className="form-grid">
+                <FG label="Bank Name" name="bank_name" required>
+                  <input className="form-control" placeholder="e.g. State Bank of India" value={form.bank_name} onChange={e => set('bank_name', e.target.value)} />
+                </FG>
+                <FG label="Account Number" name="account_number" required>
+                  <input className="form-control" placeholder="Bank account number" value={form.account_number} onChange={e => set('account_number', e.target.value.replace(/\D/g, ''))} style={{ fontFamily: 'monospace' }} />
+                </FG>
+                <FG label="IFSC Code" name="ifsc_code" required>
+                  <input className="form-control" placeholder="e.g. SBIN0001234" maxLength={11} value={form.ifsc_code} onChange={e => set('ifsc_code', e.target.value.toUpperCase())} style={{ fontFamily: 'monospace' }} />
+                </FG>
+              </div>
+
+              <hr style={{ margin: '20px 0', borderColor: 'var(--gray-100)' }} />
+
+              {/* Emergency */}
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--gray-700)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Emergency Contact</h3>
+              <div className="form-grid">
+                <FG label="Emergency Contact Name" name="emergency_contact_name" required>
+                  <input className="form-control" placeholder="Full name of emergency contact" value={form.emergency_contact_name} onChange={e => set('emergency_contact_name', e.target.value)} />
+                </FG>
+                <FG label="Emergency Contact Number" name="emergency_contact" required>
+                  <input className="form-control" placeholder="Mobile number" value={form.emergency_contact} onChange={e => set('emergency_contact', e.target.value)} />
+                </FG>
+              </div>
+
+              <hr style={{ margin: '20px 0', borderColor: 'var(--gray-100)' }} />
+
+              {/* Documents */}
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--gray-700)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Document Uploads</h3>
+              <div className="warning-block">
+                ⚠ Please upload clear, legible copies. Accepted formats: PDF, JPG, PNG (max 5MB each).
+              </div>
+              <div className="form-grid">
+                <FileField label="Photograph" name="photograph" value={files.photograph} accept="image/*" onChange={e => setFile('photograph', e.target.files[0])} />
+                <FileField label="Resume / CV" name="resume" value={files.resume} accept=".pdf,.doc,.docx" onChange={e => setFile('resume', e.target.files[0])} />
+                <FileField label="Aadhaar Card Copy" name="aadhaar_copy" value={files.aadhaar_copy} accept=".pdf,image/*" onChange={e => setFile('aadhaar_copy', e.target.files[0])} />
+                <FileField label="PAN Card Copy" name="pan_copy" value={files.pan_copy} accept=".pdf,image/*" onChange={e => setFile('pan_copy', e.target.files[0])} />
+                <FileField label="Educational Certificates" name="educational_certificates" value={files.educational_certificates} accept=".pdf,.zip,image/*" onChange={e => setFile('educational_certificates', e.target.files[0])} />
+              </div>
+            </div>
+
+            <div className="onboarding-card-footer">
+              <button type="submit" className="btn btn-primary btn-lg" disabled={submitting}>
+                {submitting ? <><span className="spinner" /> Submitting...</> : '✓ Submit & Complete Onboarding'}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  )
+}

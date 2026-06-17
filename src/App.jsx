@@ -1,0 +1,41 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import { AuthProvider } from './context/AuthContext'
+import ProtectedRoute from './components/ProtectedRoute'
+
+import Login from './pages/Login'
+import Dashboard from './pages/admin/Dashboard'
+import EmployeeList from './pages/admin/EmployeeList'
+import CreateEmployee from './pages/admin/CreateEmployee'
+import EmployeeDetail from './pages/admin/EmployeeDetail'
+import Reports from './pages/admin/Reports'
+import NDAForm from './pages/onboarding/NDAForm'
+import DetailsForm from './pages/onboarding/DetailsForm'
+import Completion from './pages/onboarding/Completion'
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <ToastContainer position="top-right" autoClose={3500} hideProgressBar={false} theme="colored" />
+        <Routes>
+          <Route path="/" element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="/login" element={<Login />} />
+
+          {/* Admin routes */}
+          <Route path="/admin/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/admin/employees" element={<ProtectedRoute><EmployeeList /></ProtectedRoute>} />
+          <Route path="/admin/employees/new" element={<ProtectedRoute><CreateEmployee /></ProtectedRoute>} />
+          <Route path="/admin/employees/:id" element={<ProtectedRoute><EmployeeDetail /></ProtectedRoute>} />
+          <Route path="/admin/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
+
+          {/* Employee onboarding routes (public) */}
+          <Route path="/onboarding/:token/nda" element={<NDAForm />} />
+          <Route path="/onboarding/:token/details" element={<DetailsForm />} />
+          <Route path="/onboarding/:token/complete" element={<Completion />} />
+          <Route path="/onboarding/:token" element={<Navigate to="nda" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
+  )
+}
