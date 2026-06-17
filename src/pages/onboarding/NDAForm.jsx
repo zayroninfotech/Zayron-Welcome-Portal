@@ -217,22 +217,22 @@ export default function NDAForm() {
               <div className="form-grid">
                 <div className="form-group">
                   <label className="form-label">Full Name <span className="required">*</span></label>
-                  <input className="form-control" value={form.full_name} onChange={e => set('full_name', e.target.value)} />
+                  <input className="form-control" value={form.full_name} onChange={e => set('full_name', e.target.value)} autoComplete="off" spellCheck={false} />
                   {errors.full_name && <div className="form-error">{errors.full_name}</div>}
                 </div>
                 <div className="form-group">
                   <label className="form-label">Mobile Number <span className="required">*</span></label>
-                  <input className="form-control" value={form.mobile} onChange={e => set('mobile', e.target.value)} />
+                  <input className="form-control" value={form.mobile} onChange={e => set('mobile', e.target.value)} autoComplete="off" spellCheck={false} />
                   {errors.mobile && <div className="form-error">{errors.mobile}</div>}
                 </div>
                 <div className="form-group">
                   <label className="form-label">Aadhaar Number <span className="required">*</span></label>
-                  <input className="form-control" placeholder="12-digit Aadhaar number" maxLength={12} value={form.aadhaar_number} onChange={e => set('aadhaar_number', e.target.value.replace(/\D/g, ''))} />
+                  <input className="form-control" placeholder="12-digit Aadhaar number" maxLength={12} value={form.aadhaar_number} onChange={e => set('aadhaar_number', e.target.value.replace(/\D/g, ''))} autoComplete="off" spellCheck={false} />
                   {errors.aadhaar_number && <div className="form-error">{errors.aadhaar_number}</div>}
                 </div>
                 <div className="form-group">
                   <label className="form-label">Emergency Contact <span className="required">*</span></label>
-                  <input className="form-control" placeholder="Emergency contact number" value={form.emergency_contact} onChange={e => set('emergency_contact', e.target.value)} />
+                  <input className="form-control" placeholder="Emergency contact number" value={form.emergency_contact} onChange={e => set('emergency_contact', e.target.value)} autoComplete="off" spellCheck={false} />
                   {errors.emergency_contact && <div className="form-error">{errors.emergency_contact}</div>}
                 </div>
                 <div className="form-group">

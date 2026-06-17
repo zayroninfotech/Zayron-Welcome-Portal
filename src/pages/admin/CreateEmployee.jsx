@@ -163,6 +163,8 @@ export default function CreateEmployee() {
                     placeholder="e.g. Rahul Sharma"
                     value={form.name}
                     onChange={e => set('name', e.target.value)}
+                    autoComplete="off"
+                    spellCheck={false}
                   />
                 </FormGroup>
                 <FormGroup label="Mobile Number" error={errors.mobile} required hint="10-digit Indian mobile">
@@ -171,6 +173,8 @@ export default function CreateEmployee() {
                     placeholder="+91 9XXXXXXXXX"
                     value={form.mobile}
                     onChange={e => set('mobile', e.target.value)}
+                    autoComplete="off"
+                    spellCheck={false}
                   />
                 </FormGroup>
               </div>
@@ -181,6 +185,8 @@ export default function CreateEmployee() {
                   placeholder="employee@example.com"
                   value={form.email}
                   onChange={e => set('email', e.target.value)}
+                  autoComplete="off"
+                  spellCheck={false}
                 />
               </FormGroup>
 
@@ -215,6 +221,8 @@ export default function CreateEmployee() {
                     placeholder="Select or type department"
                     value={form.department}
                     onChange={e => set('department', e.target.value)}
+                    autoComplete="off"
+                    spellCheck={false}
                   />
                   <datalist id="depts">
                     {DEPARTMENTS.map(d => <option key={d} value={d} />)}
@@ -226,6 +234,8 @@ export default function CreateEmployee() {
                     placeholder="e.g. Software Engineer"
                     value={form.designation}
                     onChange={e => set('designation', e.target.value)}
+                    autoComplete="off"
+                    spellCheck={false}
                   />
                 </FormGroup>
               </div>

@@ -59,7 +59,7 @@ export default function EmployeeList() {
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
             <div className="search-bar">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-              <input className="form-control" placeholder="Search name or email..." value={search} onChange={e => setSearch(e.target.value)} style={{ paddingLeft: 36, width: 240 }} />
+              <input className="form-control" placeholder="Search name or email..." value={search} onChange={e => setSearch(e.target.value)} style={{ paddingLeft: 36, width: 240 }} autoComplete="off" spellCheck={false} />
             </div>
             <select className="form-control" value={filterType} onChange={e => setFilterType(e.target.value)} style={{ width: 160 }}>
               <option value="">All Types</option>

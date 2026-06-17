@@ -138,7 +138,7 @@ export default function DetailsForm() {
               <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--gray-700)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Personal Information</h3>
               <div className="form-grid">
                 <FormGroup errors={errors}label="Father's Name" name="father_name" required>
-                  <input className="form-control" value={form.father_name} onChange={e => set('father_name', e.target.value)} />
+                  <input className="form-control" value={form.father_name} onChange={e => set('father_name', e.target.value)} autoComplete="off" spellCheck={false} />
                 </FormGroup>
                 <FormGroup errors={errors}label="Date of Birth" name="date_of_birth" required>
                   <input type="date" className="form-control" value={form.date_of_birth} onChange={e => set('date_of_birth', e.target.value)} />
@@ -158,7 +158,7 @@ export default function DetailsForm() {
                   </select>
                 </FormGroup>
                 <FormGroup errors={errors}label="Highest Qualification" name="qualification" required>
-                  <input className="form-control" placeholder="e.g. B.Tech Computer Science" value={form.qualification} onChange={e => set('qualification', e.target.value)} />
+                  <input className="form-control" placeholder="e.g. B.Tech Computer Science" value={form.qualification} onChange={e => set('qualification', e.target.value)} autoComplete="off" spellCheck={false} />
                 </FormGroup>
               </div>
               <FormGroup errors={errors}label="Residential Address" name="address" required>
@@ -175,10 +175,10 @@ export default function DetailsForm() {
               <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--gray-700)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Identity Documents</h3>
               <div className="form-grid">
                 <FormGroup errors={errors}label="PAN Number" name="pan_number" required>
-                  <input className="form-control" placeholder="ABCDE1234F" maxLength={10} value={form.pan_number} onChange={e => set('pan_number', e.target.value.toUpperCase())} style={{ fontFamily: 'monospace' }} />
+                  <input className="form-control" placeholder="ABCDE1234F" maxLength={10} value={form.pan_number} onChange={e => set('pan_number', e.target.value.toUpperCase())} style={{ fontFamily: 'monospace' }} autoComplete="off" spellCheck={false} />
                 </FormGroup>
                 <FormGroup errors={errors}label="Aadhaar Number" name="aadhaar_number" required>
-                  <input className="form-control" placeholder="12-digit Aadhaar number" maxLength={12} value={form.aadhaar_number} onChange={e => set('aadhaar_number', e.target.value.replace(/\D/g, ''))} style={{ fontFamily: 'monospace' }} />
+                  <input className="form-control" placeholder="12-digit Aadhaar number" maxLength={12} value={form.aadhaar_number} onChange={e => set('aadhaar_number', e.target.value.replace(/\D/g, ''))} style={{ fontFamily: 'monospace' }} autoComplete="off" spellCheck={false} />
                 </FormGroup>
               </div>
 
@@ -188,13 +188,13 @@ export default function DetailsForm() {
               <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--gray-700)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Bank Details</h3>
               <div className="form-grid">
                 <FormGroup errors={errors}label="Bank Name" name="bank_name" required>
-                  <input className="form-control" placeholder="e.g. State Bank of India" value={form.bank_name} onChange={e => set('bank_name', e.target.value)} />
+                  <input className="form-control" placeholder="e.g. State Bank of India" value={form.bank_name} onChange={e => set('bank_name', e.target.value)} autoComplete="off" spellCheck={false} />
                 </FormGroup>
                 <FormGroup errors={errors}label="Account Number" name="account_number" required>
-                  <input className="form-control" placeholder="Bank account number" value={form.account_number} onChange={e => set('account_number', e.target.value.replace(/\D/g, ''))} style={{ fontFamily: 'monospace' }} />
+                  <input className="form-control" placeholder="Bank account number" value={form.account_number} onChange={e => set('account_number', e.target.value.replace(/\D/g, ''))} style={{ fontFamily: 'monospace' }} autoComplete="off" spellCheck={false} />
                 </FormGroup>
                 <FormGroup errors={errors}label="IFSC Code" name="ifsc_code" required>
-                  <input className="form-control" placeholder="e.g. SBIN0001234" maxLength={11} value={form.ifsc_code} onChange={e => set('ifsc_code', e.target.value.toUpperCase())} style={{ fontFamily: 'monospace' }} />
+                  <input className="form-control" placeholder="e.g. SBIN0001234" maxLength={11} value={form.ifsc_code} onChange={e => set('ifsc_code', e.target.value.toUpperCase())} style={{ fontFamily: 'monospace' }} autoComplete="off" spellCheck={false} />
                 </FormGroup>
               </div>
 
@@ -204,10 +204,10 @@ export default function DetailsForm() {
               <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--gray-700)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Emergency Contact</h3>
               <div className="form-grid">
                 <FormGroup errors={errors}label="Emergency Contact Name" name="emergency_contact_name" required>
-                  <input className="form-control" placeholder="Full name of emergency contact" value={form.emergency_contact_name} onChange={e => set('emergency_contact_name', e.target.value)} />
+                  <input className="form-control" placeholder="Full name of emergency contact" value={form.emergency_contact_name} onChange={e => set('emergency_contact_name', e.target.value)} autoComplete="off" spellCheck={false} />
                 </FormGroup>
                 <FormGroup errors={errors}label="Emergency Contact Number" name="emergency_contact" required>
-                  <input className="form-control" placeholder="Mobile number" value={form.emergency_contact} onChange={e => set('emergency_contact', e.target.value)} />
+                  <input className="form-control" placeholder="Mobile number" value={form.emergency_contact} onChange={e => set('emergency_contact', e.target.value)} autoComplete="off" spellCheck={false} />
                 </FormGroup>
               </div>
 
