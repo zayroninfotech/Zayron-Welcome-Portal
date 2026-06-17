@@ -46,6 +46,15 @@ export default function EmployeeList() {
     navigator.clipboard.writeText(link).then(() => toast.success('Onboarding link copied!')).catch(() => toast.error('Failed to copy.'))
   }
 
+  const deleteEmployee = async (id, name) => {
+    if (!window.confirm(`Are you sure you want to delete "${name}"? This cannot be undone.`)) return
+    try {
+      await api.delete(`/employees/${id}/`)
+      toast.success(`${name} deleted successfully.`)
+      fetchEmployees()
+    } catch { toast.error('Failed to delete employee.') }
+  }
+
   return (
     <Layout title="Employees" actions={
       <Link to="/admin/employees/new" className="btn btn-primary">
@@ -135,6 +144,7 @@ export default function EmployeeList() {
                       <Link to={`/admin/employees/${emp.id}`} className="btn btn-secondary btn-sm">View</Link>
                       <button className="btn btn-secondary btn-sm" onClick={() => copyLink(emp.onboarding_link)} title="Copy link">🔗</button>
                       <button className="btn btn-secondary btn-sm" onClick={() => resendEmail(emp.id, emp.name)} title="Resend email">📧</button>
+                      <button className="btn btn-danger btn-sm" onClick={() => deleteEmployee(emp.id, emp.name)} title="Delete employee">🗑</button>
                     </div>
                   </td>
                 </tr>
