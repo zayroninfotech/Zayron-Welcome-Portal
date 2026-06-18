@@ -41,17 +41,9 @@ def generate_nda_pdf(nda_document):
 
     elements = []
 
-    # Header with logo
+    # Header with logo on left, company name/title on right
     from django.conf import settings
     logo_path = os.path.join(settings.BASE_DIR, 'static', 'img', 'logo1.png')
-    header_content = []
-    if os.path.exists(logo_path):
-        try:
-            logo_img = Image(logo_path, width=18 * mm, height=18 * mm)
-            logo_img.hAlign = 'CENTER'
-            header_content.append(logo_img)
-        except Exception:
-            pass
 
     header_title_style = ParagraphStyle('HTitle', parent=styles['Normal'],
         fontSize=16, fontName='Helvetica-Bold', alignment=TA_CENTER, spaceAfter=2, spaceBefore=4)
@@ -62,14 +54,36 @@ def generate_nda_pdf(nda_document):
         fontSize=10, fontName='Helvetica-Bold', alignment=TA_CENTER, spaceAfter=6,
         textColor=colors.HexColor('#1e40af'))
 
-    header_content += [
+    title_block = [
         Paragraph('ZAYRON INFOTECH PVT. LTD.', header_title_style),
         Paragraph('NON-DISCLOSURE AGREEMENT', header_sub_style),
         Paragraph(f'({emp_type_label})', header_sub2_style),
     ]
 
-    for el in header_content:
-        elements.append(el)
+    if os.path.exists(logo_path):
+        try:
+            logo_img = Image(logo_path, width=20 * mm, height=20 * mm)
+            header_table = Table(
+                [[logo_img, title_block]],
+                colWidths=[24 * mm, 152 * mm]
+            )
+            header_table.setStyle(TableStyle([
+                ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+                ('ALIGN', (0, 0), (0, 0), 'LEFT'),
+                ('ALIGN', (1, 0), (1, 0), 'CENTER'),
+                ('LEFTPADDING', (0, 0), (-1, -1), 0),
+                ('RIGHTPADDING', (0, 0), (-1, -1), 0),
+                ('TOPPADDING', (0, 0), (-1, -1), 0),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
+            ]))
+            elements.append(header_table)
+        except Exception:
+            for el in title_block:
+                elements.append(el)
+    else:
+        for el in title_block:
+            elements.append(el)
+
     elements.append(HRFlowable(width='100%', thickness=2, color=colors.HexColor('#1e40af'), spaceAfter=12))
 
     # Employee info table
