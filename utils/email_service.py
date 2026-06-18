@@ -32,8 +32,8 @@ HR Team
 Zayron Infotech Pvt. Ltd.
 """
 
-    logo_b64 = _logo_base64()
-    logo_tag = f'<img src="data:image/png;base64,{logo_b64}" alt="Zayron Infotech" style="height:60px;width:auto;display:block;margin:0 auto 10px;" />' if logo_b64 else ''
+    logo_url = f"{settings.BASE_URL}/static/img/logo_email.png"
+    logo_tag = f'<img src="{logo_url}" alt="Zayron Infotech" style="height:60px;width:auto;display:block;margin:0 auto 10px;" />'
 
     html_body = f"""<!DOCTYPE html>
 <html><head><meta charset="UTF-8"></head>
