@@ -173,12 +173,7 @@ export default function NDAForm() {
       <div className="onboarding-container">
         <div className="onboarding-header">
           <div className="logo">
-            <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
-              <rect width="48" height="48" rx="12" fill="#1e40af"/>
-              <path d="M24 10L36 17V31L24 38L12 31V17L24 10Z" stroke="white" strokeWidth="2" fill="none"/>
-              <path d="M24 18L30 21.5V28.5L24 32L18 28.5V21.5L24 18Z" fill="white"/>
-            </svg>
-            <span style={{ marginLeft: 10, fontWeight: 700, color: '#1e40af', fontSize: 16 }}>Zayron Infotech Pvt. Ltd.</span>
+            <img src="/static/img/logo1.png" alt="Zayron Infotech" style={{ height: 48, width: 'auto', objectFit: 'contain' }} />
           </div>
           <h1>Employee Onboarding</h1>
           <p>Welcome, {employee.name}! Please complete your onboarding.</p>
@@ -195,12 +190,11 @@ export default function NDAForm() {
           <form onSubmit={handleSubmit}>
             <div className="onboarding-card-body">
               {/* Employee info summary */}
-              <div className="info-block" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
+              <div className="info-block" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
                 <div><strong>Name:</strong> {employee.name}</div>
                 <div><strong>Type:</strong> {employee.employee_type === 'permanent' ? 'Permanent' : 'Contract'}</div>
                 <div><strong>Department:</strong> {employee.department}</div>
                 <div><strong>Designation:</strong> {employee.designation}</div>
-                <div><strong>Joining Date:</strong> {employee.joining_date}</div>
               </div>
 
               {/* NDA Type */}
