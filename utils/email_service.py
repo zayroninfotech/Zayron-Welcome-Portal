@@ -5,7 +5,7 @@ from django.conf import settings
 
 
 def _logo_base64():
-    logo_path = os.path.join(settings.BASE_DIR, 'static', 'img', 'logo1.png')
+    logo_path = os.path.join(settings.BASE_DIR, 'static', 'img', 'logo_email.png')
     try:
         with open(logo_path, 'rb') as f:
             return base64.b64encode(f.read()).decode('utf-8')
@@ -32,6 +32,9 @@ HR Team
 Zayron Infotech Pvt. Ltd.
 """
 
+    logo_b64 = _logo_base64()
+    logo_tag = f'<img src="data:image/png;base64,{logo_b64}" alt="Zayron Infotech" style="height:60px;width:auto;display:block;margin:0 auto 10px;" />' if logo_b64 else ''
+
     html_body = f"""<!DOCTYPE html>
 <html><head><meta charset="UTF-8"></head>
 <body style="margin:0;padding:20px;background:#e8edf5;font-family:Arial,sans-serif;">
@@ -39,6 +42,7 @@ Zayron Infotech Pvt. Ltd.
 <table width="580" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;overflow:hidden;">
 
 <tr><td style="background:linear-gradient(135deg,#0c2461,#2563eb);padding:28px 24px;text-align:center;">
+{logo_tag}
 <p style="color:#fff;font-size:20px;font-weight:700;margin:0 0 4px;">Zayron Infotech Pvt. Ltd.</p>
 <p style="color:#bfdbfe;font-size:11px;margin:0;letter-spacing:1px;text-transform:uppercase;">Employee Onboarding Portal</p>
 </td></tr>
