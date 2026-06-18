@@ -33,7 +33,7 @@ Zayron Infotech Pvt. Ltd.
 """
 
     logo_b64 = _logo_base64()
-    logo_tag = f'<img src="data:image/png;base64,{logo_b64}" alt="Zayron Infotech" style="height:56px;width:auto;object-fit:contain;" />' if logo_b64 else '<span style="color:white;font-size:20px;font-weight:700;">Zayron Infotech</span>'
+    logo_tag = f'<img src="data:image/png;base64,{logo_b64}" alt="Zayron Infotech" style="height:60px;width:auto;display:block;margin:0 auto 10px;" />' if logo_b64 else ''
 
     html_body = f"""
 <!DOCTYPE html>
@@ -41,61 +41,113 @@ Zayron Infotech Pvt. Ltd.
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {{ font-family: 'Segoe UI', Arial, sans-serif; background-color: #eef2f7; margin: 0; padding: 0; }}
-    .wrapper {{ padding: 40px 16px; background-color: #eef2f7; }}
-    .container {{ max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 32px rgba(30,64,175,0.13); }}
-    .header {{ background: linear-gradient(135deg, #0f2d6b 0%, #1e40af 60%, #2563eb 100%); padding: 36px 30px 28px; text-align: center; }}
-    .header-divider {{ width: 48px; height: 3px; background: rgba(255,255,255,0.4); border-radius: 2px; margin: 14px auto 0; }}
-    .header-sub {{ color: #bfdbfe; margin: 10px 0 0; font-size: 13px; letter-spacing: 0.5px; text-transform: uppercase; }}
-    .body {{ padding: 36px 32px; }}
-    .greeting {{ font-size: 22px; font-weight: 700; color: #0f2d6b; margin: 0 0 6px; }}
-    .body p {{ color: #4b5563; line-height: 1.75; margin: 12px 0; font-size: 15px; }}
-    .info-box {{ background: #f0f5ff; border: 1px solid #c7d8ff; border-radius: 10px; padding: 18px 22px; margin: 22px 0; }}
-    .info-row {{ padding: 7px 0; border-bottom: 1px solid #e0e9ff; font-size: 13px; }}
-    .info-row:last-child {{ border-bottom: none; }}
-    .info-label {{ color: #1e40af; font-weight: 600; display: inline-block; min-width: 130px; }}
-    .info-value {{ color: #111827; }}
-    .btn-wrap {{ text-align: center; margin: 28px 0 20px; }}
-    .btn {{ display: inline-block; padding: 15px 42px; background: linear-gradient(135deg, #0f2d6b, #2563eb); color: #ffffff !important; text-decoration: none; border-radius: 10px; font-weight: 700; font-size: 15px; letter-spacing: 0.3px; box-shadow: 0 4px 16px rgba(30,64,175,0.35); }}
-    .divider {{ height: 1px; background: #e5e7eb; margin: 24px 0; }}
-    .footer {{ background: #f8faff; padding: 20px 32px; text-align: center; border-top: 1px solid #e0e9ff; }}
-    .footer p {{ color: #9ca3af; font-size: 12px; margin: 4px 0; }}
-    .footer .brand {{ color: #1e40af; font-weight: 600; font-size: 13px; }}
-  </style>
 </head>
-<body>
-  <div class="wrapper">
-  <div class="container">
-    <div class="header">
-      {logo_tag}
-      <div class="header-divider"></div>
-      <p class="header-sub">Employee Onboarding Portal</p>
-    </div>
-    <div class="body">
-      <div class="greeting">Welcome, {employee.name}! &#128075;</div>
-      <p>We are delighted to welcome you to the <strong>Zayron Infotech</strong> family. We look forward to your valuable contribution to our team.</p>
-      <p>Please complete your onboarding by reviewing and signing your Non-Disclosure Agreement and submitting your personal details.</p>
-      <div class="info-box">
-        <div class="info-row"><span class="info-label">&#128188; Department</span><span class="info-value">{employee.department}</span></div>
-        <div class="info-row"><span class="info-label">&#127891; Designation</span><span class="info-value">{employee.designation}</span></div>
-        <div class="info-row"><span class="info-label">&#128197; Joining Date</span><span class="info-value">{employee.joining_date}</span></div>
-        <div class="info-row"><span class="info-label">&#128100; Employee Type</span><span class="info-value">{employee.get_employee_type_display()}</span></div>
-      </div>
-      <div class="btn-wrap">
-        <a href="{onboarding_link}" class="btn">&#9654; Complete Onboarding</a>
-      </div>
-      <div class="divider"></div>
-      <p>Thank you for joining our team. We are excited to have you on board!</p>
-      <p>Warm regards,<br><strong>HR Team</strong><br>Zayron Infotech Pvt. Ltd.</p>
-    </div>
-    <div class="footer">
-      <p class="brand">Zayron Infotech Pvt. Ltd.</p>
-      <p>This is an automated email. Please do not reply directly.</p>
-      <p>&copy; 2026 Zayron Infotech Pvt. Ltd. All rights reserved.</p>
-    </div>
-  </div>
-  </div>
+<body style="margin:0;padding:0;background-color:#e8edf5;font-family:'Segoe UI',Arial,sans-serif;">
+
+  <!-- Wrapper -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#e8edf5;padding:40px 0;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 8px 30px rgba(30,64,175,0.12);">
+
+        <!-- HEADER -->
+        <tr>
+          <td style="background:linear-gradient(135deg,#0c2461 0%,#1e40af 55%,#2563eb 100%);padding:36px 30px 30px;text-align:center;">
+            {logo_tag}
+            <div style="color:#ffffff;font-size:22px;font-weight:700;letter-spacing:0.5px;margin-bottom:4px;">Zayron Infotech Pvt. Ltd.</div>
+            <div style="color:#bfdbfe;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;">Employee Onboarding Portal</div>
+            <div style="width:50px;height:3px;background:rgba(255,255,255,0.35);border-radius:2px;margin:14px auto 0;"></div>
+          </td>
+        </tr>
+
+        <!-- GREETING BANNER -->
+        <tr>
+          <td style="background:#f0f5ff;padding:20px 32px;border-bottom:1px solid #dde8ff;">
+            <div style="font-size:19px;font-weight:700;color:#0c2461;">&#128075; Welcome, {employee.name}!</div>
+            <div style="font-size:13px;color:#4b5563;margin-top:4px;">We are excited to have you join the Zayron Infotech family.</div>
+          </td>
+        </tr>
+
+        <!-- BODY -->
+        <tr>
+          <td style="padding:30px 32px;">
+            <p style="color:#374151;font-size:15px;line-height:1.75;margin:0 0 16px;">
+              Dear <strong>{employee.name}</strong>,<br><br>
+              Congratulations on joining <strong>Zayron Infotech Pvt. Ltd.</strong> We are delighted to welcome you to our team and look forward to your valuable contributions.
+            </p>
+            <p style="color:#374151;font-size:15px;line-height:1.75;margin:0 0 24px;">
+              To get started, please complete your onboarding process by reviewing and digitally signing your <strong>Non-Disclosure Agreement (NDA)</strong> and submitting your personal details and documents.
+            </p>
+
+            <!-- INFO TABLE -->
+            <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f8ff;border:1px solid #c7d8ff;border-radius:10px;overflow:hidden;margin-bottom:28px;">
+              <tr style="background:#1e40af;">
+                <td colspan="2" style="padding:10px 18px;color:#ffffff;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Your Employment Details</td>
+              </tr>
+              <tr style="border-bottom:1px solid #dde8ff;">
+                <td style="padding:11px 18px;color:#1e40af;font-weight:600;font-size:13px;width:45%;">&#128188; Department</td>
+                <td style="padding:11px 18px;color:#111827;font-size:13px;">{employee.department}</td>
+              </tr>
+              <tr style="background:#eef3ff;border-bottom:1px solid #dde8ff;">
+                <td style="padding:11px 18px;color:#1e40af;font-weight:600;font-size:13px;">&#127891; Designation</td>
+                <td style="padding:11px 18px;color:#111827;font-size:13px;">{employee.designation}</td>
+              </tr>
+              <tr style="border-bottom:1px solid #dde8ff;">
+                <td style="padding:11px 18px;color:#1e40af;font-weight:600;font-size:13px;">&#128197; Joining Date</td>
+                <td style="padding:11px 18px;color:#111827;font-size:13px;">{employee.joining_date}</td>
+              </tr>
+              <tr style="background:#eef3ff;">
+                <td style="padding:11px 18px;color:#1e40af;font-weight:600;font-size:13px;">&#128100; Employee Type</td>
+                <td style="padding:11px 18px;color:#111827;font-size:13px;">{employee.get_employee_type_display()}</td>
+              </tr>
+            </table>
+
+            <!-- BUTTON -->
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td align="center" style="padding:10px 0 28px;">
+                  <a href="{onboarding_link}"
+                     style="display:inline-block;background:linear-gradient(135deg,#0c2461,#2563eb);color:#ffffff;text-decoration:none;padding:16px 52px;border-radius:10px;font-size:16px;font-weight:700;letter-spacing:0.4px;box-shadow:0 4px 18px rgba(30,64,175,0.4);">
+                    &#9654;&nbsp; Complete Onboarding
+                  </a>
+                </td>
+              </tr>
+            </table>
+
+            <!-- DIVIDER -->
+            <div style="height:1px;background:#e5e7eb;margin:4px 0 24px;"></div>
+
+            <!-- SIGN OFF -->
+            <p style="color:#374151;font-size:14px;line-height:1.8;margin:0;">
+              If you have any questions, feel free to reach out to us at
+              <a href="mailto:info@zayron.in" style="color:#2563eb;text-decoration:none;">info@zayron.in</a>
+            </p>
+            <p style="color:#374151;font-size:14px;line-height:1.8;margin:16px 0 0;">
+              Warm Regards,<br>
+              <strong style="color:#0c2461;font-size:15px;">HR Team</strong><br>
+              <span style="color:#2563eb;font-weight:600;">Zayron Infotech Pvt. Ltd.</span>
+            </p>
+          </td>
+        </tr>
+
+        <!-- FOOTER -->
+        <tr>
+          <td style="background:#0c2461;padding:20px 32px;text-align:center;">
+            <div style="color:#93c5fd;font-size:12px;margin-bottom:6px;">
+              &#128231; info@zayron.in &nbsp;|&nbsp; &#127760; www.zayron.in
+            </div>
+            <div style="color:#3b82f6;font-size:11px;">
+              &copy; 2026 Zayron Infotech Pvt. Ltd. All rights reserved.
+            </div>
+            <div style="color:#1d4ed8;font-size:11px;margin-top:4px;">
+              This is an automated email. Please do not reply directly.
+            </div>
+          </td>
+        </tr>
+
+      </table>
+    </td></tr>
+  </table>
+
 </body>
 </html>
 """
