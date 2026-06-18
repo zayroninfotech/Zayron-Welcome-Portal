@@ -6,35 +6,78 @@ import api from '../../api/axios'
 
 const PERMANENT_NDA = `NON-DISCLOSURE AGREEMENT (PERMANENT EMPLOYEE)
 
-This Non-Disclosure Agreement ("Agreement") is entered into between Zayron Infotech Pvt. Ltd. ("Company") and the undersigned employee.
+This Employee Confidentiality, Non-Disclosure and Intellectual Property Agreement ("Agreement") is entered into between ZAYRON INFOTECH PRIVATE LIMITED, a company incorporated under the Companies Act, 2013, having its registered office at Hyderabad, Telangana, India (hereinafter referred to as the "Company"); and the undersigned employee (hereinafter referred to as the "Employee"). The Company and Employee are collectively referred to as the "Parties".
 
-1. CONFIDENTIAL INFORMATION
-The Employee acknowledges that during employment, they will have access to proprietary and confidential information including but not limited to: technical data, trade secrets, know-how, research, product plans, products, services, customers, markets, software, source code, developments, inventions, processes, formulas, technology, designs, marketing, finances, and other business information.
+1. PURPOSE
+The Company may disclose certain confidential, proprietary, technical, business, commercial, financial, operational, and client-related information to the Employee during the course of employment. The purpose of this Agreement is to protect such Confidential Information and Intellectual Property belonging to the Company, its clients, business partners, vendors, and affiliates.
 
-2. NON-DISCLOSURE OBLIGATIONS
-The Employee agrees to:
-(a) Keep all Confidential Information strictly confidential and not disclose it to any third party without prior written consent.
-(b) Use the Confidential Information solely for performing their duties at the Company.
-(c) Take all reasonable precautions to prevent unauthorized disclosure.
-(d) Notify the Company immediately upon discovery of any unauthorized use or disclosure.
+2. CONFIDENTIAL INFORMATION
+For the purpose of this Agreement, "Confidential Information" includes, but is not limited to:
 
-3. INTELLECTUAL PROPERTY
-All inventions, innovations, improvements, developments, methods, designs, analyses, reports, and similar information created by the Employee during employment shall be the sole property of the Company.
+Business Information: Business plans and strategies, financial information, pricing and commercial proposals, customer and vendor information, marketing plans and business opportunities, internal policies and procedures.
 
-4. NON-COMPETE CLAUSE
-During employment and for one (1) year thereafter, the Employee shall not engage in any competing business activity without prior written consent.
+Technical Information: Software applications and source code, product designs and architecture, databases and configurations, APIs and integrations, technical documentation, research and development information, validation and compliance documents.
 
-5. NON-SOLICITATION
-For one (1) year following termination, the Employee shall not solicit any employee or client of the Company.
+Client Information: Client requirements and specifications, contracts and agreements, project deliverables, customer data, regulatory documentation, validation records and reports.
 
-6. RETURN OF MATERIALS
-Upon termination or upon Company's request, the Employee shall immediately return all materials containing Confidential Information.
+Electronic Information: Emails and communications, passwords and access credentials, cloud infrastructure information, security configurations, internal systems and repositories.
 
-7. DURATION
-This Agreement remains in effect during employment and for three (3) years after termination.
+Confidential Information may be disclosed in written, oral, electronic, visual, or any other form.
 
-8. GOVERNING LAW
-This Agreement is governed by the laws of India. Disputes shall be subject to courts at the applicable jurisdiction.`
+3. EMPLOYEE CONFIDENTIALITY OBLIGATIONS
+The Employee agrees that he/she shall:
+(a) Maintain the strict confidentiality of all Confidential Information.
+(b) Use Confidential Information solely for legitimate Company business purposes.
+(c) Not disclose, copy, reproduce, transfer, publish, distribute, or communicate Confidential Information to any third party without prior written authorization from the Company.
+(d) Exercise reasonable care and diligence to prevent unauthorized access, disclosure, misuse, or loss of Confidential Information.
+(e) Immediately notify the Company of any actual or suspected breach of confidentiality.
+
+4. CLIENT CONFIDENTIALITY
+The Employee acknowledges that the Company provides services to various clients and may have access to client-owned confidential information. The Employee shall not disclose, copy, use, or share any client information except as required for authorized project activities. The Employee shall continue to protect client information even after separation from the Company.
+
+5. INTELLECTUAL PROPERTY RIGHTS
+The Employee agrees that all work products created, developed, conceived, designed, authored, or contributed during employment shall be the exclusive property of the Company. This includes: software and source code, applications and systems, reports and documentation, SOPs and templates, validation deliverables, designs and inventions, business methodologies, training materials, databases and records. The Employee hereby assigns all rights, title, and interest in such intellectual property to the Company.
+
+6. INFORMATION SECURITY
+The Employee shall:
+- Keep passwords and credentials secure.
+- Use Company systems only for authorized business activities.
+- Not install unauthorized software.
+- Not transfer Company or Client data to personal devices or external storage without approval.
+- Follow all Information Security, Data Privacy, and Cybersecurity policies issued by the Company.
+
+7. COMPANY PROPERTY
+All Company-issued assets including laptops, mobile devices, identity cards, access cards, documents, project files, software licenses, email accounts, and storage devices shall remain the sole property of the Company.
+
+8. RETURN OF COMPANY PROPERTY
+Upon resignation, termination, retirement, suspension, or upon request by the Company, the Employee shall immediately return all Company property and Confidential Information. The Employee shall not retain any copies in physical or electronic form.
+
+9. CLIENT NON-SOLICITATION
+The Employee agrees that during employment and for a period of six (6) months following the termination of employment, he/she shall not:
+- Directly or indirectly solicit business from any client of the Company.
+- Accept employment, consultancy, contract, outsourcing, freelance, or professional engagement with any Company client with whom the Employee had direct involvement during the preceding twelve (12) months.
+- Use Company information, contacts, pricing, or relationships for personal gain.
+
+In the event of a breach of this clause, the Employee shall be liable to compensate the Company with liquidated damages of INR 3,00,000/- (Rupees Three Lakhs Only), in addition to any other legal remedies available under applicable law.
+
+10. NON-SOLICITATION OF EMPLOYEES
+For a period of one (1) year following separation from the Company, the Employee shall not directly or indirectly encourage, induce, recruit, or solicit any employee, consultant, or contractor of the Company to terminate their association with the Company.
+
+11. TERM OF AGREEMENT
+This Agreement shall remain in effect throughout the Employee's employment and for a period of three (3) years following termination. The obligations relating to trade secrets, intellectual property, and proprietary information shall survive indefinitely.
+
+12. BREACH AND REMEDIES
+The Employee acknowledges that any breach of this Agreement may cause substantial and irreparable harm to the Company. The Company shall have the right to: initiate disciplinary action, terminate employment, recover damages and losses, seek injunctive relief, and initiate civil and/or criminal proceedings as permitted by law.
+
+13. GOVERNING LAW AND JURISDICTION
+This Agreement shall be governed by and construed in accordance with the laws of India. Any dispute arising out of this Agreement shall be subject to the exclusive jurisdiction of the competent courts located in Hyderabad, Telangana.
+
+14. EMPLOYEE DECLARATION
+I hereby declare that:
+- I have carefully read and understood this Agreement.
+- I agree to abide by all terms and conditions contained herein.
+- I acknowledge my responsibility to protect Company and Client Confidential Information.
+- I understand that violation of this Agreement may result in disciplinary action, termination of employment, and legal proceedings.`
 
 const CONTRACT_NDA = `NON-DISCLOSURE AGREEMENT (CONTRACT EMPLOYEE)
 
