@@ -7,7 +7,7 @@ from reportlab.lib import colors
 from reportlab.lib.units import mm
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY, TA_LEFT
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable, Image
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable, Image, KeepTogether
 from reportlab.lib.utils import ImageReader
 
 
@@ -119,29 +119,28 @@ def generate_nda_pdf(nda_document):
     nda_text = PERMANENT_NDA if employee.employee_type == 'permanent' else CONTRACT_NDA
 
     elements.append(Paragraph('TERMS AND CONDITIONS', heading_style))
-    for line in nda_text.strip().split('\n'):
-        line = line.strip()
+    lines = nda_text.strip().split('\n')
+    i = 0
+    while i < len(lines):
+        line = lines[i].strip()
         if not line:
             elements.append(Spacer(1, 4))
+            i += 1
         elif line.isupper() or (len(line) < 60 and line[0].isdigit()):
-            elements.append(Paragraph(line, heading_style))
+            # Keep heading with following paragraph to avoid orphan headings
+            group = [Paragraph(line, heading_style)]
+            i += 1
+            while i < len(lines) and lines[i].strip():
+                group.append(Paragraph(lines[i].strip(), body_style))
+                i += 1
+            elements.append(KeepTogether(group))
         else:
             elements.append(Paragraph(line, body_style))
+            i += 1
 
     elements.append(HRFlowable(width='100%', thickness=0.5, color=colors.grey, spaceAfter=12, spaceBefore=12))
 
-    # Signature section
-    elements.append(Paragraph('ACKNOWLEDGMENT & SIGNATURE', heading_style))
-
-    sig_data = [[
-        Paragraph('Employee Name:', label_style),
-        Paragraph(nda_document.full_name, value_style),
-    ], [
-        Paragraph('Date:', label_style),
-        Paragraph(str(nda_document.signed_date), value_style),
-    ]]
-
-    # Try to embed signature image
+    # Signature section - kept together on one page
     sig_cell_content = Paragraph('[Digital Signature on File]', value_style)
     if nda_document.signature:
         try:
@@ -154,7 +153,11 @@ def generate_nda_pdf(nda_document):
         except Exception:
             pass
 
-    sig_data.append([Paragraph('Digital Signature:', label_style), sig_cell_content])
+    sig_data = [
+        [Paragraph('Employee Name:', label_style), Paragraph(nda_document.full_name, value_style)],
+        [Paragraph('Date:', label_style), Paragraph(str(nda_document.signed_date), value_style)],
+        [Paragraph('Digital Signature:', label_style), sig_cell_content],
+    ]
 
     sig_table = Table(sig_data, colWidths=[50 * mm, 126 * mm], rowHeights=[None, None, 36 * mm])
     sig_table.setStyle(TableStyle([
@@ -163,7 +166,11 @@ def generate_nda_pdf(nda_document):
         ('PADDING', (0, 0), (-1, -1), 8),
         ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
     ]))
-    elements.append(sig_table)
+
+    elements.append(KeepTogether([
+        Paragraph('ACKNOWLEDGMENT & SIGNATURE', heading_style),
+        sig_table,
+    ]))
 
     elements.append(Spacer(1, 16))
     elements.append(HRFlowable(width='100%', thickness=1, color=colors.HexColor('#1e40af'), spaceAfter=6))
