@@ -41,10 +41,35 @@ def generate_nda_pdf(nda_document):
 
     elements = []
 
-    # Header
-    elements.append(Paragraph('ZAYRON INFOTECH PVT. LTD.', title_style))
-    elements.append(Paragraph('NON-DISCLOSURE AGREEMENT', subtitle_style))
-    elements.append(Paragraph(f'({emp_type_label})', subtitle_style))
+    # Header with logo
+    from django.conf import settings
+    logo_path = os.path.join(settings.BASE_DIR, 'static', 'img', 'logo1.png')
+    header_content = []
+    if os.path.exists(logo_path):
+        try:
+            logo_img = Image(logo_path, width=18 * mm, height=18 * mm)
+            logo_img.hAlign = 'CENTER'
+            header_content.append(logo_img)
+        except Exception:
+            pass
+
+    header_title_style = ParagraphStyle('HTitle', parent=styles['Normal'],
+        fontSize=16, fontName='Helvetica-Bold', alignment=TA_CENTER, spaceAfter=2, spaceBefore=4)
+    header_sub_style = ParagraphStyle('HSub', parent=styles['Normal'],
+        fontSize=11, fontName='Helvetica-Bold', alignment=TA_CENTER, spaceAfter=1,
+        textColor=colors.HexColor('#1e40af'))
+    header_sub2_style = ParagraphStyle('HSub2', parent=styles['Normal'],
+        fontSize=10, fontName='Helvetica-Bold', alignment=TA_CENTER, spaceAfter=6,
+        textColor=colors.HexColor('#1e40af'))
+
+    header_content += [
+        Paragraph('ZAYRON INFOTECH PVT. LTD.', header_title_style),
+        Paragraph('NON-DISCLOSURE AGREEMENT', header_sub_style),
+        Paragraph(f'({emp_type_label})', header_sub2_style),
+    ]
+
+    for el in header_content:
+        elements.append(el)
     elements.append(HRFlowable(width='100%', thickness=2, color=colors.HexColor('#1e40af'), spaceAfter=12))
 
     # Employee info table
