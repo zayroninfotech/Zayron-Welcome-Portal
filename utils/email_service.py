@@ -57,9 +57,7 @@ Zayron Infotech Pvt. Ltd.
 
 <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #c7d8ff;border-radius:8px;overflow:hidden;margin-bottom:24px;">
 <tr><td colspan="2" style="background:#1e40af;padding:9px 16px;color:#fff;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Your Employment Details</td></tr>
-<tr><td style="padding:9px 16px;color:#1e40af;font-weight:600;font-size:13px;width:44%;border-bottom:1px solid #dde8ff;">Department</td><td style="padding:9px 16px;color:#111;font-size:13px;border-bottom:1px solid #dde8ff;">{employee.department}</td></tr>
-<tr style="background:#f0f5ff;"><td style="padding:9px 16px;color:#1e40af;font-weight:600;font-size:13px;border-bottom:1px solid #dde8ff;">Designation</td><td style="padding:9px 16px;color:#111;font-size:13px;border-bottom:1px solid #dde8ff;">{employee.designation}</td></tr>
-<tr><td style="padding:9px 16px;color:#1e40af;font-weight:600;font-size:13px;border-bottom:1px solid #dde8ff;">Joining Date</td><td style="padding:9px 16px;color:#111;font-size:13px;border-bottom:1px solid #dde8ff;">{employee.joining_date}</td></tr>
+<tr><td style="padding:9px 16px;color:#1e40af;font-weight:600;font-size:13px;width:44%;border-bottom:1px solid #dde8ff;">Joining Date</td><td style="padding:9px 16px;color:#111;font-size:13px;border-bottom:1px solid #dde8ff;">{employee.joining_date}</td></tr>
 <tr style="background:#f0f5ff;"><td style="padding:9px 16px;color:#1e40af;font-weight:600;font-size:13px;">Employee Type</td><td style="padding:9px 16px;color:#111;font-size:13px;">{employee.get_employee_type_display()}</td></tr>
 </table>
 
