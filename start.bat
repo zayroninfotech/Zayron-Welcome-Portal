@@ -22,7 +22,7 @@ echo.
 echo   Application running at: http://localhost:8000
 echo   Admin login            : http://localhost:8000/login
 echo   Django admin panel     : http://localhost:8000/admin
-echo   Credentials            : admin / Admin@123
+echo   Credentials            : vamsi / Zayron@2026
 echo.
 echo   Press Ctrl+C to stop.
 echo ============================================

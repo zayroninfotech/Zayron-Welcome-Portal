@@ -5,14 +5,14 @@ django.setup()
 
 from apps.accounts.models import User
 
-if not User.objects.filter(username='admin').exists():
-    u = User.objects.create_superuser('admin', 'admin@zayroninfotech.com', 'Admin@123')
+if not User.objects.filter(username='vamsi').exists():
+    u = User.objects.create_superuser('vamsi', 'admin@zayroninfotech.com', 'Zayron@2026')
     u.role = 'superadmin'
-    u.first_name = 'Super'
+    u.first_name = 'Vamsi'
     u.last_name = 'Admin'
     u.save()
     print('Super Admin created!')
-    print('  Username : admin')
-    print('  Password : Admin@123')
+    print('  Username : vamsi')
+    print('  Password : Zayron@2026')
 else:
-    print('Admin already exists (username: admin / password: Admin@123)')
+    print('Admin already exists (username: vamsi / password: Zayron@2026)')
