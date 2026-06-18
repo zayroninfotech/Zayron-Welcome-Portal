@@ -212,8 +212,8 @@ export default function NDAForm() {
     if (!/^\d{12}$/.test(form.aadhaar_number)) errs.aadhaar_number = 'Must be 12 digits'
     if (!form.emergency_contact.trim()) errs.emergency_contact = 'Required'
     if (!agreed) errs.agreed = 'You must agree to the NDA terms'
-    if (sigRef.current?.isEmpty()) errs.signature = 'Please draw your signature'
-    if (!uploadedSig) errs.sig_photo = 'Please upload a photo of your signature'
+    const drawEmpty = sigRef.current?.isEmpty()
+    if (drawEmpty && !uploadedSig) errs.signature = 'Please provide at least one signature — draw or upload a photo'
     setErrors(errs)
     return Object.keys(errs).length === 0
   }
@@ -333,9 +333,14 @@ export default function NDAForm() {
               </label>
               {errors.agreed && <div className="form-error" style={{ marginTop: -14, marginBottom: 14 }}>{errors.agreed}</div>}
 
+              {/* Signature note */}
+              <div style={{ background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 8, padding: '10px 14px', marginBottom: 16, fontSize: 13, color: '#1e40af' }}>
+                ℹ️ Please provide at least one signature — draw <strong>or</strong> upload a photo.
+              </div>
+
               {/* Draw Signature */}
               <div className="form-group">
-                <label className="form-label">✏️ Draw Signature <span className="required">*</span></label>
+                <label className="form-label">✏️ Draw Signature</label>
                 <div className="sig-pad-wrap">
                   <SignatureCanvas
                     ref={sigRef}
@@ -352,7 +357,7 @@ export default function NDAForm() {
 
               {/* Upload Signature Photo */}
               <div className="form-group">
-                <label className="form-label">📷 Upload Signature Photo <span className="required">*</span></label>
+                <label className="form-label">📷 Upload Signature Photo</label>
                 <div style={{ border: '2px dashed #c7d2fe', borderRadius: 10, padding: 16, textAlign: 'center', background: '#f8faff' }}>
                   {uploadedSig ? (
                     <div>
@@ -377,7 +382,7 @@ export default function NDAForm() {
                     </label>
                   )}
                 </div>
-                {errors.sig_photo && <div className="form-error" style={{ marginTop: 6 }}>{errors.sig_photo}</div>}
+                {errors.signature && <div className="form-error" style={{ marginTop: 6 }}>{errors.signature}</div>}
               </div>
             </div>
 
