@@ -22,8 +22,8 @@ media/
 node_modules/
 npm-debug.log*
 
-# Vite build output (generated — not committed)
-static/dist/
+# Vite build output — committed so server doesn't need Node.js
+# static/dist/
 
 # OS
 .DS_Store
