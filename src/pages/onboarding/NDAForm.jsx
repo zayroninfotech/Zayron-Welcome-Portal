@@ -193,8 +193,7 @@ export default function NDAForm() {
               <div className="info-block" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
                 <div><strong>Name:</strong> {employee.name}</div>
                 <div><strong>Type:</strong> {employee.employee_type === 'permanent' ? 'Permanent' : 'Contract'}</div>
-                <div><strong>Department:</strong> {employee.department}</div>
-                <div><strong>Designation:</strong> {employee.designation}</div>
+                <div><strong>Joining Date:</strong> {employee.joining_date}</div>
               </div>
 
               {/* NDA Type */}
