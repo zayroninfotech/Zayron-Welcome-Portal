@@ -185,7 +185,6 @@ export default function NDAForm() {
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [agreed, setAgreed] = useState(false)
-  const [sigMode, setSigMode] = useState('draw') // 'draw' | 'upload'
   const [uploadedSig, setUploadedSig] = useState(null)
   const [form, setForm] = useState({
     full_name: '', address: '', mobile: '', aadhaar_number: '',
@@ -213,8 +212,8 @@ export default function NDAForm() {
     if (!/^\d{12}$/.test(form.aadhaar_number)) errs.aadhaar_number = 'Must be 12 digits'
     if (!form.emergency_contact.trim()) errs.emergency_contact = 'Required'
     if (!agreed) errs.agreed = 'You must agree to the NDA terms'
-    if (sigMode === 'draw' && sigRef.current?.isEmpty()) errs.signature = 'Please draw your signature'
-    if (sigMode === 'upload' && !uploadedSig) errs.signature = 'Please upload your signature photo'
+    if (sigRef.current?.isEmpty()) errs.signature = 'Please draw your signature'
+    if (!uploadedSig) errs.sig_photo = 'Please upload a photo of your signature'
     setErrors(errs)
     return Object.keys(errs).length === 0
   }
@@ -224,8 +223,8 @@ export default function NDAForm() {
     if (!validate()) return
     setSubmitting(true)
     try {
-      const signature = sigMode === 'upload' ? uploadedSig : sigRef.current.getTrimmedCanvas().toDataURL('image/png')
-      await api.post(`/ndas/submit/${token}/`, { ...form, signature })
+      const signature = sigRef.current.getTrimmedCanvas().toDataURL('image/png')
+      await api.post(`/ndas/submit/${token}/`, { ...form, signature, signature_photo: uploadedSig })
       toast.success('NDA submitted successfully!')
       navigate(`/onboarding/${token}/details`)
     } catch (err) {
@@ -334,70 +333,51 @@ export default function NDAForm() {
               </label>
               {errors.agreed && <div className="form-error" style={{ marginTop: -14, marginBottom: 14 }}>{errors.agreed}</div>}
 
-              {/* Signature */}
+              {/* Draw Signature */}
               <div className="form-group">
-                <label className="form-label">Signature <span className="required">*</span></label>
-
-                {/* Toggle buttons */}
-                <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
-                  <button type="button"
-                    onClick={() => { setSigMode('draw'); setUploadedSig(null) }}
-                    style={{ flex: 1, padding: '8px 0', borderRadius: 8, border: '2px solid', borderColor: sigMode === 'draw' ? '#1e40af' : '#e5e7eb', background: sigMode === 'draw' ? '#eff6ff' : '#fff', color: sigMode === 'draw' ? '#1e40af' : '#6b7280', fontWeight: 600, fontSize: 13, cursor: 'pointer' }}>
-                    ✏️ Draw Signature
-                  </button>
-                  <button type="button"
-                    onClick={() => { setSigMode('upload'); sigRef.current?.clear() }}
-                    style={{ flex: 1, padding: '8px 0', borderRadius: 8, border: '2px solid', borderColor: sigMode === 'upload' ? '#1e40af' : '#e5e7eb', background: sigMode === 'upload' ? '#eff6ff' : '#fff', color: sigMode === 'upload' ? '#1e40af' : '#6b7280', fontWeight: 600, fontSize: 13, cursor: 'pointer' }}>
-                    📷 Upload Photo
-                  </button>
+                <label className="form-label">✏️ Draw Signature <span className="required">*</span></label>
+                <div className="sig-pad-wrap">
+                  <SignatureCanvas
+                    ref={sigRef}
+                    penColor="#1e3a8a"
+                    canvasProps={{ width: 720, height: 140, style: { width: '100%', height: 140 } }}
+                  />
                 </div>
+                {errors.signature && <div className="form-error">{errors.signature}</div>}
+                <div className="sig-pad-actions">
+                  <button type="button" className="btn btn-secondary btn-sm" onClick={() => sigRef.current?.clear()}>Clear Signature</button>
+                  <span style={{ fontSize: 12, color: 'var(--gray-400)', alignSelf: 'center' }}>Draw your signature in the box above</span>
+                </div>
+              </div>
 
-                {/* Draw mode */}
-                {sigMode === 'draw' && (
-                  <>
-                    <div className="sig-pad-wrap">
-                      <SignatureCanvas
-                        ref={sigRef}
-                        penColor="#1e3a8a"
-                        canvasProps={{ width: 720, height: 140, style: { width: '100%', height: 140 } }}
-                      />
-                    </div>
-                    <div className="sig-pad-actions">
-                      <button type="button" className="btn btn-secondary btn-sm" onClick={() => sigRef.current?.clear()}>Clear</button>
-                      <span style={{ fontSize: 12, color: 'var(--gray-400)', alignSelf: 'center' }}>Draw your signature in the box above</span>
-                    </div>
-                  </>
-                )}
-
-                {/* Upload mode */}
-                {sigMode === 'upload' && (
-                  <div style={{ border: '2px dashed #c7d2fe', borderRadius: 10, padding: 16, textAlign: 'center', background: '#f8faff' }}>
-                    {uploadedSig ? (
-                      <div>
-                        <img src={uploadedSig} alt="Uploaded signature" style={{ maxHeight: 120, maxWidth: '100%', borderRadius: 6, border: '1px solid #e0e7ff' }} />
-                        <div style={{ marginTop: 10 }}>
-                          <button type="button" className="btn btn-secondary btn-sm" onClick={() => setUploadedSig(null)}>Remove</button>
-                        </div>
+              {/* Upload Signature Photo */}
+              <div className="form-group">
+                <label className="form-label">📷 Upload Signature Photo <span className="required">*</span></label>
+                <div style={{ border: '2px dashed #c7d2fe', borderRadius: 10, padding: 16, textAlign: 'center', background: '#f8faff' }}>
+                  {uploadedSig ? (
+                    <div>
+                      <img src={uploadedSig} alt="Uploaded signature" style={{ maxHeight: 120, maxWidth: '100%', borderRadius: 6, border: '1px solid #e0e7ff' }} />
+                      <div style={{ marginTop: 10 }}>
+                        <button type="button" className="btn btn-secondary btn-sm" onClick={() => setUploadedSig(null)}>Remove</button>
                       </div>
-                    ) : (
-                      <label style={{ cursor: 'pointer', display: 'block' }}>
-                        <div style={{ fontSize: 32, marginBottom: 8 }}>📷</div>
-                        <div style={{ color: '#1e40af', fontWeight: 600, fontSize: 14 }}>Click to upload signature photo</div>
-                        <div style={{ color: '#9ca3af', fontSize: 12, marginTop: 4 }}>JPG, PNG supported</div>
-                        <input type="file" accept="image/*" style={{ display: 'none' }}
-                          onChange={e => {
-                            const file = e.target.files[0]
-                            if (!file) return
-                            const reader = new FileReader()
-                            reader.onload = ev => setUploadedSig(ev.target.result)
-                            reader.readAsDataURL(file)
-                          }} />
-                      </label>
-                    )}
-                  </div>
-                )}
-
-                {errors.signature && <div className="form-error" style={{ marginTop: 6 }}>{errors.signature}</div>}
+                    </div>
+                  ) : (
+                    <label style={{ cursor: 'pointer', display: 'block' }}>
+                      <div style={{ fontSize: 32, marginBottom: 8 }}>📷</div>
+                      <div style={{ color: '#1e40af', fontWeight: 600, fontSize: 14 }}>Click to upload your signature photo</div>
+                      <div style={{ color: '#9ca3af', fontSize: 12, marginTop: 4 }}>JPG, PNG supported</div>
+                      <input type="file" accept="image/*" style={{ display: 'none' }}
+                        onChange={e => {
+                          const file = e.target.files[0]
+                          if (!file) return
+                          const reader = new FileReader()
+                          reader.onload = ev => { setUploadedSig(ev.target.result); setErrors(er => ({ ...er, sig_photo: '' })) }
+                          reader.readAsDataURL(file)
+                        }} />
+                    </label>
+                  )}
+                </div>
+                {errors.sig_photo && <div className="form-error" style={{ marginTop: 6 }}>{errors.sig_photo}</div>}
               </div>
             </div>
 
