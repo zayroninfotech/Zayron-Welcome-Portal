@@ -62,10 +62,10 @@ def generate_nda_pdf(nda_document):
 
     if os.path.exists(logo_path):
         try:
-            logo_img = Image(logo_path, width=20 * mm, height=20 * mm)
+            logo_img = Image(logo_path, width=32 * mm, height=32 * mm)
             header_table = Table(
                 [[logo_img, title_block]],
-                colWidths=[24 * mm, 152 * mm]
+                colWidths=[36 * mm, 140 * mm]
             )
             header_table.setStyle(TableStyle([
                 ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
@@ -149,14 +149,14 @@ def generate_nda_pdf(nda_document):
             if ',' in sig_b64:
                 sig_b64 = sig_b64.split(',')[1]
             sig_bytes = base64.b64decode(sig_b64)
-            sig_img = Image(BytesIO(sig_bytes), width=60 * mm, height=20 * mm)
+            sig_img = Image(BytesIO(sig_bytes), width=80 * mm, height=30 * mm)
             sig_cell_content = sig_img
         except Exception:
             pass
 
     sig_data.append([Paragraph('Digital Signature:', label_style), sig_cell_content])
 
-    sig_table = Table(sig_data, colWidths=[50 * mm, 126 * mm])
+    sig_table = Table(sig_data, colWidths=[50 * mm, 126 * mm], rowHeights=[None, None, 36 * mm])
     sig_table.setStyle(TableStyle([
         ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#c7d2fe')),
         ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#f0f4ff')),
