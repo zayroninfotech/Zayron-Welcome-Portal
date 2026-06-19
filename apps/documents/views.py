@@ -7,6 +7,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from apps.employees.models import Employee
 from .models import EmployeeDetails
 from .serializers import EmployeeDetailsSerializer
+from utils.email_service import send_onboarding_complete_email
 
 
 class EmployeeDetailsSubmitView(APIView):
@@ -40,6 +41,11 @@ class EmployeeDetailsSubmitView(APIView):
 
         employee.status = 'completed'
         employee.save()
+
+        try:
+            send_onboarding_complete_email(details)
+        except Exception:
+            pass
 
         return Response(EmployeeDetailsSerializer(details, context={'request': request}).data, status=status.HTTP_201_CREATED)
 

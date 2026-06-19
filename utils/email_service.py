@@ -99,6 +99,122 @@ Zayron Infotech Pvt. Ltd.
     msg.send()
 
 
+def send_onboarding_complete_email(details):
+    employee = details.employee
+    subject = f'Onboarding Completed – {employee.name}'
+
+    text_body = f"""Employee Onboarding Completed
+
+Name: {employee.name}
+Email: {employee.email}
+Joining Date: {employee.joining_date}
+Employee Type: {employee.get_employee_type_display()}
+
+Father's Name: {details.father_name}
+Date of Birth: {details.date_of_birth}
+Gender: {details.gender}
+Blood Group: {details.blood_group}
+Address: {details.address}
+Bank Name: {details.bank_name}
+Account Number: {details.account_number}
+IFSC Code: {details.ifsc_code}
+Emergency Contact: {details.emergency_contact_name} ({details.emergency_contact})
+
+All uploaded documents are attached to this email.
+"""
+
+    html_body = f"""<!DOCTYPE html>
+<html><head><meta charset="UTF-8"></head>
+<body style="margin:0;padding:20px;background:#e8edf5;font-family:Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
+<table width="580" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;overflow:hidden;">
+
+<tr><td style="background:linear-gradient(135deg,#0c2461,#2563eb);padding:28px 24px;text-align:center;">
+<img src="cid:logo_zayron" alt="Zayron Infotech" style="height:60px;width:auto;display:block;margin:0 auto 10px;" />
+<p style="color:#fff;font-size:20px;font-weight:700;margin:0 0 4px;">Zayron Infotech Pvt. Ltd.</p>
+<p style="color:#bfdbfe;font-size:11px;margin:0;letter-spacing:1px;text-transform:uppercase;">Employee Onboarding Portal</p>
+</td></tr>
+
+<tr><td style="background:#ecfdf5;padding:16px 28px;border-bottom:1px solid #6ee7b7;">
+<p style="color:#065f46;font-size:17px;font-weight:700;margin:0;">&#10003; Onboarding Completed – {employee.name}</p>
+<p style="color:#6b7280;font-size:13px;margin:4px 0 0;">All documents have been submitted successfully.</p>
+</td></tr>
+
+<tr><td style="padding:24px 28px;">
+<table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #c7d8ff;border-radius:8px;overflow:hidden;margin-bottom:20px;">
+<tr><td colspan="2" style="background:#1e40af;padding:9px 16px;color:#fff;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Employee Details</td></tr>
+<tr><td style="padding:8px 16px;color:#1e40af;font-weight:600;font-size:13px;width:44%;border-bottom:1px solid #dde8ff;">Name</td><td style="padding:8px 16px;color:#111;font-size:13px;border-bottom:1px solid #dde8ff;">{employee.name}</td></tr>
+<tr style="background:#f0f5ff;"><td style="padding:8px 16px;color:#1e40af;font-weight:600;font-size:13px;border-bottom:1px solid #dde8ff;">Email</td><td style="padding:8px 16px;color:#111;font-size:13px;border-bottom:1px solid #dde8ff;">{employee.email}</td></tr>
+<tr><td style="padding:8px 16px;color:#1e40af;font-weight:600;font-size:13px;border-bottom:1px solid #dde8ff;">Joining Date</td><td style="padding:8px 16px;color:#111;font-size:13px;border-bottom:1px solid #dde8ff;">{employee.joining_date}</td></tr>
+<tr style="background:#f0f5ff;"><td style="padding:8px 16px;color:#1e40af;font-weight:600;font-size:13px;">Employee Type</td><td style="padding:8px 16px;color:#111;font-size:13px;">{employee.get_employee_type_display()}</td></tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #c7d8ff;border-radius:8px;overflow:hidden;margin-bottom:20px;">
+<tr><td colspan="2" style="background:#1e40af;padding:9px 16px;color:#fff;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Personal Details</td></tr>
+<tr><td style="padding:8px 16px;color:#1e40af;font-weight:600;font-size:13px;width:44%;border-bottom:1px solid #dde8ff;">Father's Name</td><td style="padding:8px 16px;color:#111;font-size:13px;border-bottom:1px solid #dde8ff;">{details.father_name}</td></tr>
+<tr style="background:#f0f5ff;"><td style="padding:8px 16px;color:#1e40af;font-weight:600;font-size:13px;border-bottom:1px solid #dde8ff;">Date of Birth</td><td style="padding:8px 16px;color:#111;font-size:13px;border-bottom:1px solid #dde8ff;">{details.date_of_birth}</td></tr>
+<tr><td style="padding:8px 16px;color:#1e40af;font-weight:600;font-size:13px;border-bottom:1px solid #dde8ff;">Gender</td><td style="padding:8px 16px;color:#111;font-size:13px;border-bottom:1px solid #dde8ff;">{details.gender.title()}</td></tr>
+<tr style="background:#f0f5ff;"><td style="padding:8px 16px;color:#1e40af;font-weight:600;font-size:13px;border-bottom:1px solid #dde8ff;">Blood Group</td><td style="padding:8px 16px;color:#111;font-size:13px;border-bottom:1px solid #dde8ff;">{details.blood_group}</td></tr>
+<tr><td style="padding:8px 16px;color:#1e40af;font-weight:600;font-size:13px;border-bottom:1px solid #dde8ff;">Address</td><td style="padding:8px 16px;color:#111;font-size:13px;border-bottom:1px solid #dde8ff;">{details.address}</td></tr>
+<tr style="background:#f0f5ff;"><td style="padding:8px 16px;color:#1e40af;font-weight:600;font-size:13px;border-bottom:1px solid #dde8ff;">Bank Name</td><td style="padding:8px 16px;color:#111;font-size:13px;border-bottom:1px solid #dde8ff;">{details.bank_name}</td></tr>
+<tr><td style="padding:8px 16px;color:#1e40af;font-weight:600;font-size:13px;border-bottom:1px solid #dde8ff;">Account Number</td><td style="padding:8px 16px;color:#111;font-size:13px;border-bottom:1px solid #dde8ff;">{details.account_number}</td></tr>
+<tr style="background:#f0f5ff;"><td style="padding:8px 16px;color:#1e40af;font-weight:600;font-size:13px;border-bottom:1px solid #dde8ff;">IFSC Code</td><td style="padding:8px 16px;color:#111;font-size:13px;border-bottom:1px solid #dde8ff;">{details.ifsc_code}</td></tr>
+<tr><td style="padding:8px 16px;color:#1e40af;font-weight:600;font-size:13px;border-bottom:1px solid #dde8ff;">Emergency Contact</td><td style="padding:8px 16px;color:#111;font-size:13px;border-bottom:1px solid #dde8ff;">{details.emergency_contact_name}</td></tr>
+<tr style="background:#f0f5ff;"><td style="padding:8px 16px;color:#1e40af;font-weight:600;font-size:13px;">Emergency Number</td><td style="padding:8px 16px;color:#111;font-size:13px;">{details.emergency_contact}</td></tr>
+</table>
+
+<p style="color:#6b7280;font-size:13px;">All uploaded documents are attached to this email.</p>
+</td></tr>
+
+<tr><td style="background:#0c2461;padding:16px 24px;text-align:center;">
+<p style="color:#93c5fd;font-size:12px;margin:0 0 4px;">info@zayron.in &nbsp;|&nbsp; www.zayron.in</p>
+<p style="color:#3b82f6;font-size:11px;margin:0;">&copy; 2026 Zayron Infotech Pvt. Ltd. All rights reserved.</p>
+</td></tr>
+
+</table></td></tr></table>
+</body></html>
+"""
+
+    msg = EmailMultiAlternatives(
+        subject=subject,
+        body=text_body,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=['info@zayron.in'],
+    )
+    msg.mixed_subtype = 'related'
+    msg.attach_alternative(html_body, 'text/html')
+
+    logo_path = os.path.join(settings.BASE_DIR, 'static', 'img', 'logo_email.png')
+    try:
+        with open(logo_path, 'rb') as f:
+            logo_img = MIMEImage(f.read())
+            logo_img.add_header('Content-ID', '<logo_zayron>')
+            logo_img.add_header('Content-Disposition', 'inline', filename='logo.png')
+            msg.attach(logo_img)
+    except Exception:
+        pass
+
+    for field, label in [
+        (details.photograph, 'Photograph'),
+        (details.resume, 'Resume'),
+        (details.aadhaar_copy, 'Aadhaar_Copy'),
+        (details.pan_copy, 'PAN_Copy'),
+        (details.educational_certificates, 'Educational_Certificates'),
+    ]:
+        if field:
+            try:
+                ext = os.path.splitext(field.name)[1]
+                with field.open('rb') as f:
+                    msg.attach(f'{label}_{employee.name.replace(" ", "_")}{ext}', f.read())
+            except Exception:
+                pass
+
+    try:
+        msg.send()
+    except Exception:
+        pass
+
+
 def send_nda_copy_email(nda_document):
     employee = nda_document.employee
     subject = 'Your NDA Copy – Zayron Infotech Pvt. Ltd.'
