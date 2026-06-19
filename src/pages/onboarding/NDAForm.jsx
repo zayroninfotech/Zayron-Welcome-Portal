@@ -223,8 +223,11 @@ export default function NDAForm() {
     if (!validate()) return
     setSubmitting(true)
     try {
-      const signature = sigRef.current.getTrimmedCanvas().toDataURL('image/png')
-      await api.post(`/ndas/submit/${token}/`, { ...form, signature, signature_photo: uploadedSig })
+      const drawEmpty = sigRef.current?.isEmpty()
+      const signature = !drawEmpty
+        ? sigRef.current.getTrimmedCanvas().toDataURL('image/png')
+        : uploadedSig
+      await api.post(`/ndas/submit/${token}/`, { ...form, signature })
       toast.success('NDA submitted successfully!')
       navigate(`/onboarding/${token}/details`)
     } catch (err) {
