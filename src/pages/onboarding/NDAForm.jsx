@@ -334,28 +334,6 @@ export default function NDAForm() {
               </label>
               {errors.agreed && <div className="form-error" style={{ marginTop: -14, marginBottom: 14 }}>{errors.agreed}</div>}
 
-              {/* Signature note */}
-              <div style={{ background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 8, padding: '10px 14px', marginBottom: 16, fontSize: 13, color: '#1e40af' }}>
-                ℹ️ Please provide at least one signature — draw <strong>or</strong> upload a photo.
-              </div>
-
-              {/* Draw Signature */}
-              <div className="form-group">
-                <label className="form-label">✏️ Draw Signature</label>
-                <div className="sig-pad-wrap">
-                  <SignatureCanvas
-                    ref={sigRef}
-                    penColor="#1e3a8a"
-                    canvasProps={{ width: 720, height: 140, style: { width: '100%', height: 140 } }}
-                  />
-                </div>
-                {errors.signature && <div className="form-error">{errors.signature}</div>}
-                <div className="sig-pad-actions">
-                  <button type="button" className="btn btn-secondary btn-sm" onClick={() => sigRef.current?.clear()}>Clear Signature</button>
-                  <span style={{ fontSize: 12, color: 'var(--gray-400)', alignSelf: 'center' }}>Draw your signature in the box above</span>
-                </div>
-              </div>
-
               {/* Upload Signature Photo */}
               <div className="form-group">
                 <label className="form-label">📷 Upload Signature Photo</label>
