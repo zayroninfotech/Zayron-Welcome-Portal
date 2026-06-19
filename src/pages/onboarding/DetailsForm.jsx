@@ -61,7 +61,7 @@ export default function DetailsForm() {
 
   const [form, setForm] = useState({
     father_name: '', date_of_birth: '', gender: '', blood_group: '',
-    address: '', qualification: '', previous_experience: '',
+    address: '',
     pan_number: '', aadhaar_number: '',
     bank_name: '', account_number: '', ifsc_code: '',
     emergency_contact_name: '', emergency_contact: '',
@@ -76,7 +76,7 @@ export default function DetailsForm() {
 
   const validate = () => {
     const errs = {}
-    const required = ['father_name', 'date_of_birth', 'gender', 'blood_group', 'address', 'qualification', 'pan_number', 'aadhaar_number', 'bank_name', 'account_number', 'ifsc_code', 'emergency_contact_name', 'emergency_contact']
+    const required = ['father_name', 'date_of_birth', 'gender', 'blood_group', 'address', 'pan_number', 'aadhaar_number', 'bank_name', 'account_number', 'ifsc_code', 'emergency_contact_name', 'emergency_contact']
     required.forEach(k => { if (!form[k].trim()) errs[k] = 'This field is required' })
     if (form.pan_number && !/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(form.pan_number.toUpperCase())) errs.pan_number = 'Invalid PAN format (e.g. ABCDE1234F)'
     if (form.aadhaar_number && !/^\d{12}$/.test(form.aadhaar_number)) errs.aadhaar_number = 'Must be 12 digits'
@@ -153,17 +153,10 @@ export default function DetailsForm() {
                     {['A+','A-','B+','B-','AB+','AB-','O+','O-'].map(g => <option key={g} value={g}>{g}</option>)}
                   </select>
                 </FormGroup>
-                <FormGroup errors={errors}label="Highest Qualification" name="qualification" required>
-                  <input className="form-control" placeholder="e.g. B.Tech Computer Science" value={form.qualification} onChange={e => set('qualification', e.target.value)} autoComplete="off" spellCheck={false} />
-                </FormGroup>
               </div>
               <FormGroup errors={errors}label="Residential Address" name="address" required>
                 <textarea className="form-control" rows={3} placeholder="Full residential address including city, state, PIN" value={form.address} onChange={e => set('address', e.target.value)} />
               </FormGroup>
-              <div className="form-group">
-                <label className="form-label">Previous Work Experience</label>
-                <textarea className="form-control" rows={3} placeholder="Brief description of previous work experience (if any)" value={form.previous_experience} onChange={e => set('previous_experience', e.target.value)} />
-              </div>
 
               <hr style={{ margin: '20px 0', borderColor: 'var(--gray-100)' }} />
 
