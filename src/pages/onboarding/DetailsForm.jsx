@@ -62,7 +62,6 @@ export default function DetailsForm() {
   const [form, setForm] = useState({
     father_name: '', date_of_birth: '', gender: '', blood_group: '',
     address: '',
-    pan_number: '', aadhaar_number: '',
     bank_name: '', account_number: '', ifsc_code: '',
     emergency_contact_name: '', emergency_contact: '',
   })
@@ -76,10 +75,8 @@ export default function DetailsForm() {
 
   const validate = () => {
     const errs = {}
-    const required = ['father_name', 'date_of_birth', 'gender', 'blood_group', 'address', 'pan_number', 'aadhaar_number', 'bank_name', 'account_number', 'ifsc_code', 'emergency_contact_name', 'emergency_contact']
+    const required = ['father_name', 'date_of_birth', 'gender', 'blood_group', 'address', 'bank_name', 'account_number', 'ifsc_code', 'emergency_contact_name', 'emergency_contact']
     required.forEach(k => { if (!form[k].trim()) errs[k] = 'This field is required' })
-    if (form.pan_number && !/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(form.pan_number.toUpperCase())) errs.pan_number = 'Invalid PAN format (e.g. ABCDE1234F)'
-    if (form.aadhaar_number && !/^\d{12}$/.test(form.aadhaar_number)) errs.aadhaar_number = 'Must be 12 digits'
     if (form.ifsc_code && !/^[A-Z]{4}0[A-Z0-9]{6}$/.test(form.ifsc_code.toUpperCase())) errs.ifsc_code = 'Invalid IFSC format'
     setErrors(errs)
     return Object.keys(errs).length === 0
@@ -157,19 +154,6 @@ export default function DetailsForm() {
               <FormGroup errors={errors}label="Residential Address" name="address" required>
                 <textarea className="form-control" rows={3} placeholder="Full residential address including city, state, PIN" value={form.address} onChange={e => set('address', e.target.value)} />
               </FormGroup>
-
-              <hr style={{ margin: '20px 0', borderColor: 'var(--gray-100)' }} />
-
-              {/* Identity */}
-              <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--gray-700)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Identity Documents</h3>
-              <div className="form-grid">
-                <FormGroup errors={errors}label="PAN Number" name="pan_number" required>
-                  <input className="form-control" placeholder="ABCDE1234F" maxLength={10} value={form.pan_number} onChange={e => set('pan_number', e.target.value.toUpperCase())} style={{ fontFamily: 'monospace' }} autoComplete="off" spellCheck={false} />
-                </FormGroup>
-                <FormGroup errors={errors}label="Aadhaar Number" name="aadhaar_number" required>
-                  <input className="form-control" placeholder="12-digit Aadhaar number" maxLength={12} value={form.aadhaar_number} onChange={e => set('aadhaar_number', e.target.value.replace(/\D/g, ''))} style={{ fontFamily: 'monospace' }} autoComplete="off" spellCheck={false} />
-                </FormGroup>
-              </div>
 
               <hr style={{ margin: '20px 0', borderColor: 'var(--gray-100)' }} />
 
