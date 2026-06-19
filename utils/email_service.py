@@ -1,5 +1,6 @@
 import base64
 import os
+from email.mime.image import MIMEImage
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 
@@ -32,9 +33,7 @@ HR Team
 Zayron Infotech Pvt. Ltd.
 """
 
-    logo_b64 = _logo_base64()
-    logo_src = f"data:image/png;base64,{logo_b64}" if logo_b64 else ""
-    logo_tag = f'<img src="{logo_src}" alt="Zayron Infotech" style="height:60px;width:auto;display:block;margin:0 auto 10px;" />' if logo_src else ''
+    logo_tag = '<img src="cid:logo_zayron" alt="Zayron Infotech" style="height:60px;width:auto;display:block;margin:0 auto 10px;" />'
 
     html_body = f"""<!DOCTYPE html>
 <html><head><meta charset="UTF-8"></head>
@@ -86,7 +85,17 @@ Zayron Infotech Pvt. Ltd.
         from_email=settings.DEFAULT_FROM_EMAIL,
         to=[employee.email],
     )
+    msg.mixed_subtype = 'related'
     msg.attach_alternative(html_body, 'text/html')
+    logo_path = os.path.join(settings.BASE_DIR, 'static', 'img', 'logo_email.png')
+    try:
+        with open(logo_path, 'rb') as f:
+            logo_img = MIMEImage(f.read())
+            logo_img.add_header('Content-ID', '<logo_zayron>')
+            logo_img.add_header('Content-Disposition', 'inline', filename='logo.png')
+            msg.attach(logo_img)
+    except Exception:
+        pass
     msg.send()
 
 
@@ -137,7 +146,7 @@ Zayron Infotech Pvt. Ltd.
   <div class="container">
     <div class="header">
       <div class="logo-wrap">
-        <img src="data:image/png;base64,{_logo_base64()}" alt="Zayron Infotech" />
+        <img src="cid:logo_zayron" alt="Zayron Infotech" />
       </div>
       <div class="header-title">&#10003; NDA Successfully Signed</div>
       <div class="header-divider"></div>
@@ -170,7 +179,17 @@ Zayron Infotech Pvt. Ltd.
         from_email=settings.DEFAULT_FROM_EMAIL,
         to=[employee.email],
     )
+    msg.mixed_subtype = 'related'
     msg.attach_alternative(html_body, 'text/html')
+    logo_path = os.path.join(settings.BASE_DIR, 'static', 'img', 'logo_email.png')
+    try:
+        with open(logo_path, 'rb') as f:
+            logo_img = MIMEImage(f.read())
+            logo_img.add_header('Content-ID', '<logo_zayron>')
+            logo_img.add_header('Content-Disposition', 'inline', filename='logo.png')
+            msg.attach(logo_img)
+    except Exception:
+        pass
 
     # Attach PDF if available
     if nda_document.pdf_file:
