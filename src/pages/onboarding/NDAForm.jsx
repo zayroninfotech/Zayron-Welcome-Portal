@@ -334,35 +334,6 @@ export default function NDAForm() {
               </label>
               {errors.agreed && <div className="form-error" style={{ marginTop: -14, marginBottom: 14 }}>{errors.agreed}</div>}
 
-              {/* Upload Signature Photo */}
-              <div className="form-group">
-                <label className="form-label">📷 Upload Signature Photo</label>
-                <div style={{ border: '2px dashed #c7d2fe', borderRadius: 10, padding: 16, textAlign: 'center', background: '#f8faff' }}>
-                  {uploadedSig ? (
-                    <div>
-                      <img src={uploadedSig} alt="Uploaded signature" style={{ maxHeight: 120, maxWidth: '100%', borderRadius: 6, border: '1px solid #e0e7ff' }} />
-                      <div style={{ marginTop: 10 }}>
-                        <button type="button" className="btn btn-secondary btn-sm" onClick={() => setUploadedSig(null)}>Remove</button>
-                      </div>
-                    </div>
-                  ) : (
-                    <label style={{ cursor: 'pointer', display: 'block' }}>
-                      <div style={{ fontSize: 32, marginBottom: 8 }}>📷</div>
-                      <div style={{ color: '#1e40af', fontWeight: 600, fontSize: 14 }}>Click to upload your signature photo</div>
-                      <div style={{ color: '#9ca3af', fontSize: 12, marginTop: 4 }}>JPG, PNG supported</div>
-                      <input type="file" accept="image/*" style={{ display: 'none' }}
-                        onChange={e => {
-                          const file = e.target.files[0]
-                          if (!file) return
-                          const reader = new FileReader()
-                          reader.onload = ev => { setUploadedSig(ev.target.result); setErrors(er => ({ ...er, sig_photo: '' })) }
-                          reader.readAsDataURL(file)
-                        }} />
-                    </label>
-                  )}
-                </div>
-                {errors.signature && <div className="form-error" style={{ marginTop: 6 }}>{errors.signature}</div>}
-              </div>
             </div>
 
             <div className="onboarding-card-footer">
