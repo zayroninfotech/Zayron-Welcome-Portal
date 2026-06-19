@@ -32,8 +32,9 @@ HR Team
 Zayron Infotech Pvt. Ltd.
 """
 
-    logo_url = f"{settings.BASE_URL}/static/img/logo_email.png"
-    logo_tag = f'<img src="{logo_url}" alt="Zayron Infotech" style="height:60px;width:auto;display:block;margin:0 auto 10px;" />'
+    logo_b64 = _logo_base64()
+    logo_src = f"data:image/png;base64,{logo_b64}" if logo_b64 else ""
+    logo_tag = f'<img src="{logo_src}" alt="Zayron Infotech" style="height:60px;width:auto;display:block;margin:0 auto 10px;" />' if logo_src else ''
 
     html_body = f"""<!DOCTYPE html>
 <html><head><meta charset="UTF-8"></head>
@@ -136,7 +137,7 @@ Zayron Infotech Pvt. Ltd.
   <div class="container">
     <div class="header">
       <div class="logo-wrap">
-        <img src="{settings.BASE_URL}/static/img/logo1.png" alt="Zayron Infotech" />
+        <img src="data:image/png;base64,{_logo_base64()}" alt="Zayron Infotech" />
       </div>
       <div class="header-title">&#10003; NDA Successfully Signed</div>
       <div class="header-divider"></div>
