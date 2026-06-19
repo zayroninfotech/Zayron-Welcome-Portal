@@ -22,19 +22,22 @@ class EmployeeDetailsSubmitView(APIView):
         if not hasattr(employee, 'ndadocument'):
             return Response({'error': 'Please complete NDA first.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        if hasattr(employee, 'employeedetails'):
-            return Response({'error': 'Details already submitted.'}, status=status.HTTP_400_BAD_REQUEST)
-
         data = request.data.copy()
         data['employee'] = employee.id
 
-        serializer = EmployeeDetailsSerializer(data=data, context={'request': request})
+        # Update if already exists, otherwise create
+        if hasattr(employee, 'employeedetails'):
+            serializer = EmployeeDetailsSerializer(
+                employee.employeedetails, data=data, context={'request': request}, partial=True
+            )
+        else:
+            serializer = EmployeeDetailsSerializer(data=data, context={'request': request})
+
         if not serializer.is_valid():
             return Response({'error': str(serializer.errors), 'details': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
         details = serializer.save()
 
-        # Mark employee as completed
         employee.status = 'completed'
         employee.save()
 
