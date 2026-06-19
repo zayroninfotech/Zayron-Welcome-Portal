@@ -39,7 +39,7 @@ export default function Login() {
             ))}
           </div>
         </div>
-        <p style={styles.leftFooter}>© 2024 Zayron Infotech Pvt. Ltd.</p>
+        <p style={styles.leftFooter}>© 2026 Zayron Infotech Pvt. Ltd.</p>
       </div>
 
       {/* Right panel — form */}
@@ -110,7 +110,7 @@ export default function Login() {
           </form>
 
           <p style={styles.formFooter}>
-            © 2024 Zayron Infotech Pvt. Ltd. All rights reserved.
+            © 2026 Zayron Infotech Pvt. Ltd. All rights reserved.
           </p>
         </div>
       </div>
