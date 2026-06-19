@@ -111,11 +111,7 @@ export default function DetailsForm() {
       <div className="onboarding-container">
         <div className="onboarding-header">
           <div className="logo">
-            <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
-              <rect width="48" height="48" rx="12" fill="#1e40af"/>
-              <path d="M24 10L36 17V31L24 38L12 31V17L24 10Z" stroke="white" strokeWidth="2" fill="none"/>
-              <path d="M24 18L30 21.5V28.5L24 32L18 28.5V21.5L24 18Z" fill="white"/>
-            </svg>
+            <img src="/static/img/logo1.png" alt="Zayron Infotech" style={{ height: 40, width: 'auto' }} />
             <span style={{ marginLeft: 10, fontWeight: 700, color: '#1e40af', fontSize: 16 }}>Zayron Infotech Pvt. Ltd.</span>
           </div>
           <h1>Personal Details</h1>
