@@ -30,7 +30,7 @@ class EmployeeDetailsSubmitView(APIView):
 
         serializer = EmployeeDetailsSerializer(data=data, context={'request': request})
         if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': str(serializer.errors), 'details': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
         details = serializer.save()
 

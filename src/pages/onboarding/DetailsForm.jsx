@@ -88,7 +88,7 @@ export default function DetailsForm() {
     setSubmitting(true)
     try {
       const fd = new FormData()
-      Object.entries({ ...form, pan_number: form.pan_number.toUpperCase(), aadhaar_number: form.aadhaar_number, ifsc_code: form.ifsc_code.toUpperCase() }).forEach(([k, v]) => fd.append(k, v))
+      Object.entries({ ...form, ifsc_code: form.ifsc_code.toUpperCase() }).forEach(([k, v]) => fd.append(k, v))
       Object.entries(files).forEach(([k, v]) => { if (v) fd.append(k, v) })
       await api.post(`/documents/submit/${token}/`, fd, {
         headers: { 'Content-Type': 'multipart/form-data' }
