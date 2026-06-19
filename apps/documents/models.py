@@ -1,6 +1,18 @@
 from django.db import models
 
 
+class EmployeeUploadPath:
+    def __init__(self, folder):
+        self.folder = folder
+
+    def __call__(self, instance, filename):
+        emp_name = instance.employee.name.replace(' ', '_') if instance.employee_id else 'unknown'
+        return f'employees/{emp_name}/{self.folder}/{filename}'
+
+    def deconstruct(self):
+        return ('apps.documents.models.EmployeeUploadPath', [self.folder], {})
+
+
 class EmployeeDetails(models.Model):
     GENDER_CHOICES = [('male', 'Male'), ('female', 'Female'), ('other', 'Other')]
     BLOOD_GROUP_CHOICES = [
@@ -24,11 +36,11 @@ class EmployeeDetails(models.Model):
     emergency_contact_name = models.CharField(max_length=200)
     emergency_contact = models.CharField(max_length=15)
     # Documents
-    photograph = models.FileField(upload_to='photos/', null=True, blank=True)
-    resume = models.FileField(upload_to='resumes/', null=True, blank=True)
-    aadhaar_copy = models.FileField(upload_to='aadhaar/', null=True, blank=True)
-    pan_copy = models.FileField(upload_to='pan/', null=True, blank=True)
-    educational_certificates = models.FileField(upload_to='certificates/', null=True, blank=True)
+    photograph = models.FileField(upload_to=EmployeeUploadPath('photograph'), null=True, blank=True)
+    resume = models.FileField(upload_to=EmployeeUploadPath('resume'), null=True, blank=True)
+    aadhaar_copy = models.FileField(upload_to=EmployeeUploadPath('aadhaar'), null=True, blank=True)
+    pan_copy = models.FileField(upload_to=EmployeeUploadPath('pan'), null=True, blank=True)
+    educational_certificates = models.FileField(upload_to=EmployeeUploadPath('certificates'), null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
