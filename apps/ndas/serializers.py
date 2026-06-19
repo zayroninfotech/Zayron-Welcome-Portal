@@ -22,6 +22,8 @@ class NDADocumentSerializer(serializers.ModelSerializer):
 
 
 class NDACreateSerializer(serializers.ModelSerializer):
+    signature = serializers.CharField(required=False, allow_blank=True, default='')
+
     class Meta:
         model = NDADocument
         fields = ['full_name', 'address', 'mobile', 'aadhaar_number', 'emergency_contact', 'signed_date', 'signature']

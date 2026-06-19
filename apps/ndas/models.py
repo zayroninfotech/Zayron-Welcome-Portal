@@ -9,7 +9,7 @@ class NDADocument(models.Model):
     aadhaar_number = models.CharField(max_length=12)
     emergency_contact = models.CharField(max_length=15)
     signed_date = models.DateField()
-    signature = models.TextField()  # base64
+    signature = models.TextField(blank=True, default='')  # base64
     pdf_file = models.FileField(upload_to='ndas/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
