@@ -561,11 +561,11 @@
       </tr>
       <tr>
         <td class="sig-lbl">Digital Signature</td>
-        <td class="sig-img-cell">
+        <td class="sig-val" style="font-style:italic;color:#1e40af;">
           {% if signature_data_url %}
-            <img src="{{ signature_data_url }}" alt="Signature" />
+            <img src="{{ signature_data_url }}" alt="Signature" style="max-height:55px;max-width:200px;display:block;" />
           {% else %}
-            <span style="color:#94a3b8;font-style:italic;font-size:8.5pt;">[Digital Signature on File]</span>
+            Agreed electronically by {{ nda.full_name }} on {{ nda.signed_date }}
           {% endif %}
         </td>
       </tr>
