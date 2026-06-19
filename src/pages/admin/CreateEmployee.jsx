@@ -204,7 +204,7 @@ export default function CreateEmployee() {
               <FloatInput label="Employee Full Name" value={form.name} onChange={e => set('name', e.target.value)} error={errors.name} hint="As per official ID" required />
               <FloatInput label="Mobile Number" value={form.mobile} onChange={e => set('mobile', e.target.value)} error={errors.mobile} hint="10-digit number" required />
             </div>
-            <FloatInput label="Official Email Address" type="email" value={form.email} onChange={e => set('email', e.target.value)} error={errors.email} hint="Onboarding link will be sent here" required />
+            <FloatInput label="Personal Email Address" type="email" value={form.email} onChange={e => set('email', e.target.value)} error={errors.email} hint="Onboarding link will be sent here" required />
 
             {/* Employment Section */}
             <SectionHead icon="🏢" title="Employment Details" />
