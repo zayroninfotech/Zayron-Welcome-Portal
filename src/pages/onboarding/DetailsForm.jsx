@@ -158,7 +158,7 @@ export default function DetailsForm() {
               <hr style={{ margin: '20px 0', borderColor: 'var(--gray-100)' }} />
 
               {/* Bank */}
-              <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--gray-700)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Bank Details</h3>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--gray-700)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Employee Bank Details</h3>
               <div className="form-grid">
                 <FormGroup errors={errors}label="Bank Name" name="bank_name" required>
                   <input className="form-control" placeholder="e.g. State Bank of India" value={form.bank_name} onChange={e => set('bank_name', e.target.value)} autoComplete="off" spellCheck={false} />
