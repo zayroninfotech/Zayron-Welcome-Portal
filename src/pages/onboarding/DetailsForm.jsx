@@ -90,9 +90,7 @@ export default function DetailsForm() {
       const fd = new FormData()
       Object.entries({ ...form, ifsc_code: form.ifsc_code.toUpperCase() }).forEach(([k, v]) => fd.append(k, v))
       Object.entries(files).forEach(([k, v]) => { if (v) fd.append(k, v) })
-      await api.post(`/documents/submit/${token}/`, fd, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      })
+      await api.post(`/documents/submit/${token}/`, fd)
       toast.success('Details submitted successfully!')
       navigate(`/onboarding/${token}/complete`)
     } catch (err) {
