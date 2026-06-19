@@ -97,8 +97,9 @@ export default function DetailsForm() {
       navigate(`/onboarding/${token}/complete`)
     } catch (err) {
       const d = err.response?.data
-      if (d && typeof d === 'object') { setErrors(d); toast.error('Please fix the errors and try again.') }
-      else toast.error(err.response?.data?.error || 'Submission failed. Please try again.')
+      const msg = d?.error || d?.detail || JSON.stringify(d) || err.message || 'Submission failed.'
+      if (d && d.details) { setErrors(d.details); }
+      toast.error(msg)
     } finally { setSubmitting(false) }
   }
 
