@@ -212,8 +212,6 @@ export default function NDAForm() {
     if (!/^\d{12}$/.test(form.aadhaar_number)) errs.aadhaar_number = 'Must be 12 digits'
     if (!form.emergency_contact.trim()) errs.emergency_contact = 'Required'
     if (!agreed) errs.agreed = 'You must agree to the NDA terms'
-    const drawEmpty = sigRef.current?.isEmpty()
-    if (drawEmpty && !uploadedSig) errs.signature = 'Please provide at least one signature — draw or upload a photo'
     setErrors(errs)
     return Object.keys(errs).length === 0
   }
@@ -226,7 +224,7 @@ export default function NDAForm() {
       const drawEmpty = sigRef.current?.isEmpty()
       const signature = !drawEmpty
         ? sigRef.current.getTrimmedCanvas().toDataURL('image/png')
-        : uploadedSig
+        : (uploadedSig || '')
       await api.post(`/ndas/submit/${token}/`, { ...form, signature })
       toast.success('NDA submitted successfully!')
       navigate(`/onboarding/${token}/details`)
