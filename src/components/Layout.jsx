@@ -22,9 +22,6 @@ export default function Layout({ title, actions, children }) {
             </div>
           </div>
 
-          {/* Center: Page Title */}
-          <div style={{ fontSize: 15, fontWeight: 700, color: '#111827' }}>{title}</div>
-
           {/* Right: Actions */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             {actions}
