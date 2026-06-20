@@ -19,11 +19,11 @@ export default function Layout({ title, actions, children }) {
           {/* Right: Logo + Name + Actions */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             {actions}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <img src="/static/img/logo1.png" alt="Zayron" style={{ height: 34, width: 34, objectFit: 'contain', borderRadius: 8 }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#f0f5ff', borderRadius: 12, padding: '8px 16px', border: '1px solid #dbeafe' }}>
+              <img src="/static/img/logo1.png" alt="Zayron" style={{ height: 42, width: 42, objectFit: 'contain', borderRadius: 10 }} />
               <div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#1e40af', lineHeight: 1.2 }}>Zayron Infotech</div>
-                <div style={{ fontSize: 10, color: '#9ca3af', letterSpacing: '0.05em' }}>HR Onboarding Portal</div>
+                <div style={{ fontSize: 16, fontWeight: 800, color: '#1e40af', lineHeight: 1.2, letterSpacing: '-0.01em' }}>Zayron Infotech</div>
+                <div style={{ fontSize: 11, color: '#6b7280', letterSpacing: '0.04em', marginTop: 2 }}>HR Onboarding Portal</div>
               </div>
             </div>
           </div>
