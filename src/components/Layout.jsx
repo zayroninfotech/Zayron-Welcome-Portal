@@ -13,18 +13,19 @@ export default function Layout({ title, actions, children }) {
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           padding: '0 28px', height: 60,
         }}>
-          {/* Left: Logo + Name */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <img src="/static/img/logo1.png" alt="Zayron" style={{ height: 34, width: 34, objectFit: 'contain', borderRadius: 8 }} />
-            <div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: '#1e40af', lineHeight: 1.2 }}>Zayron Infotech</div>
-              <div style={{ fontSize: 10, color: '#9ca3af', letterSpacing: '0.05em' }}>HR Onboarding Portal</div>
-            </div>
-          </div>
+          {/* Left: empty spacer */}
+          <div style={{ flex: 1 }} />
 
-          {/* Right: Actions */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          {/* Right: Logo + Name + Actions */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             {actions}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <img src="/static/img/logo1.png" alt="Zayron" style={{ height: 34, width: 34, objectFit: 'contain', borderRadius: 8 }} />
+              <div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#1e40af', lineHeight: 1.2 }}>Zayron Infotech</div>
+                <div style={{ fontSize: 10, color: '#9ca3af', letterSpacing: '0.05em' }}>HR Onboarding Portal</div>
+              </div>
+            </div>
           </div>
         </div>
 
