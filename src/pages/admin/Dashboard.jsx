@@ -115,12 +115,7 @@ export default function Dashboard() {
   const dash = (completionRate / 100) * circ
 
   return (
-    <Layout title="Dashboard" actions={
-      <Link to="/admin/employees/new" className="btn btn-primary" style={{ display:'flex', alignItems:'center', gap:6 }}>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12h14"/></svg>
-        Add Employee
-      </Link>
-    }>
+    <Layout title="Dashboard">
       <div style={{ display:'flex', flexDirection:'column', gap:20 }}>
 
         {/* Hero Banner */}
