@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import api from '../../../api/axios'
 import { toast } from 'react-toastify'
+import Layout from '../../../components/Layout'
 
 const STATUS_COLOR = { todo: '#6b7280', in_progress: '#f59e0b', done: '#10b981' }
 const STATUS_LABEL = { todo: 'To Do', in_progress: 'In Progress', done: 'Done' }
@@ -105,14 +106,15 @@ export default function ProjectDetail() {
     } catch { toast.error('Failed to update status') }
   }
 
-  if (loading) return <div style={{ padding: 40, textAlign: 'center', color: '#6b7280' }}>Loading...</div>
-  if (!project) return <div style={{ padding: 40, textAlign: 'center', color: '#6b7280' }}>Project not found.</div>
+  if (loading) return <Layout title="Project"><div style={{ padding: 40, textAlign: 'center', color: '#6b7280' }}>Loading...</div></Layout>
+  if (!project) return <Layout title="Project"><div style={{ padding: 40, textAlign: 'center', color: '#6b7280' }}>Project not found.</div></Layout>
 
   const todo = project.tasks.filter(t => t.status === 'todo')
   const inProgress = project.tasks.filter(t => t.status === 'in_progress')
   const done = project.tasks.filter(t => t.status === 'done')
 
   return (
+    <Layout title={project.name}>
     <div style={{ padding: 24 }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 6 }}>
@@ -279,5 +281,6 @@ export default function ProjectDetail() {
         </div>
       )}
     </div>
+    </Layout>
   )
 }

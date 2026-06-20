@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../../../api/axios'
 import { toast } from 'react-toastify'
+import Layout from '../../../components/Layout'
 
 const STATUS_COLOR = { active: '#2563eb', on_hold: '#f59e0b', completed: '#10b981' }
 const STATUS_LABEL = { active: 'Active', on_hold: 'On Hold', completed: 'Completed' }
@@ -49,16 +50,12 @@ export default function ProjectList() {
   }
 
   return (
-    <div style={{ padding: '24px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-        <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: '#111827', margin: 0 }}>Project Tracker</h1>
-          <p style={{ color: '#6b7280', fontSize: 13, margin: '4px 0 0' }}>Manage projects, tasks and user stories</p>
-        </div>
-        <button onClick={() => setShowModal(true)} style={{ background: '#1e40af', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 20px', fontWeight: 600, cursor: 'pointer', fontSize: 14 }}>
-          + New Project
-        </button>
-      </div>
+    <Layout title="Project Tracker" actions={
+      <button onClick={() => setShowModal(true)} style={{ background: '#1e40af', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 20px', fontWeight: 600, cursor: 'pointer', fontSize: 14 }}>
+        + New Project
+      </button>
+    }>
+      <div style={{ padding: '24px' }}>
 
       {loading ? (
         <div style={{ textAlign: 'center', padding: 60, color: '#6b7280' }}>Loading...</div>
@@ -134,6 +131,7 @@ export default function ProjectList() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </Layout>
   )
 }
