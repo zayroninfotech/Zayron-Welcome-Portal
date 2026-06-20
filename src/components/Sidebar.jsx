@@ -25,6 +25,7 @@ const navItems = [
     section: 'PROJECTS',
     links: [
       { to: '/admin/projects', label: 'Project Tracker', d: 'M3 3h18v18H3z M9 3v18 M3 9h6 M3 15h6' },
+      { to: '/admin/projects/assign', label: 'Project Assign', d: 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75 M9 7a4 4 0 1 1 0-8 4 4 0 0 1 0 8z M12 11l4 4-4 4' },
     ]
   },
   {

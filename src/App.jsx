@@ -11,6 +11,7 @@ import EmployeeDetail from './pages/admin/EmployeeDetail'
 import Reports from './pages/admin/Reports'
 import ProjectList from './pages/admin/projects/ProjectList'
 import ProjectDetail from './pages/admin/projects/ProjectDetail'
+import ProjectAssign from './pages/admin/projects/ProjectAssign'
 import NDAForm from './pages/onboarding/NDAForm'
 import DetailsForm from './pages/onboarding/DetailsForm'
 import Completion from './pages/onboarding/Completion'
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/admin/employees/:id" element={<ProtectedRoute><EmployeeDetail /></ProtectedRoute>} />
           <Route path="/admin/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
           <Route path="/admin/projects" element={<ProtectedRoute><ProjectList /></ProtectedRoute>} />
+          <Route path="/admin/projects/assign" element={<ProtectedRoute><ProjectAssign /></ProtectedRoute>} />
           <Route path="/admin/projects/:id" element={<ProtectedRoute><ProjectDetail /></ProtectedRoute>} />
 
           {/* Employee onboarding routes (public) */}
