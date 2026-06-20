@@ -71,18 +71,27 @@ class DashboardStatsView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        from django.utils import timezone
+        now = timezone.now()
         total = Employee.objects.count()
         pending = Employee.objects.filter(status='pending').count()
         nda_signed = Employee.objects.filter(status='nda_signed').count()
         completed = Employee.objects.filter(status='completed').count()
         permanent = Employee.objects.filter(employee_type='permanent').count()
         contract = Employee.objects.filter(employee_type='contract').count()
+        intern = Employee.objects.filter(employee_type='intern').count()
+        joining_this_month = Employee.objects.filter(
+            joining_date__year=now.year, joining_date__month=now.month
+        ).count()
 
         by_dept = list(
             Employee.objects.values('department').annotate(count=Count('id')).order_by('-count')
         )
+        by_type = list(
+            Employee.objects.values('employee_type').annotate(count=Count('id')).order_by('-count')
+        )
         recent = EmployeeSerializer(
-            Employee.objects.order_by('-created_at')[:5], many=True
+            Employee.objects.order_by('-created_at')[:6], many=True
         ).data
 
         return Response({
@@ -92,7 +101,10 @@ class DashboardStatsView(APIView):
             'completed': completed,
             'permanent': permanent,
             'contract': contract,
+            'intern': intern,
+            'joining_this_month': joining_this_month,
             'by_department': by_dept,
+            'by_type': by_type,
             'recent_employees': recent,
         })
 
