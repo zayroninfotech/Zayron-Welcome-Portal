@@ -118,40 +118,32 @@ export default function Dashboard() {
     <Layout title="Dashboard">
       <div style={{ display:'flex', flexDirection:'column', gap:20 }}>
 
-        {/* Hero Banner */}
-        <div style={{ background:'linear-gradient(135deg, #0f172a 0%, #1e40af 60%, #6366f1 100%)', borderRadius:20, padding:'28px 32px', display:'flex', justifyContent:'space-between', alignItems:'center', overflow:'hidden', position:'relative' }}>
-          <div style={{ position:'absolute', top:-40, right:200, width:200, height:200, borderRadius:'50%', background:'rgba(255,255,255,0.04)' }}/>
-          <div style={{ position:'absolute', bottom:-60, right:80, width:280, height:280, borderRadius:'50%', background:'rgba(255,255,255,0.03)' }}/>
-          <div style={{ zIndex:1 }}>
-            <div style={{ color:'#93c5fd', fontSize:12, fontWeight:700, letterSpacing:'0.1em', textTransform:'uppercase', marginBottom:6 }}>Overall Onboarding Progress</div>
-            <div style={{ color:'#fff', fontSize:42, fontWeight:900, lineHeight:1, marginBottom:8 }}>{completionRate}% <span style={{ fontSize:22, fontWeight:400, color:'#bfdbfe' }}>Complete</span></div>
-            <div style={{ color:'#93c5fd', fontSize:14, marginBottom:20 }}>{stats?.completed} of {total} employees fully onboarded</div>
-            <div style={{ display:'flex', gap:20 }}>
-              <div style={{ textAlign:'center' }}>
-                <div style={{ color:'#fff', fontSize:22, fontWeight:800 }}>{stats?.joining_this_month || 0}</div>
-                <div style={{ color:'#93c5fd', fontSize:11 }}>Joining This Month</div>
-              </div>
-              <div style={{ width:1, background:'rgba(255,255,255,0.15)' }}/>
-              <div style={{ textAlign:'center' }}>
-                <div style={{ color:'#fff', fontSize:22, fontWeight:800 }}>{stats?.pending || 0}</div>
-                <div style={{ color:'#93c5fd', fontSize:11 }}>Pending Action</div>
-              </div>
-              <div style={{ width:1, background:'rgba(255,255,255,0.15)' }}/>
-              <div style={{ textAlign:'center' }}>
-                <div style={{ color:'#fff', fontSize:22, fontWeight:800 }}>{stats?.nda_signed || 0}</div>
-                <div style={{ color:'#93c5fd', fontSize:11 }}>NDA Signed</div>
+        {/* Welcome Card */}
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr 1fr', gap:14 }}>
+          <div style={{ gridColumn:'span 2', background:'linear-gradient(135deg,#1e40af,#6366f1)', borderRadius:16, padding:'24px 28px', display:'flex', flexDirection:'column', justifyContent:'space-between', minHeight:130 }}>
+            <div>
+              <div style={{ color:'#bfdbfe', fontSize:12, fontWeight:600, letterSpacing:'0.08em', textTransform:'uppercase' }}>Welcome Back 👋</div>
+              <div style={{ color:'#fff', fontSize:26, fontWeight:800, marginTop:6 }}>HR Onboarding Dashboard</div>
+              <div style={{ color:'#93c5fd', fontSize:13, marginTop:4 }}>Manage employees, track progress and projects</div>
+            </div>
+            <div style={{ color:'#bfdbfe', fontSize:12, marginTop:16 }}>{new Date().toLocaleDateString('en-IN',{ weekday:'long', year:'numeric', month:'long', day:'numeric' })}</div>
+          </div>
+          <div style={{ background:'linear-gradient(135deg,#059669,#10b981)', borderRadius:16, padding:'24px 22px', display:'flex', flexDirection:'column', justifyContent:'space-between' }}>
+            <div style={{ color:'#a7f3d0', fontSize:11, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.08em' }}>Completion Rate</div>
+            <div>
+              <div style={{ color:'#fff', fontSize:40, fontWeight:900, lineHeight:1 }}>{completionRate}%</div>
+              <div style={{ color:'#6ee7b7', fontSize:12, marginTop:4 }}>{stats?.completed} of {total} onboarded</div>
+              <div style={{ marginTop:10, height:6, background:'rgba(255,255,255,0.2)', borderRadius:4 }}>
+                <div style={{ width:`${completionRate}%`, height:'100%', background:'#fff', borderRadius:4, transition:'width 0.6s' }}/>
               </div>
             </div>
           </div>
-          <div style={{ zIndex:1, position:'relative', width:160, height:160, flexShrink:0 }}>
-            <svg viewBox="0 0 140 140" style={{ width:160, height:160, transform:'rotate(-90deg)' }}>
-              <circle cx="70" cy="70" r={r} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="10"/>
-              <circle cx="70" cy="70" r={r} fill="none" stroke="#fff" strokeWidth="10"
-                strokeDasharray={`${dash} ${circ-dash}`} strokeLinecap="round"/>
-            </svg>
-            <div style={{ position:'absolute', inset:0, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center' }}>
-              <div style={{ color:'#fff', fontSize:32, fontWeight:900 }}>{completionRate}%</div>
-              <div style={{ color:'#bfdbfe', fontSize:11 }}>done</div>
+          <div style={{ background:'linear-gradient(135deg,#d97706,#f59e0b)', borderRadius:16, padding:'24px 22px', display:'flex', flexDirection:'column', justifyContent:'space-between' }}>
+            <div style={{ color:'#fef3c7', fontSize:11, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.08em' }}>Joining This Month</div>
+            <div>
+              <div style={{ color:'#fff', fontSize:40, fontWeight:900, lineHeight:1 }}>{stats?.joining_this_month || 0}</div>
+              <div style={{ color:'#fde68a', fontSize:12, marginTop:4 }}>New team members</div>
+              <div style={{ color:'#fef3c7', fontSize:11, marginTop:8 }}>📅 {new Date().toLocaleDateString('en-IN',{ month:'long', year:'numeric' })}</div>
             </div>
           </div>
         </div>
