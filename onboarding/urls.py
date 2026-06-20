@@ -14,6 +14,7 @@ urlpatterns = [
     path('api/employees/', include('apps.employees.urls')),
     path('api/ndas/', include('apps.ndas.urls')),
     path('api/documents/', include('apps.documents.urls')),
+    path('api/projects/', include('apps.projects.urls')),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     # Serve media files

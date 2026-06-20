@@ -17,6 +17,12 @@ const navItems = [
     ]
   },
   {
+    section: 'PROJECTS',
+    links: [
+      { to: '/admin/projects', label: 'Project Tracker', d: 'M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11' },
+    ]
+  },
+  {
     section: 'REPORTS',
     links: [
       { to: '/admin/reports', label: 'Reports & Export', d: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M16 13H8 M16 17H8 M10 9H8' },

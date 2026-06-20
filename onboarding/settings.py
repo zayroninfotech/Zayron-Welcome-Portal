@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'apps.employees',
     'apps.ndas',
     'apps.documents',
+    'apps.projects',
 ]
 
 MIDDLEWARE = [
