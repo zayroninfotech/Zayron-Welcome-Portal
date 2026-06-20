@@ -12,7 +12,7 @@ export default function ProjectList() {
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
-  const [form, setForm] = useState({ name: '', description: '', status: 'active' })
+  const [form, setForm] = useState({ name: '', description: '', status: 'active', start_date: '' })
   const [saving, setSaving] = useState(false)
 
   const load = async () => {
@@ -33,7 +33,7 @@ export default function ProjectList() {
       await api.post('/projects/', form)
       toast.success('Project created!')
       setShowModal(false)
-      setForm({ name: '', description: '', status: 'active' })
+      setForm({ name: '', description: '', status: 'active', start_date: '' })
       load()
     } catch { toast.error('Failed to create project') }
     finally { setSaving(false) }
@@ -83,6 +83,7 @@ export default function ProjectList() {
                 </span>
                 <span style={{ fontSize: 12, color: '#6b7280' }}>{p.done_count}/{p.task_count} tasks done</span>
               </div>
+              {p.start_date && <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 6 }}>📅 Start: {p.start_date}</div>}
               {p.task_count > 0 && (
                 <div style={{ marginTop: 10, background: '#f3f4f6', borderRadius: 4, height: 6, overflow: 'hidden' }}>
                   <div style={{ width: `${Math.round((p.done_count / p.task_count) * 100)}%`, background: '#10b981', height: '100%', transition: 'width 0.3s' }} />
@@ -109,6 +110,11 @@ export default function ProjectList() {
                 <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
                   rows={3} style={{ width: '100%', border: '1px solid #d1d5db', borderRadius: 8, padding: '9px 12px', fontSize: 14, boxSizing: 'border-box', resize: 'vertical' }}
                   placeholder="Brief description of the project" />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ fontSize: 13, fontWeight: 600, color: '#374151', display: 'block', marginBottom: 6 }}>Start Date</label>
+                <input type="date" value={form.start_date} onChange={e => setForm(f => ({ ...f, start_date: e.target.value }))}
+                  style={{ width: '100%', border: '1px solid #d1d5db', borderRadius: 8, padding: '9px 12px', fontSize: 14, boxSizing: 'border-box' }} />
               </div>
               <div style={{ marginBottom: 20 }}>
                 <label style={{ fontSize: 13, fontWeight: 600, color: '#374151', display: 'block', marginBottom: 6 }}>Status</label>

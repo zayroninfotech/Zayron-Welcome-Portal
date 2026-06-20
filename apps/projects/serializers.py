@@ -32,7 +32,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ['id', 'name', 'description', 'status', 'task_count', 'tasks', 'created_at']
+        fields = ['id', 'name', 'description', 'status', 'start_date', 'task_count', 'tasks', 'created_at']
         read_only_fields = ['id', 'created_at']
 
     def get_task_count(self, obj):
@@ -45,7 +45,7 @@ class ProjectListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ['id', 'name', 'description', 'status', 'task_count', 'done_count', 'created_at']
+        fields = ['id', 'name', 'description', 'status', 'start_date', 'task_count', 'done_count', 'created_at']
         read_only_fields = ['id', 'created_at']
 
     def get_task_count(self, obj):
