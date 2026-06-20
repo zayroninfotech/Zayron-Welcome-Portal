@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import api from '../../../api/axios'
 import { toast } from 'react-toastify'
 import Layout from '../../../components/Layout'
+import PageLoader from '../../../components/PageLoader'
+import { BtnSpinner } from '../../../components/BtnLoader'
 
 const STATUS_COLOR = { active: '#2563eb', on_hold: '#f59e0b', completed: '#10b981' }
 const STATUS_LABEL = { active: 'Active', on_hold: 'On Hold', completed: 'Completed' }
@@ -58,7 +60,7 @@ export default function ProjectList() {
       <div style={{ padding: '24px' }}>
 
       {loading ? (
-        <div style={{ textAlign: 'center', padding: 60, color: '#6b7280' }}>Loading...</div>
+        <PageLoader text="Loading Projects..." />
       ) : projects.length === 0 ? (
         <div style={{ textAlign: 'center', padding: 60, color: '#6b7280' }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>📋</div>
@@ -129,7 +131,8 @@ export default function ProjectList() {
                 <button type="button" onClick={() => setShowModal(false)}
                   style={{ border: '1px solid #d1d5db', background: '#fff', borderRadius: 8, padding: '9px 20px', cursor: 'pointer', fontWeight: 600, fontSize: 14 }}>Cancel</button>
                 <button type="submit" disabled={saving}
-                  style={{ background: '#1e40af', color: '#fff', border: 'none', borderRadius: 8, padding: '9px 20px', cursor: 'pointer', fontWeight: 600, fontSize: 14 }}>
+                  style={{ background: '#1e40af', color: '#fff', border: 'none', borderRadius: 8, padding: '9px 20px', cursor: saving ? 'not-allowed' : 'pointer', fontWeight: 600, fontSize: 14, display: 'flex', alignItems: 'center', gap: 8, opacity: saving ? 0.8 : 1 }}>
+                  {saving && <BtnSpinner />}
                   {saving ? 'Creating...' : 'Create Project'}
                 </button>
               </div>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Layout from '../../components/Layout'
+import PageLoader from '../../components/PageLoader'
 import api from '../../api/axios'
 
 const DEPT_COLORS = ['#6366f1','#0ea5e9','#10b981','#f59e0b','#ec4899','#8b5cf6','#ef4444','#14b8a6']
@@ -72,13 +73,7 @@ export default function Dashboard() {
     api.get('/employees/dashboard/stats/').then(r => setStats(r.data)).finally(() => setLoading(false))
   }, [])
 
-  if (loading) return (
-    <Layout title="Dashboard">
-      <div style={{ display: 'flex', justifyContent: 'center', padding: 60 }}>
-        <span className="spinner-dark spinner" style={{ width: 36, height: 36, borderWidth: 3 }} />
-      </div>
-    </Layout>
-  )
+  if (loading) return <PageLoader text="Loading Dashboard..." />
 
   const completionRate = stats?.total ? Math.round((stats.completed / stats.total) * 100) : 0
 

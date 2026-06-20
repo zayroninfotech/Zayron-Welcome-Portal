@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 import api from '../../../api/axios'
 import { toast } from 'react-toastify'
 import Layout from '../../../components/Layout'
+import PageLoader from '../../../components/PageLoader'
+import { BtnSpinner } from '../../../components/BtnLoader'
 
 const STATUS_COLOR = { todo: '#6b7280', in_progress: '#f59e0b', done: '#10b981' }
 const STATUS_LABEL = { todo: 'To Do', in_progress: 'In Progress', done: 'Done' }
@@ -106,7 +108,7 @@ export default function ProjectDetail() {
     } catch { toast.error('Failed to update status') }
   }
 
-  if (loading) return <Layout title="Project"><div style={{ padding: 40, textAlign: 'center', color: '#6b7280' }}>Loading...</div></Layout>
+  if (loading) return <PageLoader text="Loading Project..." />
   if (!project) return <Layout title="Project"><div style={{ padding: 40, textAlign: 'center', color: '#6b7280' }}>Project not found.</div></Layout>
 
   const todo = project.tasks.filter(t => t.status === 'todo')
@@ -223,7 +225,8 @@ export default function ProjectDetail() {
                   rows={3} placeholder='e.g. "I want to upload a screenshot so that I can track progress"'
                   style={{ width: '100%', border: '1px solid #d1d5db', borderRadius: 8, padding: '8px 12px', fontSize: 13, boxSizing: 'border-box', resize: 'vertical' }} />
                 <button type="submit" disabled={addingStory || !storyText.trim()}
-                  style={{ marginTop: 8, background: '#1e40af', color: '#fff', border: 'none', borderRadius: 6, padding: '7px 16px', cursor: 'pointer', fontWeight: 600, fontSize: 13, width: '100%' }}>
+                  style={{ marginTop: 8, background: '#1e40af', color: '#fff', border: 'none', borderRadius: 6, padding: '7px 16px', cursor: addingStory ? 'not-allowed' : 'pointer', fontWeight: 600, fontSize: 13, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, opacity: addingStory ? 0.8 : 1 }}>
+                  {addingStory && <BtnSpinner size={14} />}
                   {addingStory ? 'Adding...' : '+ Add User Story'}
                 </button>
               </form>
@@ -272,7 +275,8 @@ export default function ProjectDetail() {
                 <button type="button" onClick={() => setShowTaskModal(false)}
                   style={{ border: '1px solid #d1d5db', background: '#fff', borderRadius: 8, padding: '9px 20px', cursor: 'pointer', fontWeight: 600, fontSize: 14 }}>Cancel</button>
                 <button type="submit" disabled={saving}
-                  style={{ background: '#1e40af', color: '#fff', border: 'none', borderRadius: 8, padding: '9px 20px', cursor: 'pointer', fontWeight: 600, fontSize: 14 }}>
+                  style={{ background: '#1e40af', color: '#fff', border: 'none', borderRadius: 8, padding: '9px 20px', cursor: saving ? 'not-allowed' : 'pointer', fontWeight: 600, fontSize: 14, display: 'flex', alignItems: 'center', gap: 8, opacity: saving ? 0.8 : 1 }}>
+                  {saving && <BtnSpinner />}
                   {saving ? 'Creating...' : 'Create Task'}
                 </button>
               </div>
