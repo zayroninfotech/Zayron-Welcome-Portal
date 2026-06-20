@@ -62,12 +62,17 @@ export default function ProjectList() {
   }
 
   return (
-    <Layout title="Project Tracker" actions={
-      <button onClick={() => setShowModal(true)} style={{ background: '#1e40af', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 20px', fontWeight: 600, cursor: 'pointer', fontSize: 14 }}>
-        + New Project
-      </button>
-    }>
+    <Layout title="Project Tracker">
       <div style={{ padding: '24px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+        <div>
+          <h1 style={{ fontSize: 20, fontWeight: 700, color: '#111827', margin: 0 }}>Project Tracker</h1>
+          <p style={{ fontSize: 13, color: '#6b7280', margin: '4px 0 0' }}>Manage and track all your projects</p>
+        </div>
+        <button onClick={() => setShowModal(true)} style={{ background: '#1e40af', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 20px', fontWeight: 600, cursor: 'pointer', fontSize: 14 }}>
+          + New Project
+        </button>
+      </div>
 
       {loading ? (
         <PageLoader text="Loading Projects..." />
