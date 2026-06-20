@@ -1,18 +1,7 @@
-import { BrowserRouter, Routes, Route, Navigate, useNavigation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import { AuthProvider } from './context/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
-
-function TopBar() {
-  const nav = useNavigation()
-  if (nav.state === 'idle') return null
-  return (
-    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, height: 3, zIndex: 99999, background: '#e0e7ff' }}>
-      <div style={{ height: '100%', background: '#1e40af', width: '70%', animation: 'topbar 1s ease-in-out infinite alternate' }} />
-      <style>{`@keyframes topbar { from { width: 30%; } to { width: 90%; } }`}</style>
-    </div>
-  )
-}
 
 import Login from './pages/Login'
 import Dashboard from './pages/admin/Dashboard'
@@ -30,7 +19,6 @@ export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <TopBar />
         <ToastContainer position="top-right" autoClose={3500} hideProgressBar={false} theme="colored" />
         <Routes>
           <Route path="/" element={<Navigate to="/admin/dashboard" replace />} />
