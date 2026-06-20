@@ -7,28 +7,23 @@ const Icon = ({ d, size = 18 }) => (
   </svg>
 )
 
-const navItems = [
-  {
-    section: 'MAIN',
-    links: [
-      { to: '/admin/dashboard', label: 'Dashboard', d: 'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10' },
-      { to: '/admin/employees', label: 'Employees', d: 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75 M9 7a4 4 0 1 1 0-8 4 4 0 0 1 0 8z' },
-      { to: '/admin/employees/new', label: 'Add Employee', d: 'M12 5v14 M5 12h14' },
-    ]
-  },
-  {
-    section: 'PROJECTS',
-    links: [
-      { to: '/admin/projects', label: 'Project Tracker', d: 'M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11' },
-    ]
-  },
-  {
-    section: 'REPORTS',
-    links: [
-      { to: '/admin/reports', label: 'Reports & Export', d: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M16 13H8 M16 17H8 M10 9H8' },
-    ]
-  }
-]
+// Flow step shown between sections
+function FlowArrow({ label }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '2px 0 6px', gap: 2 }}>
+      <div style={{ width: 1, height: 10, background: 'rgba(99,102,241,0.35)' }} />
+      <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+        <div style={{ width: 1, height: 10, background: 'rgba(99,102,241,0.35)' }} />
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.25)', borderRadius: 20, padding: '3px 10px' }}>
+        <svg width={10} height={10} viewBox="0 0 24 24" fill="none" stroke="rgba(165,180,252,0.8)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 5v14M5 12l7 7 7-7" />
+        </svg>
+        <span style={{ fontSize: 9, color: 'rgba(165,180,252,0.8)', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase' }}>{label}</span>
+      </div>
+    </div>
+  )
+}
 
 export default function Sidebar() {
   const { user, logout } = useAuth()
@@ -49,17 +44,72 @@ export default function Sidebar() {
 
       {/* Nav */}
       <nav style={s.nav}>
-        {navItems.map(({ section, links }) => (
-          <div key={section} style={s.section}>
-            <div style={s.sectionTitle}>{section}</div>
-            {links.map(({ to, label, d }) => (
-              <NavLink key={to} to={to} style={({ isActive }) => ({ ...s.link, ...(isActive ? s.linkActive : {}) })}>
-                <Icon d={d} />
-                {label}
-              </NavLink>
-            ))}
+
+        {/* Step 1: Main */}
+        <div style={s.section}>
+          <div style={s.sectionLabel}>
+            <span style={s.stepBadge}>1</span>
+            <span style={s.sectionTitle}>MAIN</span>
           </div>
-        ))}
+          <NavLink to="/admin/dashboard" style={({ isActive }) => ({ ...s.link, ...(isActive ? s.linkActive : {}) })}>
+            <Icon d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10" />
+            Dashboard
+          </NavLink>
+        </div>
+
+        <FlowArrow label="Manage" />
+
+        {/* Step 2: Employees */}
+        <div style={s.section}>
+          <div style={s.sectionLabel}>
+            <span style={s.stepBadge}>2</span>
+            <span style={s.sectionTitle}>EMPLOYEES</span>
+          </div>
+          <NavLink to="/admin/employees" style={({ isActive }) => ({ ...s.link, ...(isActive ? s.linkActive : {}) })}>
+            <Icon d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75 M9 7a4 4 0 1 1 0-8 4 4 0 0 1 0 8z" />
+            Employees
+          </NavLink>
+          <NavLink to="/admin/employees/new" style={({ isActive }) => ({ ...s.link, ...(isActive ? s.linkActive : {}) })}>
+            <Icon d="M12 5v14 M5 12h14" />
+            Add Employee
+          </NavLink>
+        </div>
+
+        <FlowArrow label="NDA Completed" />
+
+        {/* Step 3: Projects */}
+        <div style={s.section}>
+          <div style={s.sectionLabel}>
+            <span style={{ ...s.stepBadge, background: 'rgba(139,92,246,0.35)', color: '#c4b5fd' }}>3</span>
+            <span style={s.sectionTitle}>PROJECTS</span>
+          </div>
+          {/* Flow hint */}
+          <div style={s.flowHint}>
+            <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="rgba(167,243,208,0.7)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14 M22 4L12 14.01l-3-3" />
+            </svg>
+            <span>Only completed employees can be assigned</span>
+          </div>
+          <NavLink to="/admin/projects" style={({ isActive }) => ({ ...s.link, ...(isActive ? s.linkActive : {}) })}>
+            <Icon d="M3 3h18v18H3z M9 3v18 M3 9h6 M3 15h6" />
+            Project Tracker
+          </NavLink>
+        </div>
+
+        <FlowArrow label="Track Work" />
+
+        {/* Step 4: Reports */}
+        <div style={s.section}>
+          <div style={s.sectionLabel}>
+            <span style={{ ...s.stepBadge, background: 'rgba(16,185,129,0.25)', color: '#6ee7b7' }}>4</span>
+            <span style={s.sectionTitle}>REPORTS</span>
+          </div>
+          <NavLink to="/admin/reports" style={({ isActive }) => ({ ...s.link, ...(isActive ? s.linkActive : {}) })}>
+            <Icon d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M16 13H8 M16 17H8 M10 9H8" />
+            Reports & Export
+          </NavLink>
+        </div>
+
       </nav>
 
       {/* User footer */}
@@ -104,15 +154,46 @@ const s = {
   logoName: { color: 'white', fontSize: 14, fontWeight: 700, lineHeight: 1.2 },
   logoSub: { color: 'rgba(255,255,255,0.4)', fontSize: 10, marginTop: 2 },
   nav: { flex: 1, padding: '16px 12px' },
-  section: { marginBottom: 28 },
-  sectionTitle: {
-    color: 'rgba(255,255,255,0.3)',
-    fontSize: 10,
-    fontWeight: 700,
-    letterSpacing: '0.12em',
-    textTransform: 'uppercase',
+  section: { marginBottom: 4 },
+  sectionLabel: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 7,
     padding: '0 10px',
     marginBottom: 6,
+  },
+  stepBadge: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 18,
+    height: 18,
+    borderRadius: '50%',
+    background: 'rgba(99,102,241,0.3)',
+    color: '#a5b4fc',
+    fontSize: 10,
+    fontWeight: 700,
+    flexShrink: 0,
+  },
+  sectionTitle: {
+    color: 'rgba(255,255,255,0.35)',
+    fontSize: 10,
+    fontWeight: 700,
+    letterSpacing: '0.1em',
+    textTransform: 'uppercase',
+  },
+  flowHint: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 6,
+    background: 'rgba(16,185,129,0.08)',
+    border: '1px solid rgba(16,185,129,0.2)',
+    borderRadius: 6,
+    padding: '4px 10px',
+    margin: '0 0 6px',
+    fontSize: 10,
+    color: 'rgba(167,243,208,0.7)',
+    lineHeight: 1.4,
   },
   link: {
     display: 'flex',
