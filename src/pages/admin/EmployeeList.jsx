@@ -147,6 +147,10 @@ export default function EmployeeList() {
                   <td>
                     <div style={{ display: 'flex', gap: 6 }}>
                       <Link to={`/admin/employees/${emp.id}`} className="btn btn-secondary btn-sm">View</Link>
+                      <Link to={`/admin/employees/${emp.id}/edit`} className="btn btn-sm" style={{ background: '#f0f5ff', color: '#2563eb', border: '1px solid #dbeafe', borderRadius: 6, padding: '4px 12px', fontSize: 13, fontWeight: 600, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        Edit
+                      </Link>
                       <button className="btn btn-secondary btn-sm" onClick={() => copyLink(emp.onboarding_link)} title="Copy link">🔗</button>
                       <button className="btn btn-secondary btn-sm" onClick={() => resendEmail(emp.id, emp.name)} title="Resend email">📧</button>
                       <button className="btn btn-danger btn-sm" onClick={() => deleteEmployee(emp.id, emp.name)} title="Delete employee">🗑</button>
