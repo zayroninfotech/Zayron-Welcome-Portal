@@ -9,6 +9,16 @@ import { BtnSpinner } from '../../../components/BtnLoader'
 const STATUS_COLOR = { active: '#2563eb', on_hold: '#f59e0b', completed: '#10b981' }
 const STATUS_LABEL = { active: 'Active', on_hold: 'On Hold', completed: 'Completed' }
 
+function Avatar({ name, size = 26 }) {
+  const colors = ['#1e40af', '#7c3aed', '#0891b2', '#065f46', '#92400e']
+  const color = colors[name.charCodeAt(0) % colors.length]
+  return (
+    <div title={name} style={{ width: size, height: size, borderRadius: '50%', background: color, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: size * 0.38, fontWeight: 700, border: '2px solid #fff', flexShrink: 0 }}>
+      {name.charAt(0).toUpperCase()}
+    </div>
+  )
+}
+
 export default function ProjectList() {
   const navigate = useNavigate()
   const [projects, setProjects] = useState([])
@@ -86,6 +96,20 @@ export default function ProjectList() {
                 <span style={{ fontSize: 12, color: '#6b7280' }}>{p.done_count}/{p.task_count} tasks done</span>
               </div>
               {p.start_date && <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 6 }}>📅 Start: {p.start_date}</div>}
+              {(p.assigned_employees || []).length > 0 && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 10 }}>
+                  <div style={{ display: 'flex', marginRight: 4 }}>
+                    {p.assigned_employees.slice(0, 5).map((emp, i) => (
+                      <div key={emp.id} style={{ marginLeft: i === 0 ? 0 : -8 }}>
+                        <Avatar name={emp.name} />
+                      </div>
+                    ))}
+                  </div>
+                  <span style={{ fontSize: 12, color: '#6b7280' }}>
+                    {p.assigned_employees.length} member{p.assigned_employees.length !== 1 ? 's' : ''}
+                  </span>
+                </div>
+              )}
               {p.task_count > 0 && (
                 <div style={{ marginTop: 10, background: '#f3f4f6', borderRadius: 4, height: 6, overflow: 'hidden' }}>
                   <div style={{ width: `${Math.round((p.done_count / p.task_count) * 100)}%`, background: '#10b981', height: '100%', transition: 'width 0.3s' }} />

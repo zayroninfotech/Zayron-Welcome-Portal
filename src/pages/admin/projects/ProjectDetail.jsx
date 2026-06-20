@@ -7,9 +7,17 @@ import PageLoader from '../../../components/PageLoader'
 import { BtnSpinner } from '../../../components/BtnLoader'
 
 const STATUS_COLOR = { todo: '#6b7280', in_progress: '#f59e0b', done: '#10b981' }
-const STATUS_LABEL = { todo: 'To Do', in_progress: 'In Progress', done: 'Done' }
 const PROJ_STATUS_COLOR = { active: '#2563eb', on_hold: '#f59e0b', completed: '#10b981' }
-const PROJ_STATUS_LABEL = { active: 'Active', on_hold: 'On Hold', completed: 'Completed' }
+
+function Avatar({ name, size = 32 }) {
+  const colors = ['#1e40af', '#7c3aed', '#0891b2', '#065f46', '#92400e']
+  const color = colors[name.charCodeAt(0) % colors.length]
+  return (
+    <div style={{ width: size, height: size, borderRadius: '50%', background: color, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: size * 0.38, fontWeight: 700, flexShrink: 0 }}>
+      {name.charAt(0).toUpperCase()}
+    </div>
+  )
+}
 
 export default function ProjectDetail() {
   const { id } = useParams()
@@ -23,6 +31,11 @@ export default function ProjectDetail() {
   const [storyText, setStoryText] = useState('')
   const [addingStory, setAddingStory] = useState(false)
 
+  // Employee assignment state
+  const [completedEmployees, setCompletedEmployees] = useState([])
+  const [assigningId, setAssigningId] = useState(null)
+  const [removingId, setRemovingId] = useState(null)
+
   const load = async () => {
     try {
       const { data } = await api.get(`/projects/${id}/`)
@@ -35,7 +48,14 @@ export default function ProjectDetail() {
     finally { setLoading(false) }
   }
 
-  useEffect(() => { load() }, [id])
+  const loadCompletedEmployees = async () => {
+    try {
+      const { data } = await api.get('/projects/completed-employees/')
+      setCompletedEmployees(data)
+    } catch {}
+  }
+
+  useEffect(() => { load(); loadCompletedEmployees() }, [id])
 
   const handleCreateTask = async e => {
     e.preventDefault()
@@ -108,12 +128,34 @@ export default function ProjectDetail() {
     } catch { toast.error('Failed to update status') }
   }
 
+  const handleAssign = async employeeId => {
+    setAssigningId(employeeId)
+    try {
+      await api.post(`/projects/${id}/assign/`, { employee_id: employeeId })
+      toast.success('Employee assigned!')
+      load()
+    } catch { toast.error('Failed to assign employee') }
+    finally { setAssigningId(null) }
+  }
+
+  const handleRemove = async employeeId => {
+    setRemovingId(employeeId)
+    try {
+      await api.delete(`/projects/${id}/assign/`, { data: { employee_id: employeeId } })
+      toast.success('Employee removed!')
+      load()
+    } catch { toast.error('Failed to remove employee') }
+    finally { setRemovingId(null) }
+  }
+
   if (loading) return <PageLoader text="Loading Project..." />
   if (!project) return <Layout title="Project"><div style={{ padding: 40, textAlign: 'center', color: '#6b7280' }}>Project not found.</div></Layout>
 
   const todo = project.tasks.filter(t => t.status === 'todo')
   const inProgress = project.tasks.filter(t => t.status === 'in_progress')
   const done = project.tasks.filter(t => t.status === 'done')
+  const assignedIds = new Set((project.assigned_employees || []).map(e => e.id))
+  const unassigned = completedEmployees.filter(e => !assignedIds.has(e.id))
 
   return (
     <Layout title={project.name}>
@@ -138,6 +180,48 @@ export default function ProjectDetail() {
             + Add Task
           </button>
         </div>
+      </div>
+
+      {/* Assigned Employees Panel */}
+      <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 12, padding: 20, marginBottom: 24 }}>
+        <h3 style={{ fontSize: 13, fontWeight: 700, color: '#374151', margin: '0 0 14px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Team Members</h3>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 14 }}>
+          {(project.assigned_employees || []).length === 0 && (
+            <p style={{ fontSize: 13, color: '#9ca3af', margin: 0 }}>No team members assigned yet.</p>
+          )}
+          {(project.assigned_employees || []).map(emp => (
+            <div key={emp.id} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#f0f5ff', border: '1px solid #c7d8ff', borderRadius: 20, padding: '6px 12px 6px 6px' }}>
+              <Avatar name={emp.name} size={26} />
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 600, color: '#1e40af', lineHeight: 1.2 }}>{emp.name}</div>
+                <div style={{ fontSize: 11, color: '#6b7280' }}>{emp.department}</div>
+              </div>
+              <button onClick={() => handleRemove(emp.id)} disabled={removingId === emp.id}
+                style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: 14, padding: '0 0 0 4px', lineHeight: 1 }}>
+                {removingId === emp.id ? <BtnSpinner size={12} /> : '✕'}
+              </button>
+            </div>
+          ))}
+        </div>
+
+        {unassigned.length > 0 && (
+          <div>
+            <div style={{ fontSize: 12, color: '#6b7280', fontWeight: 600, marginBottom: 8 }}>ADD TEAM MEMBER (Completed Employees)</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {unassigned.map(emp => (
+                <button key={emp.id} onClick={() => handleAssign(emp.id)} disabled={assigningId === emp.id}
+                  style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#f9fafb', border: '1px dashed #d1d5db', borderRadius: 20, padding: '5px 12px 5px 5px', cursor: 'pointer', transition: 'all 0.2s' }}>
+                  <Avatar name={emp.name} size={24} />
+                  <span style={{ fontSize: 13, fontWeight: 500, color: '#374151' }}>{emp.name}</span>
+                  {assigningId === emp.id ? <BtnSpinner size={12} /> : <span style={{ fontSize: 12, color: '#2563eb', fontWeight: 700 }}>+</span>}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+        {unassigned.length === 0 && (project.assigned_employees || []).length === completedEmployees.length && completedEmployees.length > 0 && (
+          <p style={{ fontSize: 12, color: '#10b981', margin: 0, fontWeight: 600 }}>All completed employees are assigned to this project.</p>
+        )}
       </div>
 
       {/* Kanban Board */}

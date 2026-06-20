@@ -1,5 +1,12 @@
 from rest_framework import serializers
 from .models import Project, Task, UserStory
+from apps.employees.models import Employee
+
+
+class AssignedEmployeeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Employee
+        fields = ['id', 'name', 'email', 'department', 'employee_type']
 
 
 class UserStorySerializer(serializers.ModelSerializer):
@@ -29,10 +36,15 @@ class TaskSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     tasks = TaskSerializer(many=True, read_only=True)
     task_count = serializers.SerializerMethodField()
+    assigned_employees = AssignedEmployeeSerializer(many=True, read_only=True)
+    assigned_employee_ids = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=Employee.objects.filter(status='completed'),
+        write_only=True, required=False, source='assigned_employees'
+    )
 
     class Meta:
         model = Project
-        fields = ['id', 'name', 'description', 'status', 'start_date', 'task_count', 'tasks', 'created_at']
+        fields = ['id', 'name', 'description', 'status', 'start_date', 'task_count', 'tasks', 'assigned_employees', 'assigned_employee_ids', 'created_at']
         read_only_fields = ['id', 'created_at']
 
     def get_task_count(self, obj):
@@ -42,10 +54,15 @@ class ProjectSerializer(serializers.ModelSerializer):
 class ProjectListSerializer(serializers.ModelSerializer):
     task_count = serializers.SerializerMethodField()
     done_count = serializers.SerializerMethodField()
+    assigned_employees = AssignedEmployeeSerializer(many=True, read_only=True)
+    assigned_employee_ids = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=Employee.objects.filter(status='completed'),
+        write_only=True, required=False, source='assigned_employees'
+    )
 
     class Meta:
         model = Project
-        fields = ['id', 'name', 'description', 'status', 'start_date', 'task_count', 'done_count', 'created_at']
+        fields = ['id', 'name', 'description', 'status', 'start_date', 'task_count', 'done_count', 'assigned_employees', 'assigned_employee_ids', 'created_at']
         read_only_fields = ['id', 'created_at']
 
     def get_task_count(self, obj):
