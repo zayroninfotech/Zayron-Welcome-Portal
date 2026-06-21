@@ -119,24 +119,14 @@ export default function Dashboard() {
       <div style={{ display:'flex', flexDirection:'column', gap:20 }}>
 
         {/* Welcome Card */}
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr 1fr', gap:14 }}>
-          <div style={{ gridColumn:'span 2', background:'linear-gradient(135deg,#1e40af,#6366f1)', borderRadius:16, padding:'24px 28px', display:'flex', flexDirection:'column', justifyContent:'space-between', minHeight:130 }}>
+        <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr', gap:14 }}>
+          <div style={{ background:'linear-gradient(135deg,#1e40af,#6366f1)', borderRadius:16, padding:'28px 32px', display:'flex', flexDirection:'column', justifyContent:'space-between', minHeight:140 }}>
             <div>
               <div style={{ color:'#bfdbfe', fontSize:12, fontWeight:600, letterSpacing:'0.08em', textTransform:'uppercase' }}>Welcome Back 👋</div>
-              <div style={{ color:'#fff', fontSize:26, fontWeight:800, marginTop:6 }}>HR Onboarding Dashboard</div>
+              <div style={{ color:'#fff', fontSize:28, fontWeight:800, marginTop:6 }}>HR Management System</div>
               <div style={{ color:'#93c5fd', fontSize:13, marginTop:4 }}>Manage employees, track progress and projects</div>
             </div>
             <div style={{ color:'#bfdbfe', fontSize:12, marginTop:16 }}>{new Date().toLocaleDateString('en-IN',{ weekday:'long', year:'numeric', month:'long', day:'numeric' })}</div>
-          </div>
-          <div style={{ background:'linear-gradient(135deg,#059669,#10b981)', borderRadius:16, padding:'24px 22px', display:'flex', flexDirection:'column', justifyContent:'space-between' }}>
-            <div style={{ color:'#a7f3d0', fontSize:11, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.08em' }}>Completion Rate</div>
-            <div>
-              <div style={{ color:'#fff', fontSize:40, fontWeight:900, lineHeight:1 }}>{completionRate}%</div>
-              <div style={{ color:'#6ee7b7', fontSize:12, marginTop:4 }}>{stats?.completed} of {total} onboarded</div>
-              <div style={{ marginTop:10, height:6, background:'rgba(255,255,255,0.2)', borderRadius:4 }}>
-                <div style={{ width:`${completionRate}%`, height:'100%', background:'#fff', borderRadius:4, transition:'width 0.6s' }}/>
-              </div>
-            </div>
           </div>
           <div style={{ background:'linear-gradient(135deg,#d97706,#f59e0b)', borderRadius:16, padding:'24px 22px', display:'flex', flexDirection:'column', justifyContent:'space-between' }}>
             <div style={{ color:'#fef3c7', fontSize:11, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.08em' }}>Joining This Month</div>
@@ -148,88 +138,37 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Stat Cards */}
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:14 }}>
+        {/* Total Employees only */}
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(1,1fr)', gap:14, maxWidth:320 }}>
           <StatCard icon="👥" value={total} label="Total Employees" color="#1e40af" to="/admin/employees" />
-          <StatCard icon="⏳" value={stats?.pending??0} label="Pending Onboarding" color="#d97706" sub="Awaiting action" to="/admin/employees" />
-          <StatCard icon="📝" value={stats?.nda_signed??0} label="NDA Signed" color="#7c3aed" sub="Step 2 pending" />
-          <StatCard icon="✅" value={stats?.completed??0} label="Completed" color="#059669" sub={`${completionRate}% rate`} />
         </div>
 
-        {/* Second row */}
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:14 }}>
-          <StatCard icon="🏢" value={stats?.permanent??0} label="Permanent" color="#0ea5e9" />
-          <StatCard icon="📋" value={stats?.contract??0} label="Contract" color="#ec4899" />
-          <StatCard icon="🎓" value={stats?.intern??0} label="Intern" color="#10b981" />
-        </div>
-
-        {/* Main content grid */}
-        <div style={{ display:'grid', gridTemplateColumns:'1.5fr 1fr', gap:20 }}>
-
-          {/* Recent Employees */}
-          <div style={{ background:'#fff', borderRadius:16, boxShadow:'0 2px 12px rgba(0,0,0,0.07)', border:'1px solid #f0f0f5', overflow:'hidden' }}>
-            <div style={{ padding:'18px 24px', borderBottom:'1px solid #f3f4f6', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
-              <div>
-                <h2 style={{ fontSize:15, fontWeight:700, color:'#111827', margin:0 }}>Recent Employees</h2>
-                <p style={{ fontSize:12, color:'#9ca3af', margin:'2px 0 0' }}>Latest additions to the team</p>
-              </div>
-              <Link to="/admin/employees" style={{ fontSize:12, color:'#2563eb', fontWeight:600, textDecoration:'none', background:'#eff6ff', padding:'5px 12px', borderRadius:20 }}>View all →</Link>
-            </div>
+        {/* Recent Employees */}
+        <div style={{ background:'#fff', borderRadius:16, boxShadow:'0 2px 12px rgba(0,0,0,0.07)', border:'1px solid #f0f0f5', overflow:'hidden' }}>
+          <div style={{ padding:'18px 24px', borderBottom:'1px solid #f3f4f6', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
             <div>
-              {stats?.recent_employees?.map(emp => (
-                <Link key={emp.id} to={`/admin/employees/${emp.id}`}
-                  style={{ display:'flex', alignItems:'center', gap:12, padding:'11px 24px', textDecoration:'none', borderBottom:'1px solid #f9fafb', transition:'background 0.12s' }}
-                  onMouseEnter={e=>e.currentTarget.style.background='#f9fafb'}
-                  onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
-                  <Avatar name={emp.name} />
-                  <div style={{ flex:1, minWidth:0 }}>
-                    <div style={{ fontWeight:600, fontSize:13, color:'#111827', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{emp.name}</div>
-                    <div style={{ fontSize:11, color:'#9ca3af' }}>{emp.department || 'No department'} • {emp.email}</div>
-                  </div>
-                  <div style={{ display:'flex', gap:5, flexShrink:0 }}>
-                    <TypeBadge type={emp.employee_type} />
-                    <StatusBadge status={emp.status} />
-                  </div>
-                </Link>
-              ))}
+              <h2 style={{ fontSize:15, fontWeight:700, color:'#111827', margin:0 }}>Recent Employees</h2>
+              <p style={{ fontSize:12, color:'#9ca3af', margin:'2px 0 0' }}>Latest additions to the team</p>
             </div>
+            <Link to="/admin/employees" style={{ fontSize:12, color:'#2563eb', fontWeight:600, textDecoration:'none', background:'#eff6ff', padding:'5px 12px', borderRadius:20 }}>View all →</Link>
           </div>
-
-          {/* Right column */}
-          <div style={{ display:'flex', flexDirection:'column', gap:16 }}>
-
-            {/* Onboarding Funnel */}
-            <div style={{ background:'#fff', borderRadius:16, boxShadow:'0 2px 12px rgba(0,0,0,0.07)', border:'1px solid #f0f0f5', overflow:'hidden' }}>
-              <div style={{ padding:'16px 20px', borderBottom:'1px solid #f3f4f6' }}>
-                <h2 style={{ fontSize:15, fontWeight:700, color:'#111827', margin:0 }}>Onboarding Funnel</h2>
-              </div>
-              <div style={{ padding:'8px 20px 16px' }}>
-                <FunnelStep label="Total Invited" value={total} total={total} color="#1e40af" icon="📨" />
-                <FunnelStep label="Pending" value={stats?.pending??0} total={total} color="#d97706" icon="⏳" />
-                <FunnelStep label="NDA Signed" value={stats?.nda_signed??0} total={total} color="#7c3aed" icon="📝" />
-                <FunnelStep label="Completed" value={stats?.completed??0} total={total} color="#059669" icon="✅" />
-              </div>
-            </div>
-
-            {/* By Department */}
-            <div style={{ background:'#fff', borderRadius:16, boxShadow:'0 2px 12px rgba(0,0,0,0.07)', border:'1px solid #f0f0f5', overflow:'hidden' }}>
-              <div style={{ padding:'16px 20px', borderBottom:'1px solid #f3f4f6' }}>
-                <h2 style={{ fontSize:15, fontWeight:700, color:'#111827', margin:0 }}>By Department</h2>
-              </div>
-              <div style={{ padding:'12px 20px 16px', display:'flex', flexDirection:'column', gap:10 }}>
-                {stats?.by_department?.map((d,i) => (
-                  <div key={d.department}>
-                    <div style={{ display:'flex', justifyContent:'space-between', marginBottom:5 }}>
-                      <span style={{ fontSize:12, fontWeight:600, color:'#374151' }}>{d.department}</span>
-                      <span style={{ fontSize:12, fontWeight:700, color: DEPT_COLORS[i % DEPT_COLORS.length] }}>{d.count}</span>
-                    </div>
-                    <div style={{ height:7, background:'#f3f4f6', borderRadius:6, overflow:'hidden' }}>
-                      <div style={{ width:`${(d.count/total)*100}%`, height:'100%', background:DEPT_COLORS[i%DEPT_COLORS.length], borderRadius:6, transition:'width 0.6s' }}/>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div>
+            {stats?.recent_employees?.map(emp => (
+              <Link key={emp.id} to={`/admin/employees/${emp.id}`}
+                style={{ display:'flex', alignItems:'center', gap:12, padding:'11px 24px', textDecoration:'none', borderBottom:'1px solid #f9fafb', transition:'background 0.12s' }}
+                onMouseEnter={e=>e.currentTarget.style.background='#f9fafb'}
+                onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
+                <Avatar name={emp.name} />
+                <div style={{ flex:1, minWidth:0 }}>
+                  <div style={{ fontWeight:600, fontSize:13, color:'#111827', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{emp.name}</div>
+                  <div style={{ fontSize:11, color:'#9ca3af' }}>{emp.department || 'No department'} • {emp.email}</div>
+                </div>
+                <div style={{ display:'flex', gap:5, flexShrink:0 }}>
+                  <TypeBadge type={emp.employee_type} />
+                  <StatusBadge status={emp.status} />
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
 
