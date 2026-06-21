@@ -44,7 +44,7 @@ export default function Login() {
         /* Left branding panel */
         .login-left {
           width: 45%;
-          background: linear-gradient(145deg, #0f172a 0%, #1e3a8a 50%, #1d4ed8 100%);
+          background: #1e3a8a;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
