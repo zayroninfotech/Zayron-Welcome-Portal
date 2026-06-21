@@ -34,232 +34,297 @@ export default function Login() {
     <>
       <style>{`
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
 
         .login-page {
           min-height: 100vh;
           display: flex;
+          background: #f0f2f8;
         }
 
-        /* ── LEFT PANEL — single solid dark blue, no decorations ── */
+        /* ══════════════ LEFT PANEL ══════════════ */
         .login-left {
-          width: 45%;
+          width: 48%;
           background: #0d1b4b;
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
-          padding: 44px 48px 40px;
+          padding: 44px 52px;
+          position: relative;
+          overflow: hidden;
         }
 
-        .left-top-label {
+        /* subtle grid pattern */
+        .login-left::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-image:
+            linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+          background-size: 40px 40px;
+          pointer-events: none;
+        }
+        /* glow accent */
+        .login-left::after {
+          content: '';
+          position: absolute;
+          bottom: -120px; right: -120px;
+          width: 400px; height: 400px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
+          pointer-events: none;
+        }
+
+        .left-inner { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; }
+
+        /* top badge */
+        .left-badge {
           display: inline-flex;
           align-items: center;
-          gap: 7px;
-          background: rgba(255,255,255,0.08);
-          border: 1px solid rgba(255,255,255,0.14);
-          border-radius: 20px;
-          padding: 6px 14px;
+          gap: 8px;
+          background: rgba(59,130,246,0.15);
+          border: 1px solid rgba(59,130,246,0.3);
+          border-radius: 30px;
+          padding: 7px 16px;
           font-size: 11px;
-          color: rgba(255,255,255,0.7);
-          font-weight: 600;
-          letter-spacing: 0.06em;
+          color: #93c5fd;
+          font-weight: 700;
+          letter-spacing: 0.08em;
           text-transform: uppercase;
           width: fit-content;
-          margin-bottom: 28px;
+          margin-bottom: 36px;
         }
-        .left-top-label span { width: 6px; height: 6px; border-radius: 50%; background: #60a5fa; display: inline-block; }
+        .left-badge-dot {
+          width: 7px; height: 7px; border-radius: 50%;
+          background: #3b82f6;
+          box-shadow: 0 0 6px rgba(59,130,246,0.8);
+          animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.4; }
+        }
 
         .left-heading {
-          color: white;
-          font-size: 30px;
+          color: #ffffff;
+          font-size: 32px;
           font-weight: 800;
-          line-height: 1.22;
-          letter-spacing: -0.02em;
-          margin-bottom: 12px;
+          line-height: 1.2;
+          letter-spacing: -0.025em;
+          margin-bottom: 14px;
         }
+        .left-heading span { color: #60a5fa; }
+
         .left-sub {
-          color: rgba(255,255,255,0.5);
+          color: rgba(255,255,255,0.45);
           font-size: 14px;
-          line-height: 1.7;
-          margin-bottom: 44px;
+          line-height: 1.75;
+          margin-bottom: 48px;
+          max-width: 340px;
         }
 
-        /* Onboarding steps */
-        .steps-title {
+        /* HOW IT WORKS */
+        .how-label {
           font-size: 10px;
           font-weight: 700;
-          color: rgba(255,255,255,0.35);
-          letter-spacing: 0.12em;
+          color: rgba(255,255,255,0.25);
+          letter-spacing: 0.14em;
           text-transform: uppercase;
-          margin-bottom: 16px;
-        }
-        .steps-list {
+          margin-bottom: 20px;
           display: flex;
-          flex-direction: column;
-          gap: 0;
+          align-items: center;
+          gap: 10px;
         }
+        .how-label::after {
+          content: '';
+          flex: 1;
+          height: 1px;
+          background: rgba(255,255,255,0.08);
+        }
+
+        .steps-list { display: flex; flex-direction: column; gap: 0; flex: 1; }
         .step-item {
           display: flex;
           gap: 16px;
-          padding-bottom: 20px;
+          padding-bottom: 24px;
           position: relative;
         }
         .step-item:not(:last-child)::before {
           content: '';
           position: absolute;
-          left: 17px;
-          top: 36px;
+          left: 15px; top: 34px;
           width: 1px;
-          height: calc(100% - 16px);
-          background: rgba(255,255,255,0.1);
+          height: calc(100% - 10px);
+          background: linear-gradient(to bottom, rgba(59,130,246,0.3), rgba(255,255,255,0.05));
         }
         .step-num {
-          width: 34px; height: 34px;
+          width: 32px; height: 32px;
           border-radius: 50%;
-          background: rgba(255,255,255,0.08);
-          border: 1px solid rgba(255,255,255,0.15);
+          background: rgba(59,130,246,0.15);
+          border: 1px solid rgba(59,130,246,0.35);
           display: flex; align-items: center; justify-content: center;
-          font-size: 11px;
-          font-weight: 700;
-          color: #93c5fd;
+          font-size: 11px; font-weight: 800;
+          color: #60a5fa;
           flex-shrink: 0;
+          margin-top: 1px;
         }
-        .step-body {}
         .step-title {
           color: rgba(255,255,255,0.88);
           font-size: 13px;
-          font-weight: 600;
-          margin-bottom: 2px;
+          font-weight: 700;
+          margin-bottom: 3px;
           line-height: 1.3;
-          padding-top: 6px;
         }
         .step-desc {
-          color: rgba(255,255,255,0.38);
+          color: rgba(255,255,255,0.35);
           font-size: 12px;
           line-height: 1.5;
         }
 
-        .left-footer {
-          color: rgba(255,255,255,0.25);
+        /* trust strip */
+        .trust-strip {
+          display: flex;
+          gap: 20px;
+          margin-top: auto;
+          padding-top: 32px;
+          border-top: 1px solid rgba(255,255,255,0.07);
+        }
+        .trust-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          color: rgba(255,255,255,0.35);
           font-size: 11px;
+          font-weight: 500;
+        }
+        .trust-icon {
+          width: 24px; height: 24px;
+          border-radius: 6px;
+          background: rgba(255,255,255,0.06);
+          display: flex; align-items: center; justify-content: center;
+          font-size: 12px;
+          flex-shrink: 0;
         }
 
-        /* ── RIGHT PANEL ── */
+        .left-footer {
+          color: rgba(255,255,255,0.18);
+          font-size: 11px;
+          margin-top: 20px;
+        }
+
+        /* ══════════════ RIGHT PANEL ══════════════ */
         .login-right {
           flex: 1;
-          background: #eef2ff;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 40px 24px;
-        }
-        .form-card {
-          background: white;
-          border-radius: 22px;
-          padding: 48px 42px;
-          width: 100%;
-          max-width: 430px;
-          box-shadow: 0 12px 48px rgba(13,27,75,0.10);
-          border: 1px solid #e2e8f0;
+          padding: 40px 32px;
+          background: #eef1fb;
         }
 
-        .form-header {
-          margin-bottom: 36px;
-          text-align: center;
+        .form-card {
+          background: #ffffff;
+          border-radius: 24px;
+          padding: 52px 44px;
+          width: 100%;
+          max-width: 440px;
+          box-shadow:
+            0 0 0 1px rgba(13,27,75,0.07),
+            0 20px 60px rgba(13,27,75,0.10);
         }
-        .form-logo-wrap {
+
+        /* card top: logo */
+        .card-logo {
           display: flex;
           align-items: center;
-          justify-content: center;
-          gap: 10px;
-          margin-bottom: 22px;
-          padding-bottom: 22px;
+          gap: 12px;
+          margin-bottom: 36px;
+          padding-bottom: 24px;
           border-bottom: 1px solid #f1f5f9;
         }
-        .form-logo-wrap img {
-          height: 50px; width: 50px;
+        .card-logo img {
+          height: 52px; width: 52px;
           object-fit: contain;
-          border-radius: 12px;
+          border-radius: 14px;
+          box-shadow: 0 4px 12px rgba(13,27,75,0.12);
         }
-        .form-logo-name {
-          font-size: 18px;
+        .card-logo-name {
+          font-size: 19px;
           font-weight: 800;
           color: #0d1b4b;
-          line-height: 1.2;
-          letter-spacing: -0.01em;
-          text-align: left;
-        }
-        .form-logo-sub {
-          font-size: 11px;
-          color: #6b7280;
-          margin-top: 2px;
-          text-align: left;
-        }
-        .form-title {
-          font-size: 24px;
-          font-weight: 800;
-          color: #0f172a;
-          margin-bottom: 6px;
+          line-height: 1.15;
           letter-spacing: -0.02em;
         }
-        .form-sub {
-          font-size: 13px;
-          color: #64748b;
+        .card-logo-sub {
+          font-size: 12px;
+          color: #94a3b8;
+          margin-top: 3px;
+          font-weight: 500;
         }
 
-        .field-group { margin-bottom: 18px; }
+        .form-title {
+          font-size: 26px;
+          font-weight: 800;
+          color: #0d1b4b;
+          margin-bottom: 6px;
+          letter-spacing: -0.025em;
+        }
+        .form-sub {
+          font-size: 14px;
+          color: #94a3b8;
+          margin-bottom: 32px;
+          font-weight: 400;
+        }
+
+        .field-group { margin-bottom: 20px; }
         .field-label {
           display: block;
           font-size: 13px;
           font-weight: 600;
-          color: #374151;
-          margin-bottom: 7px;
+          color: #1e293b;
+          margin-bottom: 8px;
+          letter-spacing: -0.01em;
         }
-        .input-wrap {
-          position: relative;
-          display: flex;
-          align-items: center;
-        }
+        .input-wrap { position: relative; display: flex; align-items: center; }
         .input-icon {
-          position: absolute;
-          left: 14px;
-          color: #9ca3af;
-          display: flex;
-          pointer-events: none;
+          position: absolute; left: 14px;
+          color: #cbd5e1; display: flex; pointer-events: none;
         }
         .login-input {
           width: 100%;
-          padding: 13px 44px;
-          border: 1.5px solid #e2e8f0;
-          border-radius: 11px;
+          padding: 14px 46px;
+          border: 1.5px solid #e8ecf4;
+          border-radius: 12px;
           font-size: 15px;
-          color: #1e293b;
+          color: #0f172a;
           background: #f8fafc;
           outline: none;
-          transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+          transition: all 0.2s;
           font-family: inherit;
         }
+        .login-input::placeholder { color: #c0cad8; }
         .login-input:focus {
           border-color: #0d1b4b;
-          box-shadow: 0 0 0 3px rgba(13,27,75,0.08);
-          background: white;
+          box-shadow: 0 0 0 4px rgba(13,27,75,0.07);
+          background: #ffffff;
         }
         .eye-btn {
           position: absolute; right: 13px;
           background: none; border: none;
-          cursor: pointer; color: #9ca3af;
-          display: flex; padding: 4px;
-          transition: color 0.2s;
+          cursor: pointer; color: #c0cad8;
+          display: flex; padding: 5px;
+          border-radius: 6px;
+          transition: color 0.2s, background 0.2s;
         }
-        .eye-btn:hover { color: #0d1b4b; }
+        .eye-btn:hover { color: #0d1b4b; background: #f0f2f8; }
 
         .submit-btn {
           width: 100%;
-          padding: 15px;
+          padding: 16px;
           background: #0d1b4b;
           color: white;
           border: none;
-          border-radius: 11px;
+          border-radius: 12px;
           font-size: 16px;
           font-weight: 700;
           cursor: pointer;
@@ -267,111 +332,143 @@ export default function Login() {
           align-items: center;
           justify-content: center;
           gap: 8px;
-          margin-top: 10px;
-          box-shadow: 0 6px 20px rgba(13,27,75,0.28);
-          transition: opacity 0.2s, transform 0.15s;
+          margin-top: 8px;
+          box-shadow: 0 8px 24px rgba(13,27,75,0.25);
+          transition: all 0.2s;
           font-family: inherit;
+          letter-spacing: 0.01em;
         }
-        .submit-btn:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
-        .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
-
-        .divider {
-          display: flex; align-items: center; gap: 12px; margin: 24px 0 0;
+        .submit-btn:hover:not(:disabled) {
+          background: #162057;
+          transform: translateY(-2px);
+          box-shadow: 0 12px 32px rgba(13,27,75,0.30);
         }
-        .divider-line { flex: 1; height: 1px; background: #f1f5f9; }
-        .divider-text { font-size: 11px; color: #94a3b8; white-space: nowrap; }
+        .submit-btn:active:not(:disabled) { transform: translateY(0); }
+        .submit-btn:disabled { opacity: 0.65; cursor: not-allowed; }
 
         .form-footer {
-          text-align: center; margin-top: 20px;
-          font-size: 11px; color: #94a3b8; line-height: 1.6;
+          text-align: center;
+          margin-top: 28px;
+          padding-top: 20px;
+          border-top: 1px solid #f1f5f9;
+          font-size: 11px;
+          color: #c0cad8;
+          line-height: 1.7;
         }
 
         /* ── TABLET ── */
+        @media (max-width: 900px) {
+          .login-left { width: 44%; padding: 36px 36px; }
+          .left-heading { font-size: 26px; }
+          .form-card { padding: 40px 32px; }
+        }
         @media (max-width: 768px) {
           .login-left { width: 42%; padding: 28px 24px; }
-          .left-heading { font-size: 22px; }
-          .left-sub { font-size: 12px; margin-bottom: 28px; }
-          .step-title { font-size: 12px; }
+          .left-heading { font-size: 22px; margin-bottom: 10px; }
+          .left-sub { font-size: 13px; margin-bottom: 32px; }
           .step-desc { font-size: 11px; }
-          .form-card { padding: 32px 26px; }
-          .form-title { font-size: 20px; }
+          .trust-strip { gap: 12px; }
+          .form-card { padding: 32px 24px; border-radius: 18px; }
+          .form-title { font-size: 22px; }
         }
 
         /* ── MOBILE ── */
-        @media (max-width: 500px) {
-          .login-left { width: 38%; padding: 20px 14px; }
-          .left-top-label { font-size: 9px; padding: 4px 10px; margin-bottom: 18px; }
-          .left-heading { font-size: 14px; margin-bottom: 8px; }
+        @media (max-width: 520px) {
+          .login-left { width: 40%; padding: 20px 16px; }
+          .left-badge { font-size: 9px; padding: 5px 10px; margin-bottom: 20px; }
+          .left-heading { font-size: 15px; margin-bottom: 8px; }
           .left-sub { display: none; }
-          .steps-title { font-size: 9px; margin-bottom: 10px; }
-          .step-item { gap: 10px; padding-bottom: 14px; }
+          .how-label { font-size: 9px; margin-bottom: 12px; }
+          .step-item { gap: 10px; padding-bottom: 16px; }
           .step-num { width: 26px; height: 26px; font-size: 9px; }
           .step-item:not(:last-child)::before { left: 12px; top: 28px; }
-          .step-title { font-size: 11px; padding-top: 4px; }
+          .step-title { font-size: 11px; }
           .step-desc { display: none; }
+          .trust-strip { display: none; }
           .left-footer { display: none; }
-          .login-right { padding: 14px 10px; }
-          .form-card { padding: 22px 16px; border-radius: 16px; }
-          .form-logo-wrap { margin-bottom: 16px; padding-bottom: 16px; }
-          .form-logo-wrap img { height: 38px; width: 38px; }
-          .form-logo-name { font-size: 15px; }
-          .form-title { font-size: 18px; }
-          .form-sub { font-size: 12px; }
-          .login-input { font-size: 14px; padding: 12px 38px; }
-          .submit-btn { font-size: 14px; padding: 13px; border-radius: 9px; }
+          .login-right { padding: 12px 10px; }
+          .form-card { padding: 24px 16px; border-radius: 16px; }
+          .card-logo { margin-bottom: 22px; padding-bottom: 18px; }
+          .card-logo img { height: 40px; width: 40px; border-radius: 10px; }
+          .card-logo-name { font-size: 16px; }
+          .form-title { font-size: 19px; }
+          .form-sub { font-size: 12px; margin-bottom: 22px; }
+          .login-input { font-size: 14px; padding: 12px 40px; border-radius: 10px; }
+          .submit-btn { font-size: 15px; padding: 14px; border-radius: 10px; }
           .field-group { margin-bottom: 14px; }
-          .form-footer { font-size: 10px; margin-top: 16px; }
         }
-
-        @media (max-width: 360px) {
-          .login-left { width: 35%; padding: 14px 10px; }
-          .left-heading { font-size: 12px; }
+        @media (max-width: 380px) {
+          .login-left { width: 36%; padding: 16px 12px; }
+          .left-heading { font-size: 13px; }
           .step-title { font-size: 10px; }
-          .form-card { padding: 18px 12px; }
-          .form-title { font-size: 16px; }
+          .form-card { padding: 20px 14px; }
+          .form-title { font-size: 17px; }
         }
       `}</style>
 
       <div className="login-page">
 
-        {/* ── LEFT PANEL ── */}
+        {/* ══ LEFT ══ */}
         <div className="login-left">
-          <div>
-            <div className="left-top-label"><span />HR Onboarding Portal</div>
-            <h2 className="left-heading">Employee Onboarding<br />Management System</h2>
-            <p className="left-sub">Streamline your HR processes with our comprehensive digital onboarding portal.</p>
+          <div className="left-inner">
+            <div>
+              <div className="left-badge">
+                <span className="left-badge-dot" />
+                HR Onboarding Portal
+              </div>
 
-            <div className="steps-title">How it works</div>
-            <div className="steps-list">
-              {steps.map(s => (
-                <div key={s.num} className="step-item">
-                  <div className="step-num">{s.num}</div>
-                  <div className="step-body">
-                    <div className="step-title">{s.title}</div>
-                    <div className="step-desc">{s.desc}</div>
+              <h2 className="left-heading">
+                Employee<br />
+                Onboarding<br />
+                <span>Management</span><br />
+                System
+              </h2>
+              <p className="left-sub">
+                Streamline your HR processes with our comprehensive digital onboarding platform built for modern teams.
+              </p>
+
+              <div className="how-label">How it works</div>
+              <div className="steps-list">
+                {steps.map(s => (
+                  <div key={s.num} className="step-item">
+                    <div className="step-num">{s.num}</div>
+                    <div>
+                      <div className="step-title">{s.title}</div>
+                      <div className="step-desc">{s.desc}</div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <div className="trust-strip">
+                {[['🔒', 'Secure & Encrypted'], ['⚡', 'Fast Onboarding'], ['📋', 'Paperless Process']].map(([icon, label]) => (
+                  <div key={label} className="trust-item">
+                    <div className="trust-icon">{icon}</div>
+                    {label}
+                  </div>
+                ))}
+              </div>
+              <p className="left-footer">© 2026 Zayron Infotech Pvt. Ltd.</p>
             </div>
           </div>
-
-          <p className="left-footer">© 2026 Zayron Infotech Pvt. Ltd.</p>
         </div>
 
-        {/* ── RIGHT PANEL ── */}
+        {/* ══ RIGHT ══ */}
         <div className="login-right">
           <div className="form-card">
-            <div className="form-header">
-              <div className="form-logo-wrap">
-                <img src="/static/img/logo1.png" alt="Zayron Infotech" />
-                <div>
-                  <div className="form-logo-name">Zayron Infotech</div>
-                  <div className="form-logo-sub">HR Onboarding Portal</div>
-                </div>
+
+            <div className="card-logo">
+              <img src="/static/img/logo1.png" alt="Zayron Infotech" />
+              <div>
+                <div className="card-logo-name">Zayron Infotech</div>
+                <div className="card-logo-sub">HR Onboarding Portal</div>
               </div>
-              <h1 className="form-title">Welcome back</h1>
-              <p className="form-sub">Sign in to your HR portal account to continue</p>
             </div>
+
+            <h1 className="form-title">Welcome back</h1>
+            <p className="form-sub">Sign in to continue to your HR portal</p>
 
             <form onSubmit={handleSubmit}>
               <div className="field-group">
@@ -401,24 +498,24 @@ export default function Login() {
                     required autoComplete="current-password" />
                   <button type="button" className="eye-btn" onClick={() => setShowPass(v => !v)} tabIndex={-1}>
                     {showPass
-                      ? <svg width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-                      : <svg width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                      ? <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                      : <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                     }
                   </button>
                 </div>
               </div>
 
               <button type="submit" disabled={loading} className="submit-btn">
-                {loading ? <><span className="spinner" style={{ width: 18, height: 18 }} /> Signing in...</> : <>Sign In →</>}
+                {loading
+                  ? <><span className="spinner" style={{ width: 18, height: 18 }} /> Signing in...</>
+                  : <>Sign In →</>
+                }
               </button>
             </form>
 
-            <div className="divider">
-              <div className="divider-line" />
-              <span className="divider-text">Zayron Infotech Pvt. Ltd.</span>
-              <div className="divider-line" />
+            <div className="form-footer">
+              © 2026 Zayron Infotech Pvt. Ltd. All rights reserved.
             </div>
-            <p className="form-footer">© 2026 Zayron Infotech Pvt. Ltd. All rights reserved.</p>
           </div>
         </div>
       </div>
