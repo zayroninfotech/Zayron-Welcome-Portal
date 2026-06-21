@@ -244,53 +244,69 @@ export default function Login() {
           color: #94a3b8;
         }
 
-        /* ── MOBILE ── */
+        /* ── TABLET ── */
         @media (max-width: 768px) {
-          .login-page {
-            flex-direction: column;
-            min-height: 100vh;
-          }
-
-          /* Left panel becomes a compact top banner */
           .login-left {
-            width: 100%;
-            padding: 28px 24px 32px;
-            min-height: auto;
+            width: 42%;
+            padding: 28px 20px 28px;
           }
-          .left-logo-row img { height: 38px; width: 38px; }
-          .left-logo-name { font-size: 15px; }
+          .left-logo-row img { height: 36px; width: 36px; }
+          .left-logo-name { font-size: 13px; }
+          .left-logo-sub { font-size: 10px; }
           .left-body { padding: 24px 0 0; }
-          .left-heading { font-size: 22px; margin-bottom: 10px; }
-          .left-sub { font-size: 13px; margin-bottom: 24px; }
+          .left-heading { font-size: 18px; margin-bottom: 8px; }
+          .left-sub { font-size: 12px; margin-bottom: 20px; line-height: 1.6; }
           .feature-list { gap: 10px; }
-          .feature-item { font-size: 13px; }
-          .feature-icon { width: 30px; height: 30px; font-size: 14px; border-radius: 8px; }
-          .left-footer { display: none; }
-
-          /* Right panel takes remaining space */
-          .login-right {
-            flex: 1;
-            padding: 24px 16px 32px;
-            background: #f0f4ff;
-            align-items: flex-start;
-          }
-          .form-card {
-            padding: 28px 22px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-          }
-          .form-header { margin-bottom: 24px; }
-          .form-header img { height: 46px; margin-bottom: 12px; }
-          .form-title { font-size: 20px; }
-          .login-input { font-size: 16px; padding: 14px 44px; }
-          .submit-btn { font-size: 16px; padding: 15px; border-radius: 12px; }
+          .feature-item { font-size: 12px; gap: 8px; }
+          .feature-icon { width: 28px; height: 28px; font-size: 13px; border-radius: 7px; }
+          .left-footer { font-size: 10px; }
+          .login-right { padding: 20px 14px; }
+          .form-card { padding: 28px 20px; border-radius: 14px; }
+          .form-header img { height: 44px; }
+          .form-title { font-size: 19px; }
+          .login-input { font-size: 15px; padding: 12px 42px; }
+          .submit-btn { font-size: 15px; padding: 13px; }
           .field-group { margin-bottom: 16px; }
         }
 
-        @media (max-width: 400px) {
-          .login-left { padding: 22px 18px 26px; }
-          .form-card { padding: 24px 18px; }
-          .left-heading { font-size: 19px; }
+        /* ── MOBILE ── */
+        @media (max-width: 500px) {
+          .login-left {
+            width: 38%;
+            padding: 20px 14px 20px;
+          }
+          .left-logo-name { font-size: 12px; }
+          .left-logo-sub { display: none; }
+          .left-body { padding: 18px 0 0; }
+          .left-heading { font-size: 15px; margin-bottom: 8px; line-height: 1.3; }
+          .left-sub { display: none; }
+          .feature-list { gap: 8px; }
+          .feature-item { font-size: 11px; gap: 6px; }
+          .feature-icon { width: 24px; height: 24px; font-size: 11px; border-radius: 6px; flex-shrink: 0; }
+          .left-footer { display: none; }
+          .login-right { padding: 16px 10px; }
+          .form-card { padding: 22px 16px; border-radius: 14px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+          .form-header { margin-bottom: 18px; }
+          .form-header img { height: 38px; margin-bottom: 10px; }
+          .form-title { font-size: 16px; }
+          .form-sub { font-size: 11px; }
+          .field-label { font-size: 12px; margin-bottom: 5px; }
+          .login-input { font-size: 14px; padding: 11px 36px; border-radius: 8px; }
+          .input-icon svg { width: 14px; height: 14px; }
+          .submit-btn { font-size: 14px; padding: 13px; border-radius: 9px; }
+          .field-group { margin-bottom: 14px; }
+          .form-footer { font-size: 10px; margin-top: 18px; }
+        }
+
+        @media (max-width: 360px) {
+          .login-left { width: 36%; padding: 16px 10px; }
+          .left-heading { font-size: 13px; }
+          .feature-item { font-size: 10px; }
+          .feature-icon { width: 20px; height: 20px; font-size: 10px; }
+          .form-card { padding: 18px 12px; }
+          .form-title { font-size: 15px; }
+          .login-input { font-size: 13px; padding: 10px 32px; }
+          .submit-btn { font-size: 13px; padding: 12px; }
         }
       `}</style>
 
