@@ -436,7 +436,6 @@ export default function Login() {
                   <div className="form-logo-sub">HR Onboarding Portal</div>
                 </div>
               </div>
-              <div className="form-welcome-tag">🔐 Secure Login</div>
               <h1 className="form-title">Welcome back</h1>
               <p className="form-sub">Sign in to your HR portal account to continue</p>
             </div>
