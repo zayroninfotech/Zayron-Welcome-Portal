@@ -451,20 +451,6 @@ export default function Login() {
                 </div>
               ))}
             </div>
-            <div className="left-stats">
-              <div className="left-stat">
-                <div className="left-stat-num">100%</div>
-                <div className="left-stat-label">Digital Process</div>
-              </div>
-              <div className="left-stat">
-                <div className="left-stat-num">Fast</div>
-                <div className="left-stat-label">Onboarding</div>
-              </div>
-              <div className="left-stat">
-                <div className="left-stat-num">Secure</div>
-                <div className="left-stat-label">NDA Signing</div>
-              </div>
-            </div>
           </div>
 
           <p className="left-footer">© 2026 Zayron Infotech Pvt. Ltd.</p>
