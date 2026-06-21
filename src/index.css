@@ -1,5 +1,14 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* Hide global scrollbar but keep scroll functional */
+html, body {
+  scrollbar-width: none;       /* Firefox */
+  -ms-overflow-style: none;    /* IE / Edge */
+  overflow-x: hidden;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar { display: none; }  /* Chrome / Safari */
+
 :root {
   --primary: #1e40af;
   --primary-light: #3b82f6;
