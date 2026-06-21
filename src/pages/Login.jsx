@@ -4,10 +4,34 @@ import { toast } from 'react-toastify'
 import { useAuth } from '../context/AuthContext'
 
 const features = [
-  { icon: '👥', label: 'Seamless employee onboarding' },
-  { icon: '📄', label: 'Digital NDA signing' },
-  { icon: '📁', label: 'Document management' },
-  { icon: '📊', label: 'Real-time tracking' },
+  {
+    icon: <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+    label: 'Seamless employee onboarding',
+    desc: 'Automated workflow from day one',
+    color: '#60a5fa',
+    bg: 'rgba(96,165,250,0.15)',
+  },
+  {
+    icon: <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>,
+    label: 'Digital NDA signing',
+    desc: 'Legally binding e-signatures',
+    color: '#a78bfa',
+    bg: 'rgba(167,139,250,0.15)',
+  },
+  {
+    icon: <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>,
+    label: 'Document management',
+    desc: 'Secure cloud storage for all docs',
+    color: '#34d399',
+    bg: 'rgba(52,211,153,0.15)',
+  },
+  {
+    icon: <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>,
+    label: 'Real-time tracking',
+    desc: 'Live onboarding progress dashboard',
+    color: '#fbbf24',
+    bg: 'rgba(251,191,36,0.15)',
+  },
 ]
 
 export default function Login() {
@@ -116,24 +140,38 @@ export default function Login() {
         .feature-list {
           display: flex;
           flex-direction: column;
-          gap: 12px;
+          gap: 10px;
         }
         .feature-item {
           display: flex;
           align-items: center;
-          gap: 12px;
-          color: rgba(255,255,255,0.85);
-          font-size: 14px;
-          font-weight: 500;
+          gap: 14px;
+          background: rgba(255,255,255,0.06);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 12px;
+          padding: 12px 14px;
+          transition: background 0.2s;
+        }
+        .feature-item:hover {
+          background: rgba(255,255,255,0.10);
         }
         .feature-icon {
-          width: 36px; height: 36px;
+          width: 40px; height: 40px;
           border-radius: 10px;
-          background: rgba(255,255,255,0.1);
-          border: 1px solid rgba(255,255,255,0.12);
           display: flex; align-items: center; justify-content: center;
-          font-size: 17px;
           flex-shrink: 0;
+        }
+        .feature-text {}
+        .feature-label {
+          color: rgba(255,255,255,0.92);
+          font-size: 13px;
+          font-weight: 600;
+          line-height: 1.2;
+        }
+        .feature-desc {
+          color: rgba(255,255,255,0.45);
+          font-size: 11px;
+          margin-top: 2px;
         }
 
         .left-stats {
@@ -356,8 +394,10 @@ export default function Login() {
           .left-body { padding: 18px 0 0; }
           .left-heading { font-size: 15px; letter-spacing: -0.01em; }
           .left-sub { display: none; }
-          .feature-item { font-size: 11px; gap: 7px; }
-          .feature-icon { width: 26px; height: 26px; font-size: 12px; border-radius: 7px; }
+          .feature-item { padding: 8px 10px; border-radius: 9px; gap: 10px; }
+          .feature-icon { width: 30px; height: 30px; border-radius: 8px; }
+          .feature-label { font-size: 11px; }
+          .feature-desc { display: none; }
           .left-stats { flex-direction: column; gap: 10px; margin-top: 20px; padding-top: 16px; }
           .left-stat-num { font-size: 16px; }
           .left-stat-label { font-size: 10px; }
@@ -401,8 +441,13 @@ export default function Login() {
             <div className="feature-list">
               {features.map(f => (
                 <div key={f.label} className="feature-item">
-                  <div className="feature-icon">{f.icon}</div>
-                  <span>{f.label}</span>
+                  <div className="feature-icon" style={{ background: f.bg, color: f.color, border: `1px solid ${f.color}30` }}>
+                    {f.icon}
+                  </div>
+                  <div className="feature-text">
+                    <div className="feature-label">{f.label}</div>
+                    <div className="feature-desc">{f.desc}</div>
+                  </div>
                 </div>
               ))}
             </div>
