@@ -36,14 +36,14 @@ const navItems = [
   }
 ]
 
-export default function Sidebar() {
+export default function Sidebar({ open, onClose }) {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const handleLogout = () => { logout(); navigate('/login') }
   const initials = (user?.full_name || user?.username || 'A')[0].toUpperCase()
 
   return (
-    <aside style={s.sidebar}>
+    <aside className={`layout-sidebar ${open ? 'open' : ''}`} style={s.sidebar}>
       {/* Logo */}
       <div style={s.logoWrap}>
         <img src="/static/img/logo1.png" alt="Zayron Infotech" style={s.logoImg} />
