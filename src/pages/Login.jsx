@@ -71,34 +71,8 @@ export default function Login() {
           pointer-events: none;
         }
 
-        /* Logo row — ONE logo only */
-        .left-logo-row {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          position: relative;
-          z-index: 1;
-        }
-        .left-logo-row img {
-          height: 46px; width: 46px;
-          object-fit: contain;
-          border-radius: 12px;
-          background: rgba(255,255,255,0.1);
-          padding: 4px;
-        }
-        .left-logo-text {}
-        .left-logo-name {
-          color: white;
-          font-size: 16px;
-          font-weight: 700;
-          line-height: 1.2;
-          letter-spacing: -0.01em;
-        }
-        .left-logo-sub {
-          color: rgba(255,255,255,0.5);
-          font-size: 11px;
-          margin-top: 2px;
-        }
+        /* Logo row hidden on left */
+        .left-logo-row { display: none; }
 
         .left-body {
           flex: 1;
@@ -208,9 +182,34 @@ export default function Login() {
           border: 1px solid #e2e8f0;
         }
 
-        /* Form header — NO logo here */
+        /* Form header — logo centered here */
         .form-header {
           margin-bottom: 36px;
+          text-align: center;
+        }
+        .form-logo-wrap {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          margin-bottom: 20px;
+        }
+        .form-logo-wrap img {
+          height: 52px; width: 52px;
+          object-fit: contain;
+          border-radius: 14px;
+        }
+        .form-logo-name {
+          font-size: 18px;
+          font-weight: 800;
+          color: #1e3a8a;
+          line-height: 1.2;
+          letter-spacing: -0.01em;
+        }
+        .form-logo-sub {
+          font-size: 11px;
+          color: #6b7280;
+          margin-top: 2px;
         }
         .form-welcome-tag {
           display: inline-flex;
@@ -393,13 +392,7 @@ export default function Login() {
 
         {/* ── LEFT PANEL (one logo only) ── */}
         <div className="login-left">
-          <div className="left-logo-row">
-            <img src="/static/img/logo1.png" alt="Zayron Infotech" />
-            <div className="left-logo-text">
-              <div className="left-logo-name">Zayron Infotech</div>
-              <div className="left-logo-sub">HR Onboarding Portal</div>
-            </div>
-          </div>
+          <div className="left-logo-row" />
 
           <div className="left-body">
             <div className="left-tag">🏢 HR Portal</div>
@@ -436,6 +429,13 @@ export default function Login() {
         <div className="login-right">
           <div className="form-card">
             <div className="form-header">
+              <div className="form-logo-wrap">
+                <img src="/static/img/logo1.png" alt="Zayron Infotech" />
+                <div>
+                  <div className="form-logo-name">Zayron Infotech</div>
+                  <div className="form-logo-sub">HR Onboarding Portal</div>
+                </div>
+              </div>
               <div className="form-welcome-tag">🔐 Secure Login</div>
               <h1 className="form-title">Welcome back</h1>
               <p className="form-sub">Sign in to your HR portal account to continue</p>
