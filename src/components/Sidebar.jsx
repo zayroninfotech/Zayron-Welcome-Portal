@@ -36,140 +36,210 @@ const navItems = [
   }
 ]
 
-export default function Sidebar({ open, onClose }) {
+export default function Sidebar({ collapsed = false, open, onClose }) {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const handleLogout = () => { logout(); navigate('/login') }
   const initials = (user?.full_name || user?.username || 'A')[0].toUpperCase()
+  const w = collapsed ? 72 : 248
 
   return (
-    <aside className={`layout-sidebar ${open ? 'open' : ''}`} style={s.sidebar}>
-      {/* Logo */}
-      <div style={s.logoWrap}>
-        <img src="/static/img/logo1.png" alt="Zayron Infotech" style={s.logoImg} />
-        <div>
-          <div style={s.logoName}>Zayron Infotech</div>
-          <div style={s.logoSub}>HR Onboarding Portal</div>
-        </div>
-      </div>
+    <>
+      <style>{`
+        .sidebar-link-tooltip {
+          position: absolute;
+          left: calc(100% + 10px);
+          top: 50%; transform: translateY(-50%);
+          background: #1e293b;
+          color: white;
+          font-size: 12px;
+          font-weight: 600;
+          padding: 5px 10px;
+          border-radius: 7px;
+          white-space: nowrap;
+          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.15s;
+          z-index: 200;
+        }
+        .sidebar-link-tooltip::before {
+          content: '';
+          position: absolute;
+          right: 100%; top: 50%; transform: translateY(-50%);
+          border: 5px solid transparent;
+          border-right-color: #1e293b;
+        }
+        .sidebar-nav-link:hover .sidebar-link-tooltip { opacity: 1; }
+        .sidebar-nav-link {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 9px 12px;
+          border-radius: 9px;
+          color: rgba(255,255,255,0.6);
+          font-size: 14px;
+          font-weight: 400;
+          text-decoration: none;
+          margin-bottom: 2px;
+          transition: background 0.15s, color 0.15s;
+          position: relative;
+          overflow: ${collapsed ? 'visible' : 'hidden'};
+          justify-content: ${collapsed ? 'center' : 'flex-start'};
+        }
+        .sidebar-nav-link:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.9); }
+        .sidebar-nav-link.active { background: rgba(99,102,241,0.25); color: white; font-weight: 600; }
+        .sidebar-nav-link .link-label {
+          white-space: nowrap;
+          overflow: hidden;
+          opacity: ${collapsed ? 0 : 1};
+          max-width: ${collapsed ? 0 : 160}px;
+          transition: opacity 0.2s, max-width 0.2s;
+          pointer-events: ${collapsed ? 'none' : 'auto'};
+        }
+        .sidebar-section-title {
+          font-size: 10px; font-weight: 700;
+          letter-spacing: 0.12em; text-transform: uppercase;
+          padding: ${collapsed ? '0' : '0 10px'};
+          margin-bottom: 6px;
+          color: rgba(255,255,255,0.3);
+          text-align: ${collapsed ? 'center' : 'left'};
+          overflow: hidden;
+          white-space: nowrap;
+          opacity: ${collapsed ? 0 : 1};
+          height: ${collapsed ? 0 : 'auto'};
+          margin-top: ${collapsed ? 0 : 'inherit'};
+          transition: opacity 0.2s;
+        }
+        .logout-label {
+          white-space: nowrap; overflow: hidden;
+          opacity: ${collapsed ? 0 : 1};
+          max-width: ${collapsed ? 0 : 120}px;
+          transition: opacity 0.2s, max-width 0.2s;
+        }
+        .user-info-wrap {
+          overflow: hidden;
+          opacity: ${collapsed ? 0 : 1};
+          max-width: ${collapsed ? 0 : 160}px;
+          transition: opacity 0.2s, max-width 0.2s;
+          white-space: nowrap;
+        }
+      `}</style>
 
-      {/* Nav */}
-      <nav style={s.nav}>
-        {navItems.map(({ section, links }) => (
-          <div key={section} style={s.section}>
-            <div style={s.sectionTitle}>{section}</div>
-            {links.map(({ to, label, d }) => (
-              <NavLink key={to} to={to} style={({ isActive }) => ({ ...s.link, ...(isActive ? s.linkActive : {}) })}>
-                <Icon d={d} />
-                {label}
-              </NavLink>
-            ))}
-          </div>
-        ))}
-      </nav>
-
-      {/* User footer */}
-      <div style={s.footer}>
-        <div style={s.userRow}>
-          <div style={s.avatar}>{initials}</div>
-          <div style={s.userInfo}>
-            <div style={s.userName}>{user?.full_name || user?.username}</div>
-            <div style={s.userRole}>{user?.role === 'superadmin' ? 'Super Admin' : 'Admin'}</div>
+      <aside
+        className={`layout-sidebar ${open ? 'open' : ''}`}
+        style={{
+          width: w,
+          minWidth: w,
+          background: 'linear-gradient(180deg, #0f172a 0%, #1e1b4b 100%)',
+          position: 'fixed',
+          top: 0, left: 0,
+          height: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          zIndex: 100,
+          overflowY: 'auto',
+          overflowX: 'hidden',
+          borderRight: '1px solid rgba(255,255,255,0.06)',
+          transition: 'width 0.25s ease, min-width 0.25s ease',
+        }}
+      >
+        {/* Logo */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: collapsed ? 0 : 12,
+          padding: collapsed ? '20px 0' : '22px 20px 18px',
+          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          justifyContent: collapsed ? 'center' : 'flex-start',
+          overflow: 'hidden',
+          transition: 'padding 0.25s, gap 0.25s',
+        }}>
+          <img src="/static/img/logo1.png" alt="Zayron" style={{ height: 38, width: 38, objectFit: 'contain', borderRadius: 8, flexShrink: 0 }} />
+          <div style={{
+            overflow: 'hidden', whiteSpace: 'nowrap',
+            opacity: collapsed ? 0 : 1,
+            maxWidth: collapsed ? 0 : 160,
+            transition: 'opacity 0.2s, max-width 0.2s',
+          }}>
+            <div style={{ color: 'white', fontSize: 14, fontWeight: 700, lineHeight: 1.2 }}>Zayron Infotech</div>
+            <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 10, marginTop: 2 }}>HR Onboarding Portal</div>
           </div>
         </div>
-        <button onClick={handleLogout} style={s.logoutBtn}>
-          <Icon d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4 M16 17l5-5-5-5 M21 12H9" />
-          Logout
-        </button>
-      </div>
-    </aside>
+
+        {/* Nav */}
+        <nav style={{ flex: 1, padding: collapsed ? '16px 8px' : '16px 12px', transition: 'padding 0.25s' }}>
+          {navItems.map(({ section, links }) => (
+            <div key={section} style={{ marginBottom: collapsed ? 16 : 28 }}>
+              <div className="sidebar-section-title">{section}</div>
+              {collapsed && <div style={{ height: 1, background: 'rgba(255,255,255,0.07)', margin: '6px 4px 8px' }} />}
+              {links.map(({ to, label, d }) => (
+                <NavLink
+                  key={to}
+                  to={to}
+                  title={collapsed ? label : undefined}
+                  className={({ isActive }) => `sidebar-nav-link${isActive ? ' active' : ''}`}
+                >
+                  <Icon d={d} size={18} />
+                  <span className="link-label">{label}</span>
+                  {collapsed && <span className="sidebar-link-tooltip">{label}</span>}
+                </NavLink>
+              ))}
+            </div>
+          ))}
+        </nav>
+
+        {/* Footer */}
+        <div style={{
+          padding: collapsed ? '14px 8px 20px' : '14px 12px 20px',
+          borderTop: '1px solid rgba(255,255,255,0.08)',
+          transition: 'padding 0.25s',
+        }}>
+          {/* User row */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: collapsed ? 0 : 10,
+            padding: collapsed ? '10px 0' : '10px 10px 12px',
+            justifyContent: collapsed ? 'center' : 'flex-start',
+            overflow: 'hidden',
+            transition: 'padding 0.25s, gap 0.25s',
+          }}>
+            <div style={{
+              width: 36, height: 36, borderRadius: '50%',
+              background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: 'white', fontWeight: 700, fontSize: 15, flexShrink: 0,
+            }}>
+              {initials}
+            </div>
+            <div className="user-info-wrap">
+              <div style={{ color: 'white', fontSize: 13, fontWeight: 600 }}>{user?.full_name || user?.username}</div>
+              <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11, marginTop: 1 }}>{user?.role === 'superadmin' ? 'Super Admin' : 'Admin'}</div>
+            </div>
+          </div>
+
+          {/* Logout */}
+          <button
+            onClick={handleLogout}
+            title={collapsed ? 'Logout' : undefined}
+            style={{
+              display: 'flex', alignItems: 'center',
+              gap: collapsed ? 0 : 10,
+              width: '100%', padding: collapsed ? '9px 0' : '9px 12px',
+              borderRadius: 9, color: 'rgba(255,255,255,0.5)',
+              fontSize: 14, background: 'none', border: 'none',
+              cursor: 'pointer', textAlign: 'left',
+              justifyContent: collapsed ? 'center' : 'flex-start',
+              transition: 'padding 0.25s, gap 0.25s',
+            }}
+            onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.85)'}
+            onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.5)'}
+          >
+            <Icon d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4 M16 17l5-5-5-5 M21 12H9" />
+            <span className="logout-label">Logout</span>
+          </button>
+        </div>
+      </aside>
+    </>
   )
-}
-
-const s = {
-  sidebar: {
-    width: 'var(--sidebar-w)',
-    background: 'linear-gradient(180deg, #0f172a 0%, #1e1b4b 100%)',
-    position: 'fixed',
-    top: 0, left: 0,
-    height: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    zIndex: 100,
-    overflowY: 'auto',
-    borderRight: '1px solid rgba(255,255,255,0.06)',
-  },
-  logoWrap: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 12,
-    padding: '22px 20px 18px',
-    borderBottom: '1px solid rgba(255,255,255,0.08)',
-  },
-  logoImg: { height: 38, width: 38, objectFit: 'contain', borderRadius: 8, flexShrink: 0 },
-  logoName: { color: 'white', fontSize: 14, fontWeight: 700, lineHeight: 1.2 },
-  logoSub: { color: 'rgba(255,255,255,0.4)', fontSize: 10, marginTop: 2 },
-  nav: { flex: 1, padding: '16px 12px' },
-  section: { marginBottom: 28 },
-  sectionTitle: {
-    color: 'rgba(255,255,255,0.3)',
-    fontSize: 10,
-    fontWeight: 700,
-    letterSpacing: '0.12em',
-    textTransform: 'uppercase',
-    padding: '0 10px',
-    marginBottom: 6,
-  },
-  link: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 10,
-    padding: '9px 12px',
-    borderRadius: 9,
-    color: 'rgba(255,255,255,0.6)',
-    fontSize: 14,
-    fontWeight: 400,
-    textDecoration: 'none',
-    marginBottom: 2,
-    transition: 'all 0.15s',
-  },
-  linkActive: {
-    background: 'rgba(99,102,241,0.25)',
-    color: 'white',
-    fontWeight: 600,
-  },
-  footer: {
-    padding: '14px 12px 20px',
-    borderTop: '1px solid rgba(255,255,255,0.08)',
-  },
-  userRow: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 10,
-    padding: '10px 10px 12px',
-  },
-  avatar: {
-    width: 36, height: 36,
-    borderRadius: '50%',
-    background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
-    color: 'white', fontWeight: 700, fontSize: 15, flexShrink: 0,
-  },
-  userInfo: {},
-  userName: { color: 'white', fontSize: 13, fontWeight: 600 },
-  userRole: { color: 'rgba(255,255,255,0.4)', fontSize: 11, marginTop: 1 },
-  logoutBtn: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 10,
-    width: '100%',
-    padding: '9px 12px',
-    borderRadius: 9,
-    color: 'rgba(255,255,255,0.5)',
-    fontSize: 14,
-    background: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    textAlign: 'left',
-  },
 }
