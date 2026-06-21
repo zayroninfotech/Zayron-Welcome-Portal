@@ -438,19 +438,6 @@ export default function Login() {
             <div className="left-tag">🏢 HR Portal</div>
             <h2 className="left-heading">Employee Onboarding<br />Management System</h2>
             <p className="left-sub">Streamline your HR processes with our comprehensive onboarding portal.</p>
-            <div className="feature-list">
-              {features.map(f => (
-                <div key={f.label} className="feature-item">
-                  <div className="feature-icon" style={{ background: f.bg, color: f.color, border: `1px solid ${f.color}30` }}>
-                    {f.icon}
-                  </div>
-                  <div className="feature-text">
-                    <div className="feature-label">{f.label}</div>
-                    <div className="feature-desc">{f.desc}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
 
           <p className="left-footer">© 2026 Zayron Infotech Pvt. Ltd.</p>
